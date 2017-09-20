@@ -9,12 +9,25 @@ file = dir(fullfile('data_3DOFsystem', '*.mat'));
 load data_steps
 x1;
 
-% instanziate dipslacement 
-displacement = zeros(length(x1), 1);
+% number count per encoder revolution is costant
+number_count = 0.0706/16000;
 
+% evaluate displacement 
+Displacement.x1 = x1 * number_count;
+Displacement.x2 = x2 * number_count;
+Displacement.x3 = x3 * number_count;
+
+% plot figure
 figure();
-plot(t, x1*(0.0706/16000))
+hold on
+plot(t, Displacement.x1)
+plot(t, Displacement.x2)
+plot(t, Displacement.x3)
 grid()
+legend('x1', 'x2','x3')
+hold off
+
+%save('mydata.mat', 'Displacement')
 
 %% simbolic matrix
 syms m1 m2 m3 c1 c2 c3 k1 k2 k3 x1__ x2__ x3__ x1_ x2_ x3_ sx1 sx2 sx3 c12 c23
@@ -91,8 +104,8 @@ plot(t,YS)
 hold off
 figure();
 plot(TS, YS)
-% force are wrong?
-%%
+
+%% compute a new estimatimation for the voltage-to-force coefficient
 
 %% Dummy values for mech quantities (AW trial 1)
 
