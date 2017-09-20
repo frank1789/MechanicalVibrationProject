@@ -1,4 +1,4 @@
-function [ num, denom ] = symbolicequation()
+function [ A ] = symbolicequation()
 %SYMBOLICEQUATION Summary of this function goes here
 %   Detailed explanation goes here
 
