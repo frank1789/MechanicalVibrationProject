@@ -1,4 +1,4 @@
-function [ YS ] = comparision(pInputdata, pForce, pOptimvalue, pDataset)
+function [ YS ] = comparision(pInputdata, pForce, pOptimvalue, pDataset, pGenplot)
 
 
 % initialize stiffness
@@ -43,7 +43,8 @@ G = tf(inv(A));                 % Transfer fuction
 % perform simulation
 [YS] = lsim(G, pForce, pDataset.time.t);
 
-%comparision plot
+if pGenplot == true
+    %comparision plot
     figure();
     hold on
     plot(pDataset.time.t, YS(:,1));
@@ -67,4 +68,5 @@ G = tf(inv(A));                 % Transfer fuction
     grid on;
     hold off
     legend('Dispalcent x3','Optimvalue x3');
+end
 end
