@@ -98,7 +98,7 @@ c2 = x0(5);
 c3 = x0(6);
 
 % gain value
-%gain = x0(7);
+gain = x0(7);
 
 % assemble transfer function
 s = tf('s');
@@ -111,7 +111,7 @@ A = M * s^2 + C*s + K;
 G = tf(inv(A));                 % Transfer fuction
 
 % perform simulation
-[YS] = lsim(G, pForce, pDataset.time.t);
+[YS] = lsim(G, pForce * gain, pDataset.time.t);
 
 % compute the difference beetwen referende displacement(pDataset) and calculated(YS) 
 for j = 2:length(pDataset.Displacement.x1)
