@@ -11,26 +11,29 @@ load data_steps
 % number count per encoder revolution is costant
 Inputdata.number_count_encoder = 0.0706/16000;
 
+% initialize stiffness
+Inputdata.stiffness.k1 = 800;  %[N/m]
+Inputdata.stiffness.k2 = 800;  %[N/m]
+Inputdata.stiffness.k3 = 400;  %[N/m]
+
 % evaluate displacement and store in struct Displacement
-Inputdata.Displacement.x1 = x1 * Inputdata.number_count_encoder;
-Inputdata.Displacement.x2 = x2 * Inputdata.number_count_encoder;
-Inputdata.Displacement.x3 = x3 * Inputdata.number_count_encoder;
+data_steps.Displacement.x1 = x1 * Inputdata.number_count_encoder;
+data_steps.Displacement.x2 = x2 * Inputdata.number_count_encoder;
+data_steps.Displacement.x3 = x3 * Inputdata.number_count_encoder;
 
 % store original data in the previous struct
-Inputdata.voltage.v = v;
-Inputdata.time.t = t;
+data_steps.voltage.v = v;        %[V]
+data_steps.time.t = t;           %[s]
 
-% save the data and reinitilaize the workspace
-save('mydata.mat', 'Inputdata')
-clear 
-load mydata
+% remove generic data
+clear x1 x2 x3 t v
 
 % plot figure
 figure();
 hold on
-plot(Inputdata.time.t, Inputdata.Displacement.x1)
-plot(Inputdata.time.t, Inputdata.Displacement.x2)
-plot(Inputdata.time.t, Inputdata.Displacement.x3)
+plot(data_steps.time.t, data_steps.Displacement.x1)
+plot(data_steps.time.t, data_steps.Displacement.x2)
+plot(data_steps.time.t, data_steps.Displacement.x3)
 grid()
 legend('Displacement x1', 'Displacement x2','Displacement x3')
 hold off
@@ -38,7 +41,8 @@ hold off
 % compute symbolic equation [G(s)]
 [ A ] = symbolicequation();
 
-%% compute a new estimation for the voltage-to-force coefficient
+%% use step response to verify the ratio beetween the stiffnesses of the springs.
+% compute a new estimation for the voltage-to-force coefficient
 
 % define gain_ x from encoder
 gain_x = Inputdata.number_count_encoder;
@@ -49,39 +53,14 @@ gain_v = 5.250;
 %unkonw ?
 gain_tot = (gain_x/gain_v); % ????
 
-%% search the value for theta 
-
-% assign numerical value
-m1 = 1.2;
-m2 = 1.3;
-m3 = 1.4;
-
-k1 = 800;
-k2 = k1;
-k3 = 400;
-
-c1 = 3;
-c2 = 2;
-c3 = 2;
-
-gain = 1;
-
-% costant force parameters
-
-%servo amp gain
-k_a = 2;
-
-% Servo motor Torque
-k_t = 0.1;
-
-% Motor Pinioon pitch radius inverse
-k_mp = 26.25;
-
-% force 
-F = zeros(length(Inputdata.time.t), 3);
-f = (k_a * k_t * k_mp) * Inputdata.voltage.v;
-
-F(:,1) = f;
+% %% Compute the force F
+%                                                  % costant from readme
+% Inputdata.k_a = 2;                               % servo amp gain
+% Inputdata.k_t = 0.1;                             % Servo motor Torque
+% Inputdata.k_mp = 26.25;                          % Motor Pinioon pitch radius inverse 
+% F = zeros(length(data_steps.time.t), 3);         % initialize F's vector
+% f = (Inputdata.k_a * Inputdata.k_t * Inputdata.k_mp) * data_steps.voltage.v;   % tmp vector 
+% F(:,1) = f;                                      % matri of forces
 
 %% compute a new estimation for the voltage-to-force coefficient
 % syms gv 
@@ -91,73 +70,104 @@ F(:,1) = f;
 
 
 %% compute transfer function
-s = tf('s');
+% s = tf('s');
+% 
+% denom = 1/det(A);
+% num = inv([ m1*s^2 + c1*s + k1,                     -k1,                       0
+%                            -k1, m2*s^2 + c2*s + k1 + k2,                     -k2
+%                              0,                     -k2, m3*s^2 + c3*s + k2 + k3]);
+% % transfer fuction
+% G = tf(num, denom);
+% display(G);
+% [YS,TS,XS] = lsim(G,F,Inputdata.time.t);
+% 
+% % comparision plot
+% figure();
+% plot(Inputdata.time.t,YS);
+% grid on;
+% legend('tf x1','tf x2','tf x3');
 
-denom = 1/det(A);
-num = inv([ m1*s^2 + c1*s + k1,                     -k1,                       0
-                           -k1, m2*s^2 + c2*s + k1 + k2,                     -k2
-                             0,                     -k2, m3*s^2 + c3*s + k2 + k3]);
-% transfer fuction
-G = tf(num, denom);
-display(G);
-[YS,TS,XS] = lsim(G,F,Inputdata.time.t);
 
-% comparision plot
-figure();
-plot(Inputdata.time.t,YS);
-grid on;
-legend('tf x1','tf x2','tf x3');
 
-% compare the result with "goodnessOfFit" function
+%% Optimization estimated parameters
+%{ 
+ file data impulses.mat: use the impulse response to identify the parameters.
+ Choose between response to impulsive force or response to initial conditions:
+ in the first case, due to the approximation of the force estimation, you
+ can consider the voltage-to-force coefficient as one of the parameters to
+ be estimated.
+
+ - repeat the estimation of your parameters by assuming proportional damping.
+ How many parameters have to be identified?
+
+ -in order to improve the estimation of the parameters, the springs can be
+ detached and the masses can be blocked at their equilibrium position:
+ describe a possible strategy for the estimation of the parameters by
+ studying the behaviour of three different 1 DOF systems.
+%}
+% load dataset
+load data_impulses.mat
+
+% evaluate displacement and store in struct Displacement
+data_impulses.Displacement.x1 = x1 * Inputdata.number_count_encoder;
+data_impulses.Displacement.x2 = x2 * Inputdata.number_count_encoder;
+data_impulses.Displacement.x3 = x3 * Inputdata.number_count_encoder;
+
+% store original data in the previous struct
+data_impulses.voltage.v = v;        %[V]
+data_impulses.time.t = t;           %[s]
+
+% compute the force
+[ F ] = computeforce( data_impulses );
+
+% remove generic data
+clear x1 x2 x3 t v
+
+%{
+ I.C. Initial Conditions
+gain ---------------------------+
+damper c3--------------------+  |
+damper c2-----------------+  |  |
+damper c1--------------+  |  |  |
+mass --------+--+--+   |  |  |  |     
+             |  |  |   |  |  |  |
+       x0 = [m1 m2 m3 c1 c2 c3  gain];
+%}
+x0 = [1 1 1 1 1 1];
+
+%{ 
+define lower bound and upper bound
+gain  ------------+
+damper 3--------+ |
+damper 2------+ | |
+damper 1----+ | | |
+mass -+-+-+ | | | |
+      | | | | | | |
+%}
+LB = [1 1 1 0 0 0];
+UB = [2 2 2 5 5 5];
+
+objfun = @(x0)errormio(x0, F, Inputdata, data_impulses);
+[xfmincon] = fmincon(objfun,x0,[],[],[],[],LB,UB);
+display(xfmincon);
+
+% %% fminsearch
+%options = optimset('PlotFcns',@optimplotfval);
+%f = @(x0)errormio(x0, F, Inputdata, data_impulses);
+%[xfminsearch] = fminsearch(f,x0,options)
+% %% plot comparison
+[ data_impulses.YS ] = comparision(Inputdata, F, xfmincon, data_impulses);
+%comparision(Inputdata, F, xfminsearch);
+
+
+%% compare the result with "goodnessOfFit" function
 % reference data
-ref_displacement = [Inputdata.Displacement.x1 Inputdata.Displacement.x2 Inputdata.Displacement.x3]; 
+ref_displacement = [data_impulses.Displacement.x1 data_impulses.Displacement.x2 data_impulses.Displacement.x3];
 
 % cost function Normalized root mean square error, where, ? indicates the
 % 2-norm of a vector. fit is a row vector of length N and i = 1,...,N, where
 % N is the number of channels.
 cost_func = 'NRMSE';
 
-fit = goodnessOfFit(YS,ref_displacement,cost_func);
+fit = goodnessOfFit(data_impulses.YS, ref_displacement, cost_func);
 display(fit);
-
-%% Optimization estimated parameters
-%{
-% I.C. Initial Conditions
-gain-------------------------------------+
-stiff k3------------------------------+  |
-stiff k2---------------------------+  |  |
-stiff k1------------------------+  |  |  |
-damper-----------------------+  |  |  |  |
-damper--------------------+  |  |  |  |  |
-damper-----------------+  |  |  |  |  |  |
-mass---------+--+--+   |  |  |  |  |  |  |     
-             |  |  |   |  |  |  |  |  |  |
-estimated = [m1 m2 m3 c1 c2 c3 k1 k2 k3 gain];
-%}
-estimated = [0.3 1.4 .13 2 2 2 800 800 400];
-
-%{ 
-define lower bound
-gain--------------+
-damper3---------+ |
-damper2-------+ | |
-damper1-----+ | | |
-mass--+-+-+ | | | |     
-%}
-LB = [0 0 0 0 0 0 0 0 0];
-
-% upper bound
-UB = [2 2 2 5 5 5 800 800 400];
-
-
-% set initial condition
-x0 = estimated;
-
-%% fmincon with boundaries
-f = @(x)errormio(x0, A, F, Inputdata);
-[xfmincon ] = fmincon(f,x0,[],[],[],[],LB,UB)
-
-%% fminsearch
-options = optimset('PlotFcns',@optimplotfval);
-f = @(x)errormio(x0, A, F, Inputdata);
-[xfminsearch] = fminsearch(f,x0,options)
