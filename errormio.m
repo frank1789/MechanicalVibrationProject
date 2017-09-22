@@ -1,4 +1,4 @@
-function [ err, YS ]=errormio(x0, pForce, pInputdata)
+function [ err ]=errormio(x0, pForce, pInputdata, pDataset)
 
 % initialize local temporary error variable
 e1 = 0;
@@ -45,13 +45,13 @@ A = M * s^2 + C*s + K;
 G = tf(inv(A));                 % Transfer fuction
 
 % perform simulation
-[YS] = lsim(G,pForce,pInputdata.time.t);
+[YS] = lsim(G, pForce, pDataset.time.t);
 
 % compute the difference beetwen referende displacement(pInputdata) and calculated(YS) 
-for j = 2:length(pInputdata.Displacement.x1)
-    e1 = e1 + (YS(j,1) - pInputdata.Displacement.x1(j)).^2;
-    e2 = e2 + (YS(j,2) - pInputdata.Displacement.x2(j)).^2;
-    e3 = e3 + (YS(j,3) - pInputdata.Displacement.x3(j)).^2;
+for j = 2:length(pDataset.Displacement.x1)
+    e1 = e1 + (YS(j,1) - pDataset.Displacement.x1(j)).^2;
+    e2 = e2 + (YS(j,2) - pDataset.Displacement.x2(j)).^2;
+    e3 = e3 + (YS(j,3) - pDataset.Displacement.x3(j)).^2;
 end
 
 % compute root mean square on error
