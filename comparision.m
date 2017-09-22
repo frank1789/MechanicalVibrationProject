@@ -1,4 +1,4 @@
-function comparision(pInputdata, pForce, pOptimvalue)
+function [ YS ] = comparision(pInputdata, pForce, pOptimvalue, pDataset)
 
 
 % initialize stiffness
@@ -41,31 +41,30 @@ A = M * s^2 + C*s + K;
 G = tf(inv(A));                 % Transfer fuction
 
 % perform simulation
-[YS] = lsim(G,pForce,pInputdata.time.t);
+[YS] = lsim(G, pForce, pDataset.time.t);
 
 %comparision plot
     figure();
     hold on
-    plot(pInputdata.time.t,YS(:,1));
-    plot(pInputdata.time.t, pInputdata.Displacement.x1);
+    plot(pDataset.time.t, YS(:,1));
+    plot(pDataset.time.t, pDataset.Displacement.x1);
     hold off
     legend('Dispalcent x1','Optimvalue x1');
     grid on
     
     figure();
     hold on
-    plot(pInputdata.time.t,YS(:,2));
-    plot(pInputdata.time.t, pInputdata.Displacement.x2);
+    plot(pDataset.time.t, YS(:,2));
+    plot(pDataset.time.t, pDataset.Displacement.x2);
     grid on;
     hold off
     legend('Dispalcent x2','Optimvalue x2');
     
     figure();
     hold on
-    plot(pInputdata.time.t,YS(:,3));
-    plot(pInputdata.time.t, pInputdata.Displacement.x3);
+    plot(pDataset.time.t,YS(:,3));
+    plot(pDataset.time.t, pDataset.Displacement.x3);
     grid on;
     hold off
     legend('Dispalcent x3','Optimvalue x3');
-
 end
