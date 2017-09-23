@@ -39,57 +39,20 @@ legend('Displacement x1', 'Displacement x2','Displacement x3')
 hold off
 
 % compute symbolic equation [G(s)]
-[ A ] = symbolicequation();
+[ A, K ] = symbolicequation();
 
-%% use step response to verify the ratio beetween the stiffnesses of the springs.
 % compute a new estimation for the voltage-to-force coefficient
+%{
+file data steps.mat: use the step response to verify the ratio between the
+stiffnesses of the springs. Compute a new estimation for the 
+voltage-to-force coefficient.
+%}
 
-% define gain_ x from encoder
-gain_x = Inputdata.number_count_encoder;
+[ gain_v, Ratio_k3_k2, Ratio_k3_k1 ] = computeSteadyStateRatioStiff(K, data_steps, Inputdata);
 
-%unkonw ?
-gain_v = 5.250; 
+geterrorspring(gain_v, Ratio_k3_k2, Ratio_k3_k1, Inputdata, data_steps);
 
-%unkonw ?
-gain_tot = (gain_x/gain_v); % ????
-
-% %% Compute the force F
-%                                                  % costant from readme
-% Inputdata.k_a = 2;                               % servo amp gain
-% Inputdata.k_t = 0.1;                             % Servo motor Torque
-% Inputdata.k_mp = 26.25;                          % Motor Pinioon pitch radius inverse 
-% F = zeros(length(data_steps.time.t), 3);         % initialize F's vector
-% f = (Inputdata.k_a * Inputdata.k_t * Inputdata.k_mp) * data_steps.voltage.v;   % tmp vector 
-% F(:,1) = f;                                      % matri of forces
-
-%% compute a new estimation for the voltage-to-force coefficient
-% syms gv 
-% gainvolt = K\[gv; 0; 0];
-% 
-% F = F * gainvolt;
-
-
-%% compute transfer function
-% s = tf('s');
-% 
-% denom = 1/det(A);
-% num = inv([ m1*s^2 + c1*s + k1,                     -k1,                       0
-%                            -k1, m2*s^2 + c2*s + k1 + k2,                     -k2
-%                              0,                     -k2, m3*s^2 + c3*s + k2 + k3]);
-% % transfer fuction
-% G = tf(num, denom);
-% display(G);
-% [YS,TS,XS] = lsim(G,F,Inputdata.time.t);
-% 
-% % comparision plot
-% figure();
-% plot(Inputdata.time.t,YS);
-% grid on;
-% legend('tf x1','tf x2','tf x3');
-
-
-
-%% Optimization estimated parameters
+% Optimization estimated parameters
 %{ 
  file data impulses.mat: use the impulse response to identify the parameters.
  Choose between response to impulsive force or response to initial conditions:
@@ -133,36 +96,35 @@ mass --------+--+--+   |  |  |  |
              |  |  |   |  |  |  |
        x0 = [m1 m2 m3 c1 c2 c3  gain];
 %}
-x0 = [1 1 1 1 1 1];
+problem.x0 = [1.1 1.1 1.01 0.01 0.01 0.01 gain_v];
 
 %{ 
 define lower bound and upper bound
-gain  ------------+
-damper 3--------+ |
-damper 2------+ | |
-damper 1----+ | | |
-mass -+-+-+ | | | |
-      | | | | | | |
+gain  --------------------+
+damper 3----------------+ |
+damper 2--------------+ | |
+damper 1------------+ | | |
+mass ---------+-+-+ | | | |
+              | | | | | | |
 %}
-LB = [1 1 1 0 0 0];
-UB = [2 2 2 5 5 5];
+problem.lb = [1 1 1 0 0 0 0];
+problem.ub = [2 2 2 5 5 5 7];
 
-objfun = @(x0)errormio(x0, F, Inputdata, data_impulses);
-[xfmincon] = fmincon(objfun,x0,[],[],[],[],LB,UB);
-display(xfmincon);
+problem.options = optimoptions('fmincon','Display','iter', ...
+                               'Algorithm','sqp','PlotFcn',@optimplotx);
+problem.solver = 'fmincon';
+problem.objective = @(x0)errormio(x0, F, Inputdata, data_impulses);
+x = fmincon(problem);
+display(x);
 
-% %% fminsearch
-%options = optimset('PlotFcns',@optimplotfval);
-%f = @(x0)errormio(x0, F, Inputdata, data_impulses);
-%[xfminsearch] = fminsearch(f,x0,options)
-% %% plot comparison
-[ data_impulses.YS ] = comparision(Inputdata, F, xfmincon, data_impulses);
-%comparision(Inputdata, F, xfminsearch);
+%% plot comparison and residual
+[ data_impulses.YS, residuals ] = comparision(Inputdata, F, x, data_impulses);
 
-
-%% compare the result with "goodnessOfFit" function
+% compare the result with "goodnessOfFit" function
 % reference data
-ref_displacement = [data_impulses.Displacement.x1 data_impulses.Displacement.x2 data_impulses.Displacement.x3];
+ref_displacement = [data_impulses.Displacement.x1 ...
+                    data_impulses.Displacement.x2 ...
+                    data_impulses.Displacement.x3];
 
 % cost function Normalized root mean square error, where, ? indicates the
 % 2-norm of a vector. fit is a row vector of length N and i = 1,...,N, where
@@ -171,3 +133,5 @@ cost_func = 'NRMSE';
 
 fit = goodnessOfFit(data_impulses.YS, ref_displacement, cost_func);
 display(fit);
+
+%%
