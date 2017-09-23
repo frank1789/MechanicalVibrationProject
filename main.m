@@ -3,7 +3,7 @@ clear;
 clc;
 
 % Load folder data
-addpath('data_3DOFsystem');
+addpath('data_3DOFsystem', 'Full', 'ProportionalDamping');
 file = dir(fullfile('data_3DOFsystem', '*.mat'));
 % load data set: "data_steps"
 load data_steps
@@ -113,12 +113,12 @@ problem.ub = [2 2 2 5 5 5 7];
 problem.options = optimoptions('fmincon','Display','iter', ...
                                'Algorithm','sqp','PlotFcn',@optimplotx);
 problem.solver = 'fmincon';
-problem.objective = @(x0)errormio(x0, F, Inputdata, data_impulses);
-x = fmincon(problem);
-display(x);
+problem.objective = @(x0)estimateFull(x0, F, Inputdata, data_impulses);
+full.x = fmincon(problem);
+display(full.x);
 
-%% plot comparison and residual
-[ data_impulses.YS, residuals ] = comparision(Inputdata, F, x, data_impulses);
+% plot comparison and residual
+[ full.YS, residuals ] = comparisionFull(Inputdata, F, full.x, data_impulses);
 
 % compare the result with "goodnessOfFit" function
 % reference data
@@ -130,8 +130,56 @@ ref_displacement = [data_impulses.Displacement.x1 ...
 % 2-norm of a vector. fit is a row vector of length N and i = 1,...,N, where
 % N is the number of channels.
 cost_func = 'NRMSE';
+full.fit = goodnessOfFit(full.YS, ref_displacement, cost_func);
+fprintf('Response full method comparision: %.2f%%\t%.2f%%\t%.2f%%\n', full.fit(1) * 100, full.fit(2) * 100, full.fit(3) * 100);
+close all
 
-fit = goodnessOfFit(data_impulses.YS, ref_displacement, cost_func);
-display(fit);
+%% Proportinal damping
+clear problem
+%{
+ I.C. Initial Conditions
+beta ----------------------------+
+alpha ---------------------+     |
+gain ------------------+   |     |
+mass --------+--+--+   |   |     |
+             |  |  |   |   |     |
+       x0 = [m1 m2 m3 gain alpha beta];
+%}
+problem.x0 = [1.1 1.1 1.1 gain_v 1 1];
 
-%%
+%{
+define lower bound and upper bound
+beta ----------------------------+
+alpha ---------------------+     |
+gain ------------------+   |     |
+mass --------+--+--+   |   |     |
+             |  |  |   |   |     |
+           [m1 m2 m3 gain alpha beta];
+%}
+problem.lb = [1 1 1 0 0 0];
+problem.ub = [2 2 2 7 10 10];
+problem.options = optimoptions('fmincon','Display','iter', ...
+                               'Algorithm','sqp','PlotFcn',@optimplotx);
+problem.solver = 'fmincon';
+problem.objective = @(x0)estimatePropDamp(x0, F, Inputdata, data_impulses);
+prodamping.x = fmincon(problem);
+display(prodamping.x);
+
+% plot comparison and residual
+[ prodamping.YS, residualspropdamp ] = comparisionPropDamp(Inputdata, F, prodamping.x, data_impulses);
+
+% compare the result with "goodnessOfFit" function
+% reference data
+ref_displacement = [data_impulses.Displacement.x1 ...
+                    data_impulses.Displacement.x2 ...
+                    data_impulses.Displacement.x3];
+
+% cost function Normalized root mean square error, where, ? indicates the
+% 2-norm of a vector. fit is a row vector of length N and i = 1,...,N, where
+% N is the number of channels.
+cost_func = 'NRMSE';
+fit = goodnessOfFit(prodamping.YS, ref_displacement, cost_func);
+fprintf('Response proportional damping comparision: %.2f%%\t%.2f%%\t%.2f%%\n', fit(1) * 100, fit(2) * 100, fit(3) * 100);
+close all
+
+
