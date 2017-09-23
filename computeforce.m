@@ -22,13 +22,7 @@ k_a = 2;                     % servo amp gain [A/V]
 k_t = 0.1;                   % Servo motor Torque [Nm/A]
 k_mp = 26.25;                % Motor Pinioon pitch radius inverse [1/m]
 
-% tmp vector 
-f = (k_a * k_t * k_mp) * pDatatset.voltage.v;
-
 % return matrix of forces
-F(:,1) = f;
-
-% free memory
-clear f
+F(:,1) = (k_a * k_t * k_mp) * pDatatset.voltage.v;
 
 end
