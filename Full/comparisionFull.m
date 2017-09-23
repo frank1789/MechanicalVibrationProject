@@ -1,4 +1,4 @@
-function [ YS, residual ] = comparision(pInputdata, pForce, pOptimvalue, pDataset)
+function [ YS, residual ] = comparisionFull(pInputdata, pForce, pOptimvalue, pDataset)
 
 % initialize stiffness
 k1 = pInputdata.stiffness.k1;
@@ -77,6 +77,4 @@ hold off
 legend('Dispalcent x3','Optimvalue x3','residual');
 grid on
 saveas(gcf,'residualfull3','epsc')
-
-
 end
