@@ -16,7 +16,7 @@ function [ F ] = computeforce( pDatatset )
 % F(:,1) = f;
 
 % initialize F's vector
-F = zeros(length( pDatatset.time.t), 3);
+F = zeros(length(pDatatset.time.t), 3);
 
 k_a = 2;                     % servo amp gain [A/V]
 k_t = 0.1;                   % Servo motor Torque [Nm/A]
