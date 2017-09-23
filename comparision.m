@@ -1,5 +1,4 @@
-function [ YS ] = comparision(pInputdata, pForce, pOptimvalue, pDataset, pGenplot)
-
+function [ YS, residual ] = comparision(pInputdata, pForce, pOptimvalue, pDataset)
 
 % initialize stiffness
 k1 = pInputdata.stiffness.k1;
@@ -28,7 +27,7 @@ c2 = pOptimvalue(5);
 c3 = pOptimvalue(6);
 
 % gain value
-%gain = x0(7);
+gain = pOptimvalue(7);
 
 % assemble transfer function
 s = tf('s');
@@ -41,32 +40,43 @@ A = M * s^2 + C*s + K;
 G = tf(inv(A));                 % Transfer fuction
 
 % perform simulation
-[YS] = lsim(G, pForce, pDataset.time.t);
+YS = lsim(G, gain * pForce, pDataset.time.t);
 
-if pGenplot == true
-    %comparision plot
-    figure();
-    hold on
-    plot(pDataset.time.t, YS(:,1));
-    plot(pDataset.time.t, pDataset.Displacement.x1);
-    hold off
-    legend('Dispalcent x1','Optimvalue x1');
-    grid on
-    
-    figure();
-    hold on
-    plot(pDataset.time.t, YS(:,2));
-    plot(pDataset.time.t, pDataset.Displacement.x2);
-    grid on;
-    hold off
-    legend('Dispalcent x2','Optimvalue x2');
-    
-    figure();
-    hold on
-    plot(pDataset.time.t,YS(:,3));
-    plot(pDataset.time.t, pDataset.Displacement.x3);
-    grid on;
-    hold off
-    legend('Dispalcent x3','Optimvalue x3');
-end
+% compute residual
+residual = [pDataset.Displacement.x1 - YS(:,1)  ...
+            pDataset.Displacement.x2 - YS(:,2) ...
+            pDataset.Displacement.x3 - YS(:,3)];
+
+% plot the result with estimated parameters
+figure();
+hold on
+plot(pDataset.time.t, YS(:,1), ...
+    pDataset.time.t, pDataset.Displacement.x1, ...
+    pDataset.time.t, residual(:,1), 'k-.');
+hold off
+legend('Dispalcent x1','Optimvalue x1','residual');
+grid on
+saveas(gcf,'residualfull1','epsc')
+
+figure();
+hold on
+plot(pDataset.time.t, YS(:,2), ...
+    pDataset.time.t, pDataset.Displacement.x2, ...
+    pDataset.time.t, residual(:,2), 'k-.');
+hold off
+legend('Dispalcent x2','Optimvalue x2','residual');
+grid on
+saveas(gcf,'residualfull2','epsc')
+
+figure();
+hold on
+plot(pDataset.time.t, YS(:,3), ...
+    pDataset.time.t, pDataset.Displacement.x3, ...
+    pDataset.time.t, residual(:,3), 'k-.');
+hold off
+legend('Dispalcent x3','Optimvalue x3','residual');
+grid on
+saveas(gcf,'residualfull3','epsc')
+
+
 end
