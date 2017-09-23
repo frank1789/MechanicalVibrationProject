@@ -118,7 +118,7 @@ full.x = fmincon(problem);
 display(full.x);
 
 % plot comparison and residual
-[ full.YS, residuals ] = comparisionFull(Inputdata, F, full.x, data_impulses);
+[ full.YS, full.residuals ] = comparisionFull(Inputdata, F, full.x, data_impulses);
 
 % compare the result with "goodnessOfFit" function
 % reference data
@@ -134,7 +134,7 @@ full.fit = goodnessOfFit(full.YS, ref_displacement, cost_func);
 fprintf('Response full method comparision: %.2f%%\t%.2f%%\t%.2f%%\n', full.fit(1) * 100, full.fit(2) * 100, full.fit(3) * 100);
 close all
 
-%% Proportinal damping
+% Proportinal damping
 clear problem
 %{
  I.C. Initial Conditions
@@ -166,7 +166,7 @@ prodamping.x = fmincon(problem);
 display(prodamping.x);
 
 % plot comparison and residual
-[ prodamping.YS, residualspropdamp ] = comparisionPropDamp(Inputdata, F, prodamping.x, data_impulses);
+[ prodamping.YS, prodamping.residual ] = comparisionPropDamp(Inputdata, F, prodamping.x, data_impulses);
 
 % compare the result with "goodnessOfFit" function
 % reference data
