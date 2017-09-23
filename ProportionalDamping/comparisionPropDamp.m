@@ -7,13 +7,12 @@ k3 = pInputdata.stiffness.k3;
 
 % I.C. Initial Conditions pass as argument
 %{
-gain----------------------------+
-damper-----------------------+  |
-damper--------------------+  |  |
-damper-----------------+  |  |  |
-mass---------+--+--+   |  |  |  |
-             |  |  |   |  |  |  |
-estimated = [m1 m2 m3 c1 c2 c3 gain];
+beta ----------------------------+
+alpha ---------------------+     |
+gain ------------------+   |     |
+mass --------+--+--+   |   |     |
+             |  |  |   |   |     |
+           [m1 m2 m3 gain alpha beta];
 %}
 % divide Inititial Condition vector in local variable:
 % mass
@@ -21,13 +20,12 @@ m1= pOptimvalue(1);
 m2= pOptimvalue(2);
 m3= pOptimvalue(3);
 
-% dampers
-c1 = pOptimvalue(4);
-c2 = pOptimvalue(5);
-c3 = pOptimvalue(6);
-
 % gain value
-gain = pOptimvalue(7);
+gain = pOptimvalue(4);
+
+% proportinl value alpha and beta
+alpha = pOptimvalue(5);
+beta  = pOptimvalue(6);
 
 % assemble transfer function
 s = tf('s');
@@ -37,7 +35,8 @@ K = [k1 -k1 0; -k1 k2+k1 -k2; 0 -k2 k2+k3];
 
 % proportional damping [C] = alpha * [M] + beta * [K[
 C = alpha * M + beta * K; 
-A = M * s^2 + C*s + K;
+
+A = M * s^2 + C * s + K;
 G = tf(inv(A));                 % Transfer fuction
 
 % perform simulation
@@ -57,7 +56,7 @@ plot(pDataset.time.t, YS(:,1), ...
 hold off
 legend('Dispalcent x1','Optimvalue x1','residual');
 grid on
-saveas(gcf,'residualfull1','epsc')
+saveas(gcf,'residualpropdamp1','epsc')
 
 figure();
 hold on
@@ -67,7 +66,7 @@ plot(pDataset.time.t, YS(:,2), ...
 hold off
 legend('Dispalcent x2','Optimvalue x2','residual');
 grid on
-saveas(gcf,'residualfull2','epsc')
+saveas(gcf,'residualpropdamp2','epsc')
 
 figure();
 hold on
@@ -77,7 +76,5 @@ plot(pDataset.time.t, YS(:,3), ...
 hold off
 legend('Dispalcent x3','Optimvalue x3','residual');
 grid on
-saveas(gcf,'residualfull3','epsc')
-
-
+saveas(gcf,'residualpropdamp3','epsc')
 end

@@ -1,4 +1,4 @@
-function [ err ] = estimateproportinaldamping(x0, pForce, pInputdata, pDataset)
+function [ err ] = estimatePropDamp(x0, pForce, pInputdata, pDataset)
 %errormio function to evaluate the simultate response of the linear system
 %by lsim. Pass argument 
 %x0 = initical condition, 
@@ -20,14 +20,12 @@ function [ err ] = estimateproportinaldamping(x0, pForce, pInputdata, pDataset)
 % k3 = pInputdata.stiffness.k3;
 % 
 % I.C. Initial Conditions pass as argument
-%
-% gain ---------------------------+
-% damper c3--------------------+  |
-% damper c2-----------------+  |  |
-% damper c1--------------+  |  |  |
-% mass---------+--+--+   |  |  |  |
-%              |  |  |   |  |  |  |
-% estimated = [m1 m2 m3 c1 c2 c3 gain];
+% beta ----------------------------+
+% alpha ---------------------+     |
+% gain ------------------+   |     |
+% mass --------+--+--+   |   |     |
+%              |  |  |   |   |     |
+% estimated = [m1 m2 m3 gain alpha beta];
 % 
 % divide Inititial Condition vector in local variable:
 % % mass
@@ -76,33 +74,17 @@ k1 = pInputdata.stiffness.k1;
 k2 = pInputdata.stiffness.k2;
 k3 = pInputdata.stiffness.k3;
 
-% I.C. Initial Conditions pass as argument
-%{
-gain ---------------------------+
-damper c3--------------------+  |
-damper c2-----------------+  |  |
-damper c1--------------+  |  |  |
-mass---------+--+--+   |  |  |  |
-             |  |  |   |  |  |  |
-estimated = [m1 m2 m3 c1 c2 c3 gain];
-%}
-% divide Inititial Condition vector in local variable:
 % mass
 m1= x0(1);
 m2= x0(2);
 m3= x0(3);
 
-% dampers
-c1 = x0(4);
-c2 = x0(5);
-c3 = x0(6);
-
 % gain value
-gain = x0(7);
+gain = x0(4);
 
 % proportinl value alpha and beta
-alpha = x0(8);
-beta = x0(9);
+alpha = x0(5);
+beta  = x0(6);
 
 % assemble transfer function
 s = tf('s');
