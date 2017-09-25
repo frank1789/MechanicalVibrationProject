@@ -1,4 +1,4 @@
-function [ err ] = errormio(x0, pForce, pInputdata, pDataset)
+function [ err ] = estimateFull(x0, pForce, pInputdata, pDataset)
 %errormio function to evaluate the simultate response of the linear system
 %by lsim. Pass argument 
 %x0 = initical condition, 
