@@ -23,9 +23,9 @@ x3_coefficient = 0;
 
 % compute flat interval
 for i = 0:3
-    x1_coefficient = mean(pDataset.Displacement.x1((1.5 / time + i * 10) : (4.5 / time + i * 10)));
-    x2_coefficient = mean(pDataset.Displacement.x2((1.5 / time + i * 10) : (4.5 / time + i * 10)));
-    x3_coefficient = mean(pDataset.Displacement.x3((1.5 / time + i * 10) : (4.5 / time + i * 10)));
+    x1_coefficient = mean(pDataset.Displacement.x1((1.5 / time + i * 10):(4.5 / time + i * 10)));
+    x2_coefficient = mean(pDataset.Displacement.x2((1.5 / time + i * 10):(4.5 / time + i * 10)));
+    x3_coefficient = mean(pDataset.Displacement.x3((1.5 / time + i * 10):(4.5 / time + i * 10)));
 end
 
 % compute the factor stiffness nominal stiffness of spring k3 / nominal voltage
