@@ -3,13 +3,13 @@ clear;
 clc;
 
 % Load folder data
-addpath('data_3DOFsystem', 'Full', 'ProportionalDamping');
+addpath('data_3DOFsystem', 'Full', 'ProportionalDamping', 'ModalAnalisys');
 file = dir(fullfile('data_3DOFsystem', '*.mat'));
 % load data set: "data_steps"
 load data_steps
 
 % number count per encoder revolution is costant
-Inputdata.number_count_encoder = 0.0706/16000;
+Inputdata.number_count_encoder = 0.0706 / 16000;
 
 % initialize stiffness
 Inputdata.stiffness.k1 = 800;  %[N/m]
@@ -44,7 +44,7 @@ hold off
 % compute a new estimation for the voltage-to-force coefficient
 %{
 file data steps.mat: use the step response to verify the ratio between the
-stiffnesses of the springs. Compute a new estimation for the 
+stiffnesses of the springs. Compute a new estimation for the
 voltage-to-force coefficient.
 %}
 
@@ -53,7 +53,7 @@ voltage-to-force coefficient.
 geterrorspring(gain_v, Ratio_k3_k2, Ratio_k3_k1, Inputdata, data_steps);
 
 % Optimization estimated parameters
-%{ 
+%{
  file data impulses.mat: use the impulse response to identify the parameters.
  Choose between response to impulsive force or response to initial conditions:
  in the first case, due to the approximation of the force estimation, you
@@ -81,7 +81,7 @@ data_impulses.voltage.v = v;        %[V]
 data_impulses.time.t = t;           %[s]
 
 % compute the force
-[ F ] = computeforce( data_impulses );
+[ F ] = computeforce(data_impulses);
 
 % remove generic data
 clear x1 x2 x3 t v
@@ -92,13 +92,13 @@ gain ---------------------------+
 damper c3--------------------+  |
 damper c2-----------------+  |  |
 damper c1--------------+  |  |  |
-mass --------+--+--+   |  |  |  |     
+mass --------+--+--+   |  |  |  |
              |  |  |   |  |  |  |
        x0 = [m1 m2 m3 c1 c2 c3  gain];
 %}
 problem.x0 = [1.1 1.1 1.01 0.01 0.01 0.01 gain_v];
 
-%{ 
+%{
 define lower bound and upper bound
 gain  --------------------+
 damper 3----------------+ |
@@ -111,7 +111,7 @@ problem.lb = [1 1 1 0 0 0 0];
 problem.ub = [2 2 2 5 5 5 7];
 
 problem.options = optimoptions('fmincon','Display','iter', ...
-                               'Algorithm','sqp','PlotFcn',@optimplotx);
+    'Algorithm','sqp','PlotFcn',@optimplotx);
 problem.solver = 'fmincon';
 problem.objective = @(x0)estimateFull(x0, F, Inputdata, data_impulses);
 full.x = fmincon(problem);
@@ -123,15 +123,15 @@ display(full.x);
 % compare the result with "goodnessOfFit" function
 % reference data
 ref_displacement = [data_impulses.Displacement.x1 ...
-                    data_impulses.Displacement.x2 ...
-                    data_impulses.Displacement.x3];
+    data_impulses.Displacement.x2 ...
+    data_impulses.Displacement.x3];
 
 % cost function Normalized root mean square error, where, ? indicates the
 % 2-norm of a vector. fit is a row vector of length N and i = 1,...,N, where
 % N is the number of channels.
 cost_func = 'NRMSE';
 full.fit = goodnessOfFit(full.YS, ref_displacement, cost_func);
-fprintf('Response full method comparision: %.2f%%\t%.2f%%\t%.2f%%\n', full.fit(1) * 100, full.fit(2) * 100, full.fit(3) * 100);
+fprintf('Response full method comparision: %.2f%%\t%.2f%%\t%.2f%%\n', full.fit(1:3) * 100);
 close all
 
 % Proportinal damping
@@ -159,7 +159,7 @@ mass --------+--+--+   |   |     |
 problem.lb = [1 1 1 0 0 0];
 problem.ub = [2 2 2 7 10 10];
 problem.options = optimoptions('fmincon','Display','iter', ...
-                               'Algorithm','sqp','PlotFcn',@optimplotx);
+    'Algorithm','sqp','PlotFcn',@optimplotx);
 problem.solver = 'fmincon';
 problem.objective = @(x0)estimatePropDamp(x0, F, Inputdata, data_impulses);
 prodamping.x = fmincon(problem);
@@ -171,15 +171,54 @@ display(prodamping.x);
 % compare the result with "goodnessOfFit" function
 % reference data
 ref_displacement = [data_impulses.Displacement.x1 ...
-                    data_impulses.Displacement.x2 ...
-                    data_impulses.Displacement.x3];
+    data_impulses.Displacement.x2 ...
+    data_impulses.Displacement.x3];
 
 % cost function Normalized root mean square error, where, ? indicates the
 % 2-norm of a vector. fit is a row vector of length N and i = 1,...,N, where
 % N is the number of channels.
 cost_func = 'NRMSE';
-fit = goodnessOfFit(prodamping.YS, ref_displacement, cost_func);
-fprintf('Response proportional damping comparision: %.2f%%\t%.2f%%\t%.2f%%\n', fit(1) * 100, fit(2) * 100, fit(3) * 100);
+prodamping.fit = goodnessOfFit(prodamping.YS, ref_displacement, cost_func);
+fprintf('Response proportional damping comparision: %.2f%%\t%.2f%%\t%.2f%%\n', prodamping.fit(1:3) * 100);
 close all
+
+% Modal Analisys
+% full method
+[full.freqs,full.modes] = getNaturalFrequencies(full.x, Inputdata);
+fprintf('\nFull method:\n frequencies %.5f Hz, %.5f Hz, %.5f Hz\n modes:\n', full.freqs(1:3));
+fprintf('\t|% .5f % .5f % .5f |\n', full.modes.')
+
+% proportinal method
+[prodamping.freqs,prodamping.modes] = getNaturalFrequencies(prodamping.x, Inputdata);
+fprintf('\nProportional damping:\n frequencies %.5f Hz, %.5f Hz, %.5f Hz\n modes:\n', prodamping.freqs(1:3));
+fprintf('\t|% .5f % .5f % .5f |\n', prodamping.modes.')
+
+%% MODAL ANALYSIS - RAILEIGHT
+
+%{
+ use Rayleigh quotient and Matrix Iteration Method to estimate the modes of
+ the un- damped system. Compare the results with the ones of the eigenvalue
+ problem.
+%}
+
+
+
+
+
+%{
+ use Laplace transform to plot the transfer functions between the applied
+ force and the positions of the degrees of freedom.
+%}
+
+
+
+
+
+%{
+ repeat the previous operations for the proportional damping case (and
+ compare the re- sults with the ones of the generic damping case). Use the
+ modes of the proportional damping case to write an analytical expression
+ for the configurations thanks to modal decomposition.
+%}
 
 
