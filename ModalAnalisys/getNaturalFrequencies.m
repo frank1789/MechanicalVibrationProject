@@ -36,13 +36,13 @@ function [ freqs, modes ] = getNaturalFrequencies(pOptimValue, pInputdata)
 % modes = V;
 
 % instaziate local variable from Optimalvalue and data
-    m1 = pOptimValue(1);
-    m2 = pOptimValue(2);
-    m3 = pOptimValue(3);
+m1 = pOptimValue(1);
+m2 = pOptimValue(2);
+m3 = pOptimValue(3);
 
-    k1 = pInputdata.stiffness.k1;
-    k2 = pInputdata.stiffness.k2;
-    k3 = pInputdata.stiffness.k3;
+k1 = pInputdata.stiffness.k1;
+k2 = pInputdata.stiffness.k2;
+k3 = pInputdata.stiffness.k3;
 
 % assemble mass matrix [M]
 M = [m1 0 0; 0 m2 0; 0 0 m3];
@@ -58,6 +58,7 @@ freqs = zeros(3,1);
 
 % compute the frequencies
 for i = 1:length(M)
+    % return freqs
     freqs(i) = sqrt(D(i,i));
     % compute the modes eignvectors
     V(1:3,i) = V(1:3,i)./V(1,i);
