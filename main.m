@@ -164,7 +164,8 @@ problem.solver = 'fmincon';
 problem.objective = @(x0)estimatePropDamp(x0, F, Inputdata, data_impulses);
 prodamping.x = fmincon(problem);
 display(prodamping.x);
-
+fprintf('The matrix [C] is:\n');
+fprintf('\t|% .5f % .5f % .5f |\n', getdampingmatrix(prodamping.x, Inputdata).');
 % plot comparison and residual
 [ prodamping.YS, prodamping.residual ] = comparisionPropDamp(Inputdata, F, prodamping.x, data_impulses);
 
@@ -197,13 +198,13 @@ fprintf('\t|% .5f % .5f % .5f |\n', prodamping.modes.')
 
 %{
  use Rayleigh quotient and Matrix Iteration Method to estimate the modes of
- the un- damped system. Compare the results with the ones of the eigenvalue
+ the un-damped system. Compare the results with the ones of the eigenvalue
  problem.
 %}
 
+[sigma, x, iter] = newfunction(full.x, Inputdata)
 
-
-
+[x  full.modes(:,2)]
 
 %{
  use Laplace transform to plot the transfer functions between the applied
@@ -213,12 +214,16 @@ fprintf('\t|% .5f % .5f % .5f |\n', prodamping.modes.')
 
 
 
-
+%%
 %{
  repeat the previous operations for the proportional damping case (and
- compare the re- sults with the ones of the generic damping case). Use the
+ compare the results with the ones of the generic damping case). Use the
  modes of the proportional damping case to write an analytical expression
  for the configurations thanks to modal decomposition.
 %}
+
+[sigma, x2, iter] = newfunction(prodamping.x, Inputdata)
+
+[x2  prodamping.modes(:,2)]
 
 
