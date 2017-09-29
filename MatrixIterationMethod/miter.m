@@ -1,9 +1,6 @@
-%===============================================================================
-%
-%function Miter
-%
-%================================================================================
 function [freq,eig,b,c,xx]=miter(d,xs,n,nvec,xm,eps)
+%Mult please refefer "Mechanical Vibrations - fith edition SI" -Singiresu
+%S.Rao / chapter 7.5 Matrix Iteration Method
 con=xs(1);
 for i=1:n
     x(i)=xs(i)/con;
