@@ -3,7 +3,8 @@ clear;
 clc;
 
 % Load folder data
-addpath('data_3DOFsystem', 'Full', 'ProportionalDamping', 'ModalAnalisys');
+addpath('data_3DOFsystem', 'Full', 'ProportionalDamping', ... 
+    'ModalAnalisys', 'Rayleigh', 'MatrixIterationMethod');
 file = dir(fullfile('data_3DOFsystem', '*.mat'));
 % load data set: "data_steps"
 load data_steps
@@ -50,9 +51,10 @@ voltage-to-force coefficient.
 
 [ gain_v, Ratio_k3_k2, Ratio_k3_k1 ] = computeSteadyStateRatioStiff(K, data_steps, Inputdata);
 
-geterrorspring(gain_v, Ratio_k3_k2, Ratio_k3_k1, Inputdata, data_steps);
+[ g_v_per, R31_per, R32_per ] = geterrorspring(gain_v, Ratio_k3_k2, Ratio_k3_k1, Inputdata);
+fprintf('Stiffnesses ratios and voltage-to-force coefficients results from analysis:\n\tgain ratio:\t%.5f %%\n\tratio k3/k1:\t %.5f %%\n\tratio k3/k2:\t %.5f %%\n\n', g_v_per, R31_per, R32_per);
 
-% Optimization estimated parameters
+%% Optimization estimated parameters
 %{
  file data impulses.mat: use the impulse response to identify the parameters.
  Choose between response to impulsive force or response to initial conditions:
@@ -131,7 +133,7 @@ ref_displacement = [data_impulses.Displacement.x1 ...
 % N is the number of channels.
 cost_func = 'NRMSE';
 full.fit = goodnessOfFit(full.YS, ref_displacement, cost_func);
-fprintf('Response full method comparision: %.2f%%\t%.2f%%\t%.2f%%\n', full.fit(1:3) * 100);
+fprintf('Response full method comparision: %.2f %%\t%.2f %%\t%.2f %%\n', full.fit(1:3) * 100);
 close all
 
 % Proportinal damping
@@ -166,6 +168,7 @@ prodamping.x = fmincon(problem);
 display(prodamping.x);
 fprintf('The matrix [C] is:\n');
 fprintf('\t|% .5f % .5f % .5f |\n', getdampingmatrix(prodamping.x, Inputdata).');
+
 % plot comparison and residual
 [ prodamping.YS, prodamping.residual ] = comparisionPropDamp(Inputdata, F, prodamping.x, data_impulses);
 
@@ -180,32 +183,52 @@ ref_displacement = [data_impulses.Displacement.x1 ...
 % N is the number of channels.
 cost_func = 'NRMSE';
 prodamping.fit = goodnessOfFit(prodamping.YS, ref_displacement, cost_func);
-fprintf('Response proportional damping comparision: %.2f%%\t%.2f%%\t%.2f%%\n', prodamping.fit(1:3) * 100);
+fprintf('Response proportional damping comparision: %.2f %%\t%.2f %%\t%.2f %%\n', prodamping.fit(1:3) * 100);
 close all
 
 % Modal Analisys
 % full method
-[full.freqs,full.modes] = getNaturalFrequencies(full.x, Inputdata);
+[full.freqs,full.mode] = getNaturalFrequencies(full.x, Inputdata);
 fprintf('\nFull method:\n frequencies %.5f Hz, %.5f Hz, %.5f Hz\n modes:\n', full.freqs(1:3));
-fprintf('\t|% .5f % .5f % .5f |\n', full.modes.')
+fprintf('\t|% .5f % .5f % .5f |\n', full.mode.')
 
 % proportinal method
-[prodamping.freqs,prodamping.modes] = getNaturalFrequencies(prodamping.x, Inputdata);
+[prodamping.freqs,prodamping.mode] = getNaturalFrequencies(prodamping.x, Inputdata);
 fprintf('\nProportional damping:\n frequencies %.5f Hz, %.5f Hz, %.5f Hz\n modes:\n', prodamping.freqs(1:3));
-fprintf('\t|% .5f % .5f % .5f |\n', prodamping.modes.')
+fprintf('\t|% .5f % .5f % .5f |\n', prodamping.mode.')
 
-%% MODAL ANALYSIS - RAILEIGHT
-
+%% MODAL ANALYSIS
 %{
  use Rayleigh quotient and Matrix Iteration Method to estimate the modes of
  the un-damped system. Compare the results with the ones of the eigenvalue
  problem.
 %}
+% RAYLEIGHT
+fprintf('\nMODAL ANALYSIS - Rayleigh:');
 
-[sigma, x, iter] = newfunction(full.x, Inputdata)
+% full method
+[full.rayleigh.mode,  full.rayleigh.freqs] = rayleigh(full.x, Inputdata);
+fprintf('\nFull method:\n frequencies %.5f Hz, %.5f Hz, %.5f Hz\n modes:\n', full.rayleigh.freqs(1:3));
+fprintf('\t|% .5f % .5f % .5f |\n', full.rayleigh.mode.');
 
-[x  full.modes(:,2)]
+% proportianl damping
+[prodamping.rayleigh.mode,  prodamping.rayleigh.freqs] = rayleigh(prodamping.x, Inputdata);
+fprintf('\nProportional damping:\n frequencies %.5f Hz, %.5f Hz, %.5f Hz\n modes:\n', prodamping.rayleigh.freqs(1:3));
+fprintf('\t|% .5f % .5f % .5f |\n', prodamping.rayleigh.mode.');
 
+% MATRIX ITERATION METHOD
+% full method
+fprintf('\nMODAL ANALYSIS - Matrix Iteration Method:');
+[full.mim.freqs, full.mim.mode] = matrixiterationmethod(full.x, Inputdata);
+fprintf('\nFull method:\n frequencies %.5f Hz, %.5f Hz, %.5f Hz\n modes:\n', full.mim.freqs(1:3));
+fprintf('\t|% .5f % .5f % .5f |\n', full.mim.mode.');
+
+% proportianl damping
+[prodamping.mim.mode,  prodamping.mim.freqs] = rayleigh(prodamping.x, Inputdata);
+fprintf('\nProportional damping:\n frequencies %.5f Hz, %.5f Hz, %.5f Hz\n modes:\n', prodamping.mim.freqs(1:3));
+fprintf('\t|% .5f % .5f % .5f |\n', prodamping.mim.mode.');
+
+%% LAPLACE - transfer function
 %{
  use Laplace transform to plot the transfer functions between the applied
  force and the positions of the degrees of freedom.
@@ -214,7 +237,7 @@ fprintf('\t|% .5f % .5f % .5f |\n', prodamping.modes.')
 
 
 
-%%
+
 %{
  repeat the previous operations for the proportional damping case (and
  compare the results with the ones of the generic damping case). Use the
@@ -222,8 +245,8 @@ fprintf('\t|% .5f % .5f % .5f |\n', prodamping.modes.')
  for the configurations thanks to modal decomposition.
 %}
 
-[sigma, x2, iter] = newfunction(prodamping.x, Inputdata)
+% [sigma, x2, iter] = newfunction(prodamping.x, Inputdata)
 
-[x2  prodamping.modes(:,2)]
+% [x2  prodamping.modes(:,2)]
 
 
