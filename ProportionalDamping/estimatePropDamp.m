@@ -92,7 +92,7 @@ M = [m1 0 0; 0 m2 0; 0 0 m3];   % mass matrix [M]
 % assemble stifness matrix [K]
 K = [k1 -k1 0; -k1 k2+k1 -k2; 0 -k2 k2+k3];
 
-% proportional damping [C] = alpha * [M] + beta * [K[
+% proportional damping [C] = alpha * [M] + beta * [K]
 C = alpha * M + beta * K; 
 A = M * s^2 + C*s + K;
 G = tf(inv(A));                 % Transfer fuction
