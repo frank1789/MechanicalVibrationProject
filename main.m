@@ -17,6 +17,9 @@ Inputdata.stiffness.k1 = 800;  %[N/m]
 Inputdata.stiffness.k2 = 800;  %[N/m]
 Inputdata.stiffness.k3 = 400;  %[N/m]
 
+% nomianl gain volatge
+Inputdata.voltage.v = 5.25;  %[v]
+
 % evaluate displacement and store in struct Displacement
 data_steps.Displacement.x1 = x1 * Inputdata.number_count_encoder;
 data_steps.Displacement.x2 = x2 * Inputdata.number_count_encoder;
@@ -234,9 +237,16 @@ fprintf('\t|% .5f % .5f % .5f |\n', prodamping.mim.mode.');
  force and the positions of the degrees of freedom.
 %}
 
+[full.G] = gettranferfunc(full.x, Inputdata);
+[prodamping.G] = gettranferfunc(prodamping.x, Inputdata);
 
-
-
+for i = 1:3
+    figure();
+    bodeplot(full.G(:,i), prodamping.G(:,i), logspace(0,2,1000));
+    grid on;
+    namefile = ['bodediagram' int2str(i)];
+    saveas(gcf,namefile,'epsc')
+end
 
 %{
  repeat the previous operations for the proportional damping case (and
@@ -250,3 +260,5 @@ fprintf('\t|% .5f % .5f % .5f |\n', prodamping.mim.mode.');
 % [x2  prodamping.modes(:,2)]
 
 
+close all
+%%
