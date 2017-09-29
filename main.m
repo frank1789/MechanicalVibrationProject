@@ -245,6 +245,7 @@ for i = 1:3
     bodeplot(full.G(:,i), prodamping.G(:,i), logspace(0,2,1000));
     grid on;
     namefile = ['bodediagram' int2str(i)];
+    legend('free damping', 'proportinal damping','Location','west');
     saveas(gcf,namefile,'epsc')
 end
 
@@ -255,9 +256,6 @@ end
  for the configurations thanks to modal decomposition.
 %}
 
-% [sigma, x2, iter] = newfunction(prodamping.x, Inputdata)
-
-% [x2  prodamping.modes(:,2)]
 
 
 close all
