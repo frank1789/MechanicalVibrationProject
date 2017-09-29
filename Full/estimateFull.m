@@ -1,5 +1,5 @@
 function [ err ] = estimateFull(x0, pForce, pInputdata, pDataset)
-%errormio function to evaluate the simultate response of the linear system
+%estimateFull function to evaluate the simultate response of the linear system
 %by lsim. Pass argument 
 %x0 = initical condition, 
 %pForce = input force,
@@ -107,7 +107,7 @@ C = [c1 0 0; 0 c2 0; 0 0 c3];   % assemble damping matric [C]
 K = [ k1   -k1  0;              % assemble stifness matrix [K]
      -k1 k2+k1 -k2;
        0   -k2  k2+k3];
-A = M * s^2 + C*s + K;
+A = M * s^2 + C * s + K;
 G = tf(inv(A));                 % Transfer fuction
 
 % perform simulation
