@@ -4,7 +4,8 @@ clc;
 
 % Load folder data
 addpath('data_3DOFsystem', 'Full', 'ProportionalDamping', ... 
-    'ModalAnalisys', 'Rayleigh', 'MatrixIterationMethod');
+    'ModalAnalisys', 'Rayleigh', 'MatrixIterationMethod', ...
+    'Sinesweep');
 file = dir(fullfile('data_3DOFsystem', '*.mat'));
 % load data set: "data_steps"
 load data_steps
@@ -239,6 +240,8 @@ fprintf('\t|% .5f % .5f % .5f |\n', prodamping.mim.mode.');
 
 [full.G] = gettranferfunc(full.x, Inputdata);
 [prodamping.G] = gettranferfunc(prodamping.x, Inputdata);
+display(full.G);
+display(prodamping.G);
 
 for i = 1:3
     figure();
@@ -259,4 +262,35 @@ end
 
 
 close all
-%%
+%% SINE SWEEP
+% slow
+load data_sine_sweep_slow
+sinesweep.slow.displacement.x{1} = x1;
+sinesweep.slow.displacement.x{2} = x2;
+sinesweep.slow.displacement.x{3} = x3;
+sinesweep.slow.v = v;
+sinesweep.slow.t = t;
+
+clear x1 x2 x3 t v;
+test = cell(1,3);
+for i = 1:length(sinesweep.slow.displacement.x)
+    [test{i}] = unknow(i, sinesweep.slow.t, sinesweep.slow.displacement.x{i}, sinesweep.slow.v, 'slow');
+    graphicssinesweep(i, test{i}, 'sinesweepslow');
+end
+
+
+% fast
+load data_sine_sweep_fast
+sinesweep.fast.displacement.x{1} = x1;
+sinesweep.fast.displacement.x{2} = x2;
+sinesweep.fast.displacement.x{3} = x3;
+sinesweep.fast.v = v;
+sinesweep.fast.t = t;
+
+clear x1 x2 x3 t v;
+testfast= cell(1,3);
+for i = i:length(sinesweep.slow.displacement.x)
+    [testfast{i}] = unknow(i, sinesweep.fast.t, sinesweep.fast.displacement.x{i}, sinesweep.fast.v, 'fast');
+    graphicssinesweep(i, testfast{i}, 'sinesweepfast');
+end
+
