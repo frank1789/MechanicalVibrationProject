@@ -275,11 +275,11 @@ clear x1 x2 x3 t v;
 test = cell(1,3);
 for i = 1:length(sinesweep.slow.displacement.x)
     [test{i}] = unknow(i, sinesweep.slow.t, sinesweep.slow.displacement.x{i}, sinesweep.slow.v, 'slow');
-    graphicssinesweep(i, test{i}, 'sinesweepslow');
+    graphicssinesweep(i, 'sinesweepslow', test{i});
 end
 
 
-% fast
+%% fast
 load data_sine_sweep_fast
 sinesweep.fast.displacement.x{1} = x1;
 sinesweep.fast.displacement.x{2} = x2;
@@ -289,8 +289,12 @@ sinesweep.fast.t = t;
 
 clear x1 x2 x3 t v;
 testfast= cell(1,3);
-for i = i:length(sinesweep.slow.displacement.x)
+for i = 1:length(sinesweep.slow.displacement.x)
     [testfast{i}] = unknow(i, sinesweep.fast.t, sinesweep.fast.displacement.x{i}, sinesweep.fast.v, 'fast');
-    graphicssinesweep(i, testfast{i}, 'sinesweepfast');
+    graphicssinesweep(i, 'sinesweepfast', testfast{i});
+end
+
+for i = 1:length(test)
+    graphicssinesweep(i, 'sinecompare', test{i}, testfast{i});
 end
 
