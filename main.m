@@ -2,6 +2,11 @@ close all;
 clear;
 clc;
 
+if exist('log.txt', 'file')
+    delete log.txt
+end
+diary log.txt
+
 % Load folder data
 addpath('data_3DOFsystem', 'Full', 'ProportionalDamping', ... 
     'ModalAnalisys', 'Rayleigh', 'MatrixIterationMethod', ...
@@ -263,24 +268,23 @@ end
 
 close all
 %% SINE SWEEP
-% slow
+% SINE SWEEP - slow
 load data_sine_sweep_slow
 sinesweep.slow.displacement.x{1} = x1;
 sinesweep.slow.displacement.x{2} = x2;
 sinesweep.slow.displacement.x{3} = x3;
 sinesweep.slow.v = v;
 sinesweep.slow.t = t;
-
 clear x1 x2 x3 t v;
-test = cell(1,3);
+sinesweep.slow.estimtf = cell(1,3);
 for i = 1:length(sinesweep.slow.displacement.x)
-    [test{i}] = unknow(i, sinesweep.slow.t, sinesweep.slow.displacement.x{i}, sinesweep.slow.v, 'slow');
-    graphicssinesweep(i, 'sinesweepslow', test{i});
+    [sinesweep.slow.estimtf{i}] = getEstimatedtf(i, sinesweep.slow.t, sinesweep.slow.displacement.x{i}, sinesweep.slow.v, 'slow');
+    graphicssinesweep(i, 'sinesweepslow', sinesweep.slow.estimtf{i});
 end
 
+% SINE SWEEP - fast
+load data_sine_sweep_fast.mat
 
-%% fast
-load data_sine_sweep_fast
 sinesweep.fast.displacement.x{1} = x1;
 sinesweep.fast.displacement.x{2} = x2;
 sinesweep.fast.displacement.x{3} = x3;
@@ -288,13 +292,24 @@ sinesweep.fast.v = v;
 sinesweep.fast.t = t;
 
 clear x1 x2 x3 t v;
-testfast= cell(1,3);
-for i = 1:length(sinesweep.slow.displacement.x)
-    [testfast{i}] = unknow(i, sinesweep.fast.t, sinesweep.fast.displacement.x{i}, sinesweep.fast.v, 'fast');
-    graphicssinesweep(i, 'sinesweepfast', testfast{i});
+sinesweep.fast.estimtf= cell(1,3);
+for j = 1:length(sinesweep.fast.displacement.x)
+    [sinesweep.fast.estimtf{j}] = getEstimatedtf(j, sinesweep.fast.t, sinesweep.fast.displacement.x{j}, sinesweep.fast.v, 'fast');
+    graphicssinesweep(j, 'sinesweepfast', sinesweep.fast.estimtf{j});
 end
 
-for i = 1:length(test)
-    graphicssinesweep(i, 'sinecompare', test{i}, testfast{i});
+% generate plot comparision
+for k = 1:length(sinesweep.fast.estimtf)
+    graphicssinesweep(k, 'sinecompare', sinesweep.slow.estimtf{k}, sinesweep.fast.estimtf{k});
 end
 
+close all; clear i k;
+
+%% compute fourier trasform
+
+getFouriertrasform(sinesweep.slow.v, sinesweep.slow.t, 'slow')
+getFouriertrasform(sinesweep.fast.v, sinesweep.fast.t, 'fast')
+
+
+close all
+diary off
