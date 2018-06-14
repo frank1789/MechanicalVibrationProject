@@ -1,69 +1,145 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Introduction}
+\label{chap:Introduction}
 
-\chapter{Introduzione}
-\label{chap:Introduzione}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{Contesto applicativo}
+\section{System and the experimental setup}
 \label{sec:intro1}
 
-Ciao ragazzi :D questo è un template che potete utilizzare per scrivere la vostra tesi in \LaTeX (sì, il nome di questo linguaggio è tutto un programma...)
-
-Cos'è \LaTeX ? Cercatevelo su Wikipedia\footnote{http://it.wikipedia.org/wiki/LaTeX}!
-
-A parte gli scherzi... è un linguaggio che vi permette (in poche parole) di creare documenti accademici (e non) con uno stile molto professionale. Gran parte del lavoro sporco (creazione dei capitoli, delle sezioni, dell'indice, della bibliografia, gestione dei margini, ecc...) viene interamente gestito da \LaTeX , le poche cose da configurare sono già state impostate in questo template... (quindi in poche parole avete già tutto pronto, stronzi!)
-
-In questo pdf è spiegato un po' come far funzionare il tutto, ovvero:
-\begin{itemize}
-\item Dove scaricare l'IDE e come configurarlo
-\item Come scaricare il compilatore
-\item Come iniziare a personalizzare questo template
-\end{itemize}
-
-Cercherò di utilizzare più elementi \LaTeX possibile nello scrivere questa guida (tabelle, elenchi puntati, footnote, immagini...) così quando andrete a leggere il codice vi imparate pure qualcosa, caproni (<3)
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{Motivazioni e obiettivi}
-\label{sec:intro2}
-
-Il principale motivo che mi spinge a creare questo pdf è quello di risparmiarvi gran parte delle rotture che si trovano quando ci si avvicina al mondo \LaTeX... insomma mi auguro che questa guida vi permetta di avere un buon punto d'inizio.
-
-Come già spiegato nella sezione precedente, \LaTeX offre tantissimi servizi utili ed uno stile professionale unico, cose che su altri programmi (come Microsoft Word) potete anche sognarvi.
-
-Insomma... con \LaTeX potete presentare una tesi fatta come si deve :)
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{Risultati raggiunti}
-\label{sec:intro3}
-
-Nella Figura \ref{fig:latexVsWord} potete ammirare quanto \LaTeX sia più figo di Microsoft Word, ooooooh...
-
-\begin{figure}[h] %La "h" indica che la figura si posizionerà "here". Usate "t" per "top" e "b" per "bottom"
-\centering %centrata
-%\includegraphics[width=0.8\linewidth]{latexVsWord} %larghezza e nome del file
-\caption{Oooooooh che figo \LaTeX, ooooooooh} %didascalia
-\label{fig:latexVsWord} %label per il riferimento
+For this experiment, we are going to identify the parameters of the Rectilinear
+Control System (Model 210).
+The experimental control system is comprised of the three subsystems shown in 
+Figure \ref{fig:dynamicalsystem}. The first of these is the electromechanical 
+plant which consists of the spring/mass mechanism, its actuator and sensors. 
+The design features a brushless DC servomotor, high resolution encoders, 
+adjustable masses, and reconfigurable plant type.
+%
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.8\linewidth]{linlrge}
+\caption{Dynamical system}
+\label{fig:dynamicalsystem}
 \end{figure}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{Organizzazione della tesi}
-\label{sec:intro4}
-
-Vi spiego brevemente quali sono le parti di questo template:
-
-\begin{description}
-  \item[Susanna.tex] Questo è il file principale del template: contiene le impostazioni generali e la struttura della tesi. Ricordate di impostarlo come documento master ogni volta che iniziate a lavorare alla tesi (ovviamente potete rinominarlo, nabbazzi)
-  \item[frontespizio.tex] Sarebbe la copertina della tesi, nonchè la prima pagina. Contiene nome dell'università, del dipartimento, nome della tesi bla bla bla... io ho scelto un argomento di Fisica molto importante <3
-  \item[dedica.tex] Una pagina dove scrivete a chi dedicate la tesi (Susanna <3)
-  \item[introduzione.tex] Il file che contiene questo capitolo introduttivo (vi consiglio di creare appunto un file .tex per ogni capitolo). Le 4 sezioni di questo capitolo (\nameref{sec:intro1}, \nameref{sec:intro2}, \nameref{sec:intro3} e \nameref{sec:intro4}) sono le 4 sezioni standard da inserire nell'introduzione di una tesi, quindi vi consiglio di lasciarle così
-  \item[start.tex] Contiene l'unico capitolo utile di questo documento: spiega come scaricare l'occorrente e come configurare il tutto per lavorare con \LaTeX
-  \item[conclusione.tex] Contiene la conclusione (YOU DON'T SAY)
-  \item[bibliografia.bib] Contiene i dati relativi alle fonti che citerete nella tesi (ad esempio, ora sto citando un libro sugli algoritmi genetici \cite{5635176}, l'unico inserito nella bibliografia di questo template)
-  \item[IEEEtran.bst] È lo stile della bibliografia, non lo toccate
-  \item[imgs] Cartella contenente le immagini (YOU DON'T SAY AGAIN)
+%
+The system is configured with three bodies above the mass carriage suspension 
+is an anti-friction ball bearing type with approximately $\pm 3$ 
+[\si{\centi\meter}] of available travel. 
+The linear drive is comprised of a gear rack suspended on an anti-friction 
+carriage and pinion (pitch diameter 7.62 [\si{\centi\meter}]) coupled to the 
+brushless servo-motor shaft.\\ Optical encoders measure the mass carriage 
+positions - also via a rack and pinion with a pinion pitch about 3.18 
+[\si{\centi\meter}].
+The bodies are connected by known stiffness springs, and a spring connects the 
+third mass to the frame. Instead, the first body is rigidly connected to a 
+pinion gear with a live-powered motor with a PC interface.
+The position of each body is provided by an encoder. The position zeros are at 
+the equilibrium positions of the springs.
+For the springs we use the nominal values provided:
+%
+\begin{itemize}
+	\item $k_1 = k_2 = 800$ [\si{\newton\per\meter}] between $m_1$ and $m_2$, $m_2$ 
+and $m_3$;
+	\item $k_3 = 400$ [\si{\newton\per\meter}] between $m_3$ and the ground.
+\end{itemize}
+%
+The shifts $x_1$, $x_2$, $x_3$ are provided in encoder counts, where the 
+relationship (\ref{eq:encodercounts}) between the measured counts and the 
+displacement was used.
+Where $r_{e}$ is the radius of the encoder and $2\pi r_{e} = 0.0706$ 
+[\si{\meter}]; 16000 is the number of counts per encoder revolution.
+%
+\begin{equation}
+	\Delta x = 2\pi \cdot r_{e} \cdot \frac{\Delta count}{16000}
+	\label{eq:encodercounts}
+\end{equation}
+%
+The input data are given by the voltage \si{\volt}. 
+The following relation between the applied voltage and the applied force holds:
+$f = (k_a \cdot k_t \cdot k_{mp}) \cdot v$.\\
+Where:\begin{description}
+	\item $k_a$ is the Servo Amp gain:
+	\begin{equation*}
+		k_a \approx 2 \quad [\text{\si{\ampere\per\volt}}]
+	\end{equation*}
+	\item $k_t$ is the Servo Motor Torque constant:
+	\begin{equation*}
+		k_t	\approx	0.1 \quad 	[\text{\si{\newton\meter\per\ampere}}]
+	\end{equation*}
+	\item $k_{mp}$ is the Motor Pinion pitch radius inverse:
+	\begin{equation*}
+		k_{mp} 	= 26.25 \quad	[\text{\si{\per\meter}}]
+	\end{equation*}
 \end{description}
 
+\section{The dynamical model}
+\label{sec:dynamicalmodel}
+
+\subsection{Assumption}
+\label{subsec:assumption}
+The system described in the previous chapter is modelled as a linear system and
+for this reason some simplifications are made.
+It is considered that all the bodies move on the same axis, assuming therefore 
+that the rack meshed by the pinion plots the force on this axis, so that a 
+straight motion is assumed.
+In the model there are only viscous frictions.
+The block containing the engine with the attachment unit and rack is considered 
+rigidly connected to the mass m, according to the equation:
+\begin{equation}
+	\label{eq:reducedinertia}
+	\begin{cases}
+		m_{1} &=  m_{11} + \frac{J_{\text{motor}}}{r^2}\\
+		c_{1} &=  c_{11} + \frac{c_{\text{motor}}}{r^2}
+	\end{cases}
+\end{equation}
+In equation \eqref{eq:reducedinertia}: $r$ is the radius of the pinion-rack 
+coupling, $J_{\text{motor}}$ the inertia of the motor, $c_{\text{motor}}$ the 
+rotational damping. 
+While $m_{11}$ and $c_{11}$ are respectively the mass and damping of the first body.
+%
+\subsection{Equation of motion}
+\label{subsec:equationofomotion}
+We describe the equations of motion for each body according to the embodiments 
+reported in \eqref{eq:equationmotion}, the schematic representation is 
+observable in the figure \ref{fig:modelscheme}
+%
+\begin{equation}
+	\label{eq:equationmotion}
+	\begin{array}{l}
+		m_1 \ddot{x}_{1} = k_1 (x_2 - x_1) - c_1 \dot{x}_{1} + gv \cdot v	\\
+		m_2 \ddot{x}_{2} = k_1 (x_1 - x_2) + k_2 (x_3 - x_2) - c_2 \dot{x}_{2} \\
+		m_3 \ddot{x}_{3} = k_2 (x_2 - x_3) - c_3 \dot{x}_{3} - k_3 x_3	\\
+	\end{array}
+\end{equation}
+%
+The equation in matrix form is shown below (\ref{eq:matrixform}):
+%
+\begin{equation}
+	\label{eq:matrixform}
+	\begin{bmatrix}
+		m_1	&  	0	&	0	\\
+ 		0	& 	m_2	&	0	\\
+ 		0	&  	0	&	m_3	\\
+	\end{bmatrix} 
+	\ddot{x}+
+	\begin{bmatrix}
+		c_1	&	0	&	0	\\
+  		0	&	c_2	&  	0	\\
+  		0	&	0	& 	c_3	\\
+	\end{bmatrix}
+	\dot{x}+
+	\begin{bmatrix*}[c]
+		k_1		&	-k_1			&       0	\\
+ 		-k_1		& 	k_1 + k_2	&     -k_2	\\
+  		0		&	-k_2			& k_2 + k_3	\\
+	 \end{bmatrix*}
+ 	x=\begin{bmatrix}
+ 	g_v	\\
+ 	0 	\\
+ 	0
+ 	\end{bmatrix} \cdot v
+\end{equation}
+%
+\begin{figure}[hb]
+	\centering
+    \resizebox{.8\linewidth}{!}{\input{test.tex}}
+	\caption{model system}
+	\label{fig:modelscheme}
+\end{figure}
