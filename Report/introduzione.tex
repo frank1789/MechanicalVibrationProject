@@ -18,15 +18,15 @@ adjustable masses, and reconfigurable plant type.
 \caption{Dynamical system}
 \label{fig:dynamicalsystem}
 \end{figure}
-%
+\subsection{Parameters}
 The system is configured with three bodies above the mass carriage suspension 
 is an anti-friction ball bearing type with approximately $\pm 3$ 
 [\si{\centi\meter}] of available travel. 
 The linear drive is comprised of a gear rack suspended on an anti-friction 
 carriage and pinion (pitch diameter 7.62 [\si{\centi\meter}]) coupled to the 
-brushless servo-motor shaft.\\ Optical encoders measure the mass carriage 
-positions - also via a rack and pinion with a pinion pitch about 3.18 
-[\si{\centi\meter}].
+brushless servo-motor shaft.
+Optical encoders measure the mass carriage positions - also via a rack and 
+pinion with a pinion pitch about 3.18 [\si{\centi\meter}].
 The bodies are connected by known stiffness springs, and a spring connects the 
 third mass to the frame. Instead, the first body is rigidly connected to a 
 pinion gear with a live-powered motor with a PC interface.
@@ -131,7 +131,7 @@ The equation in matrix form is shown below (\ref{eq:matrixform}):
   		0		&	-k_2			& k_2 + k_3	\\
 	 \end{bmatrix*}
  	x=\begin{bmatrix}
- 	g_v	\\
+ 	g_{\text{v}}	\\
  	0 	\\
  	0
  	\end{bmatrix} \cdot v
