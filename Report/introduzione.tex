@@ -6,10 +6,10 @@
 
 For this experiment, we are going to identify the parameters of the Rectilinear
 Control System (Model 210).
-The experimental control system is comprised of the three subsystems shown in 
-Figure \ref{fig:dynamicalsystem}. The first of these is the electromechanical 
-plant which consists of the spring/mass mechanism, its actuator and sensors. 
-The design features a brushless DC servomotor, high resolution encoders, 
+The experimental control system is comprised of the three subsystems shown in
+Figure \ref{fig:dynamicalsystem}. The first of these is the electromechanical
+plant which consists of the spring/mass mechanism, its actuator and sensors.
+The design features a brushless DC servomotor, high resolution encoders,
 adjustable masses, and reconfigurable plant type.
 %
 \begin{figure}[ht]
@@ -19,31 +19,31 @@ adjustable masses, and reconfigurable plant type.
 \label{fig:dynamicalsystem}
 \end{figure}
 \subsection{Parameters}
-The system is configured with three bodies above the mass carriage suspension 
-is an anti-friction ball bearing type with approximately $\pm 3$ 
-[\si{\centi\meter}] of available travel. 
-The linear drive is comprised of a gear rack suspended on an anti-friction 
-carriage and pinion (pitch diameter 7.62 [\si{\centi\meter}]) coupled to the 
+The system is configured with three bodies above the mass carriage suspension
+is an anti-friction ball bearing type with approximately $\pm 3$
+[\si{\centi\meter}] of available travel.
+The linear drive is comprised of a gear rack suspended on an anti-friction
+carriage and pinion (pitch diameter 7.62 [\si{\centi\meter}]) coupled to the
 brushless servo-motor shaft.
-Optical encoders measure the mass carriage positions - also via a rack and 
+Optical encoders measure the mass carriage positions - also via a rack and
 pinion with a pinion pitch about 3.18 [\si{\centi\meter}].
-The bodies are connected by known stiffness springs, and a spring connects the 
-third mass to the frame. Instead, the first body is rigidly connected to a 
+The bodies are connected by known stiffness springs, and a spring connects the
+third mass to the frame. Instead, the first body is rigidly connected to a
 pinion gear with a live-powered motor with a PC interface.
-The position of each body is provided by an encoder. The position zeros are at 
+The position of each body is provided by an encoder. The position zeros are at
 the equilibrium positions of the springs.
 For the springs we use the nominal values provided:
 %
 \begin{itemize}
-	\item $k_1 = k_2 = 800$ [\si{\newton\per\meter}] between $m_1$ and $m_2$, $m_2$ 
+	\item $k_1 = k_2 = 800$ [\si{\newton\per\meter}] between $m_1$ and $m_2$, $m_2$
 and $m_3$;
 	\item $k_3 = 400$ [\si{\newton\per\meter}] between $m_3$ and the ground.
 \end{itemize}
 %
-The shifts $x_1$, $x_2$, $x_3$ are provided in encoder counts, where the 
-relationship (\ref{eq:encodercounts}) between the measured counts and the 
+The shifts $x_1$, $x_2$, $x_3$ are provided in encoder counts, where the
+relationship (\ref{eq:encodercounts}) between the measured counts and the
 displacement was used.
-Where $r_{e}$ is the radius of the encoder and $2\pi r_{e} = 0.0706$ 
+Where $r_{e}$ is the radius of the encoder and $2\pi r_{e} = 0.0706$
 [\si{\meter}]; 16000 is the number of counts per encoder revolution.
 %
 \begin{equation}
@@ -51,7 +51,7 @@ Where $r_{e}$ is the radius of the encoder and $2\pi r_{e} = 0.0706$
 	\label{eq:encodercounts}
 \end{equation}
 %
-The input data are given by the voltage \si{\volt}. 
+The input data are given by the voltage \si{\volt}.
 The following relation between the applied voltage and the applied force holds:
 $f = (k_a \cdot k_t \cdot k_{mp}) \cdot v$.\\
 Where:\begin{description}
@@ -76,11 +76,11 @@ Where:\begin{description}
 \label{subsec:assumption}
 The system described in the previous chapter is modelled as a linear system and
 for this reason some simplifications are made.
-It is considered that all the bodies move on the same axis, assuming therefore 
-that the rack meshed by the pinion plots the force on this axis, so that a 
+It is considered that all the bodies move on the same axis, assuming therefore
+that the rack meshed by the pinion plots the force on this axis, so that a
 straight motion is assumed.
 In the model there are only viscous frictions.
-The block containing the engine with the attachment unit and rack is considered 
+The block containing the engine with the attachment unit and rack is considered
 rigidly connected to the mass m, according to the equation:
 \begin{equation}
 	\label{eq:reducedinertia}
@@ -89,21 +89,21 @@ rigidly connected to the mass m, according to the equation:
 		c_{1} &=  c_{11} + \frac{c_{\text{motor}}}{r^2}
 	\end{cases}
 \end{equation}
-In equation \eqref{eq:reducedinertia}: $r$ is the radius of the pinion-rack 
-coupling, $J_{\text{motor}}$ the inertia of the motor, $c_{\text{motor}}$ the 
-rotational damping. 
+In equation \eqref{eq:reducedinertia}: $r$ is the radius of the pinion-rack
+coupling, $J_{\text{motor}}$ the inertia of the motor, $c_{\text{motor}}$ the
+rotational damping.
 While $m_{11}$ and $c_{11}$ are respectively the mass and damping of the first body.
 %
 \subsection{Equation of motion}
 \label{subsec:equationofomotion}
-We describe the equations of motion for each body according to the embodiments 
-reported in \eqref{eq:equationmotion}, the schematic representation is 
+We describe the equations of motion for each body according to the embodiments
+reported in \eqref{eq:equationmotion}, the schematic representation is
 observable in the figure \ref{fig:modelscheme}
 %
 \begin{equation}
 	\label{eq:equationmotion}
 	\begin{array}{l}
-		m_1 \ddot{x}_{1} = k_1 (x_2 - x_1) - c_1 \dot{x}_{1} + gv \cdot v	\\
+		m_1 \ddot{x}_{1} = k_1 (x_2 - x_1) - c_1 \dot{x}_{1} + g_{\text{v}} \cdot v	\\
 		m_2 \ddot{x}_{2} = k_1 (x_1 - x_2) + k_2 (x_3 - x_2) - c_2 \dot{x}_{2} \\
 		m_3 \ddot{x}_{3} = k_2 (x_2 - x_3) - c_3 \dot{x}_{3} - k_3 x_3	\\
 	\end{array}
@@ -117,7 +117,7 @@ The equation in matrix form is shown below (\ref{eq:matrixform}):
 		m_1	&  	0	&	0	\\
  		0	& 	m_2	&	0	\\
  		0	&  	0	&	m_3	\\
-	\end{bmatrix} 
+	\end{bmatrix}
 	\ddot{x}+
 	\begin{bmatrix}
 		c_1	&	0	&	0	\\
