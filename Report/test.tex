@@ -1,18 +1,17 @@
-
 \begin{tikzpicture}
-\draw[help lines] (0,0) grid [step = 5 mm](15,15);
-\foreach \x in {0,1,...,15}
-   \draw [help lines] (\x,0) node [below,%
-          font=\footnotesize] {$\x$} -- (\x,0);
-\foreach \y in {0,1,...,15}
-   \draw [help lines] (0,\y) node [left,%
-          font=\footnotesize] {$\y$} -- (0,\y);
+%\draw[help lines] (0,0) grid [step = 5 mm](15,3.5);
+%\foreach \x in {0,1,...,15}
+%   \draw [help lines] (\x,0) node [below,%
+%          font=\footnotesize] {$\x$} -- (\x,0);
+%\foreach \y in {0,1,...,3.5}
+%   \draw [help lines] (0,\y) node [left,%
+%          font=\footnotesize] {$\y$} -- (0,\y);
 
 % Define style for spring
 \tikzstyle{springshape}=[decoration={aspect=0.6, segment length=1.5mm, amplitude=1mm, coil}, decorate];
 \newcommand{\spring}[3]{%
 	% pass 3 arguments:
-	% arg1: #1 coordinate x; arg2: #2 coordiante y; arg3: #3 number of componets
+	% arg1: #1 coordinate x; arg2:  #2 coordiante y; arg3: #3 number of componets
 	\coordinate (attachleftside) at ({#1},{#2});
 	\coordinate (startspring) at ($(attachleftside) + (0.25,0)$);
 	\coordinate	(endspring) at ($(startspring) + (2,0)$);
@@ -24,7 +23,7 @@
 
 % Define style for dampers
 \tikzstyle{dampshape}=[decoration={markings, mark connection node=dmp,
-  mark=at position 0.5 with 
+  mark=at position 0.5 with
   {
     \node (dmp) [inner sep=0pt,transform shape,rotate=-90,minimum width=15pt,minimum height=3pt,draw=none] {};
     \draw  ($(dmp.north east)+(2pt,0)$) -- (dmp.south east) -- (dmp.south west) -- ($(dmp.north west)+(2pt,0)$);
@@ -43,10 +42,48 @@
 	\draw (enddamp) -- (attachrightside);
 }
 
+% draw gear
+\newcommand{\gear}[3]{%
+  \def\modu{#1mm}
+  \def\Zb{#2}
+  \def\AngleA{#3}
+
+  \pgfmathsetmacro{\Rpr}{\Zb*\modu/2}
+  \pgfmathsetmacro{\Rb}{\Rpr*cos(\AngleA)}
+  \pgfmathsetmacro{\Rt}{\Rpr+\modu}
+  \pgfmathsetmacro{\Rp}{\Rpr-1.25*\modu}
+  \pgfmathsetmacro{\AngleT}{pi/180*acos(\Rb/\Rt)}
+  \pgfmathsetmacro{\AnglePr}{pi/180*acos(\Rb/\Rpr)}
+  \pgfmathsetmacro{\demiAngle}{180/\Zb}
+  \pgfmathsetmacro{\Angledecal}{(\demiAngle-2*\AnglePr)/2}
+
+  \foreach \zz in{1,2,...,\Zb}{
+    \draw
+    ({(\zz))/\Zb*360-\Angledecal}:\Rb)
+    -- (\zz/\Zb*360-\Angledecal:\Rp)
+    to[bend right=\demiAngle]
+    (\zz/\Zb*360+\Angledecal:\Rp)
+    --
+    plot[domain=-0:\AngleT,smooth,variable=\t]
+    ({{180/pi*(-\t+tan(180/pi*\t)) +\zz/\Zb*360+\Angledecal}:\Rb/cos(180/pi*\t)})
+    %
+    to[bend right=\demiAngle]
+    ({{180/pi*(\AngleT+tan(180/pi*-\AngleT)) +(\zz+1)/\Zb*360-\Angledecal}:
+      \Rb/cos(180/pi*-\AngleT)})
+    %
+    plot[domain=-\AngleT:-0,smooth,variable=\t]
+    ({{180/pi*(-\t+tan(180/pi*\t)) +(\zz+1)/\Zb*360-\Angledecal}:\Rb/cos(180/pi*\t)});
+  }
+}
+
 % Define ground
 \tikzstyle{ground}=[fill,pattern=north east lines,draw=none,minimum width=2cm,minimum height=0.3cm, rotate=90];
 \tikzstyle{groundc}=[fill,pattern=north east lines,draw=none,minimum width=10mm,minimum height=0.2cm, rotate=90];
-
+\begin{scope}[xshift=-3cm]
+	\draw  (0,1) circle (0.5);
+	\draw  (-2,0) rectangle (2,0.5);
+	\draw[ultra thick] (2,0.25) -- (3,0.25);
+\end{scope}
 % generate plot
 \begin{scope}[xshift=0cm]
 	\draw (0,0) rectangle (2,1) node[draw=none,pos=0.5] () {$m_{1}$};
@@ -66,6 +103,9 @@
 	\draw [thick] (3.5,1.5) -- (3.5,2.5);
 	\node [groundc,anchor=north]  at (3.5,2){};
 	\draw [thick] (1,1) -- (1,2);
+	\draw [thick, gray](1,-0.35)--(1,-0.65);
+	\draw [-stealth, thick, gray] (1,-0.5) -- (2,-0.5);
+	\node [draw=none, anchor = north west] at (2,-0.5) {$x_2$};
 \end{scope}
 \begin{scope}[xshift=9cm]
 	\draw (0,0) rectangle (2,1) node[draw=none,pos=0.5] () {$m_{3}$};
@@ -76,123 +116,8 @@
 	\draw [thick] (1,1) -- (1,2);
 	\draw [thick] (4.5,-0.5) -- (4.5,1.5);
 	\node [ground,anchor=north]  at (4.5,0.5){};
+	\draw [-stealth, thick, gray] (1,-0.5) -- (2,-0.5);
+	\draw [thick, gray](1,-0.35)--(1,-0.65);
+	\node [draw=none, anchor = north west] at (2,-0.5) {$x_3$};
 \end{scope}
 \end{tikzpicture}
-%\end{figure}
-%
-%\begin{figure}
-%\begin{tikzpicture}
-%\draw[help lines] (0,0) grid [step = 5 mm](150mm,150mm);
-%\foreach \x in {0,1,...,15}
-%   \draw [help lines] (\x,0) node [below,%
-%          font=\footnotesize] {$\x$} -- (\x,0);
-%\foreach \y in {0,1,...,15}
-%   \draw [help lines] (0,\y) node [left,%
-%          font=\footnotesize] {$\y$} -- (0,\y);
-%          
-%          
-%          
-%% draw semi box
-%
-%\draw (0,1.5)--(0,0)--(10,0)--(10,1.5);
-%%	\newcommand{\gear}[3]{%
-%		\def\modu{#1}
-% 		\def\Zb{#2}
-% 		\def\AngleA{#3}
-%
-% 
-% 		%\pgfmathsetresultunitscale{cm}
-% 		\pgfmathsetlengthmacro{\Rpr}{\Zb*\modu/2}
-% 		
-%		
-%		\pgfmathsetmacro{\Rb}{\Rpr*cos(\AngleA)}
-%		\pgfmathsetmacro{\Rt}{\Rpr+\modu}
-%		\pgfmathsetmacro{\Rp}{\Rpr-1.25*\modu}
-%		\pgfmathsetmacro{\AngleT}{pi/180*acos(\Rb/\Rt)}
-%		\pgfmathsetmacro{\AnglePr}{pi/180*acos(\Rb/\Rpr)}
-%		\pgfmathsetmacro{\demiAngle}{180/\Zb}
-%		\pgfmathsetmacro{\Angledecal}{(\demiAngle-2*\AnglePr)/2}
-%
-%%   \draw[dashed] (0,0) circle (\Rpr);
-%%   \draw[red,dashed] (0,0) circle (\Rb);
-%%   \draw[dashed] (0,0) circle (\Rt);
-%%   \draw[dashed] (0,0) circle (\Rp);
-%\foreach \zz in{1,2,...,\Zb}{%
-% \coordinate(e\zz) at (\zz/\Zb*360+\Angledecal:\Rb);
-% \draw[domain=-0:\AngleT,smooth,variable=\t]%
-% 	plot ({{180/pi*(-\t+tan(180/pi*\t)) +\zz/\Zb*360+\Angledecal}:\Rb/cos(180/pi*\t)})coordinate(d\zz);
-% \coordinate(g\zz) at ({(\zz))/\Zb*360-\Angledecal}:\Rb);
-% \draw[domain=-0:-\AngleT,smooth,variable=\t]%
-%	plot ({{180/pi*(-\t+tan(180/pi*\t)) +(\zz+1)/\Zb*360-\Angledecal}:\Rb/cos(180/pi*\t)})coordinate(f\zz);
-% \draw[black] (d\zz) to[bend right=\demiAngle] (f\zz);
-% \draw[rounded corners=\modu](e\zz)  -- (\zz/\Zb*360+\Angledecal:\Rp) to[bend left=\demiAngle]%
-% 	(\zz / \Zb * 360 - \Angledecal:\Rp)  -- (g\zz);
-%}
-%}
-%%
-%%
-%%
-%\gear{3}{22}{20};
-%%\begin{scope}[xshift=40.5mm,rotate=180/12]
-%%\gear{3}{12}{20}
-%%\end{scope}
-%
-%\end{tikzpicture}
-%
-%\usetikzlibrary{arrows, calc}
-%
-%\newcommand{\gear}[5]{%
-%    \foreach \i in {1,...,#1}
-%    {   [rotate=(\i-1)*360/#1] (0:#2) arc (0:#4:#2) {[rounded corners=0.5pt] -- (#4+#5:#3)  arc (#4+#5:360/#1-#5:#3)} --  (360/#1:#2)
-%    }
-%}      
-%
-%\begin{document}
-%
-%% given
-%\pgfmathsetmacro{\rOne}{1.6}% inner radius
-%\pgfmathsetmacro{\nOne}{17}% num teeth
-%\pgfmathsetmacro{\nTwo}{23}
-%\pgfmathsetmacro{\nThree}{19}
-%\pgfmathsetmacro{\toothHeight}{0.2}
-%\pgfmathsetmacro{\toothFall}{1}% degrees where radius drops from inner to outer
-%\pgfmathsetmacro{\aOneTwo}{120}% angle from first to second
-%\pgfmathsetmacro{\aTwoThree}{20}% angle from first to second
-%
-%\pgfmathtruncatemacro{\numFrames}{50}% number of individual pictures
-%
-%% computed
-%\pgfmathsetmacro{\rTwo}{\rOne*\nTwo/\nOne}% via equating tooth lengths
-%\pgfmathsetmacro{\rThree}{\rOne*\nThree/\nOne}% 
-%\pgfmathsetmacro{\ROne}{\rOne+\toothHeight}% outer radius
-%\pgfmathsetmacro{\RTwo}{\rTwo+\toothHeight}
-%\pgfmathsetmacro{\RThree}{\rThree+\toothHeight}
-%\pgfmathsetmacro{\dOne}{(360/\nOne-\toothFall)/2}% degrees for a tooth; here inner deg = outer deg
-%\pgfmathsetmacro{\dTwo}{(360/\nTwo-\toothFall)/2}
-%\pgfmathsetmacro{\dThree}{(360/\nThree-\toothFall)/2}
-%\pgfmathsetmacro{\distOneTwo}{\rOne+\rTwo+\toothHeight+0.05}
-%\pgfmathsetmacro{\distTwoThree}{\rTwo+\rThree+\toothHeight+0.05}
-%
-%\pgfmathsetmacro{\rotOne}{(360/\nOne/\numFrames}
-%\pgfmathsetmacro{\rotTwo}{(360/\nTwo/\numFrames}
-%\pgfmathsetmacro{\rotThree}{(360/\nThree/\numFrames}
-%
-%\foreach \frame in {1,...,\numFrames}
-%{   \begin{tikzpicture}
-%        \coordinate (A) at (0,0);
-%        \coordinate (B) at ($(A)+(\aOneTwo:\distOneTwo)$);
-%        \coordinate (C) at ($(B)+(\aTwoThree:\distTwoThree)$);  
-%
-%        \draw[white] (-4.5,-1.9) rectangle (4,7);
-%
-%        \draw[thick, rotate=9+\frame*\rotOne] node[align=center] {$\alpha$ \\ \nOne\ Teeth} \gear{\nOne}{\rOne}{\ROne}{\dOne}{\toothFall} ;
-%        \draw[thick, shift={(B)}, rotate=7-\frame*\rotTwo] node[align=center] {$\beta$ \\ \nTwo\ Teeth} \gear{\nTwo}{\rTwo}{\RTwo}{\dTwo}{\toothFall};
-%        \draw[thick, shift={(C)}, rotate=8+\frame*\rotThree] node[align=center] {$\gamma$ \\ \nThree\ Teeth} \gear{\nThree}{\rThree}{\RThree}{\dThree}{\toothFall};
-%
-%        \draw[-latex, very thick] (\aOneTwo:\rOne/2) -- (\aOneTwo:\rOne);
-%        \draw[-latex, very thick, shift={(B)}] (\aOneTwo+180:\rTwo/2) -- (\aOneTwo+180:\rTwo);
-%
-%        \draw[-latex, very thick, shift={(B)}] (\aTwoThree:\rTwo/2) -- (\aTwoThree:\rTwo);
-%        \draw[-latex, very thick, shift={(C)}] (\aTwoThree+180:\rThree/2) -- (\aTwoThree+180:\rThree);
-%    \end{tikzpicture}
-%}
