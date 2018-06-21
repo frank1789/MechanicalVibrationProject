@@ -1,27 +1,169 @@
 \section{Rayleigh}
 \label{sec:ray}
-MODAL ANALYSIS - Rayleigh:
-Full method:
- frequencies 8.27843 \si{\hertz}, 27.40935 \si{\hertz}, 41.87035 \si{\hertz}
- modes:
- \begin{equation}
-\label{eq:raymodefree}
- \begin{bmatrix*}[r]
+Rayleigh's method can be extended to find the approximate value of the fundamental
+natural frequency of a discrete system.
+It is possible derive an expression for the approximate value of the first
+natural frequency of a multidegree-of-freedom system according to Rayleigh's
+method.
+The kinetic and potential energies of an \(n\)-degree-of-freedom discrete system
+can be expressed as
+\begin{align}\label{eq:energyequation}
+  T &= \frac{1}{2}\dot{\vec{x}}^{\top}[\mathbf{M}]\dot{\vec{x}}\\[1em]
+  V &= \frac{1}{2}\dot{\vec{x}}^{\top}[\mathbf{K}]\dot{\vec{x}}
+\end{align}
+%
+To find the natural frequencies, we assume harmonic motion to be
+\(\vec{x} = \vec{\mathbf{X}} \cos(\omega t)\) where \(\vec{\mathbf{X}}\) denotes
+the vector of amplitudes and \(\omega\) represents the natural frequency of
+vibration.
+If the system is conservative, the maximum kinetic energy is equal to the
+maximum potential energy. By equating \(T\) and \(V\) obtain:
+\begin{equation}\label{eq:quotient}
+  \omega^2 = \frac{\dot{\vec{x}}^{\top}[\mathbf{K}]\dot{\vec{x}}}
+  {\dot{\vec{x}}^{\top}[\mathbf{M}]\dot{\vec{x}}}
+\end{equation}
+%
+The right-hand side of \eqref{eq:quotient} is known as \emph{Rayleigh's quotient}
+and is denoted as \(R(\vec{X})\), then the Rayleigh's quotient can be expressed
+as:
+\begin{align}
+  \omega^{2} =& R(\vec{X}) =
+  \frac{
+          c_{1}^{2}\,\omega_{2}^{2}\,\dot{\vec{x}}^{\top}\,[\mathbf{M}]\,\dot{\vec{x}} +
+          c_{2}^{2}\,\omega_{2}^{2}\,\dot{\vec{x}}^{\top}\,[\mathbf{M}]\,\dot{\vec{x}} + \dots}
+       {
+          c_{1}^{2}\,\dot{\vec{x}}^{\top}\,[\mathbf{M}]\,\dot{\vec{x}} +
+          c_{2}^{2}\,\dot{\vec{x}}^{\top}\,[\mathbf{M}]\,\dot{\vec{x}} + \dots
+        }\\[1.5em]
+      &  R(\vec{X}) =
+      \frac{c_{1}^{2}\,\omega_{2}^{2} + c_{2}^{2}\,\omega_{2}^{2} + \dots}
+           {c_{1}^{2} + c_{2}^{2} + \dots}
+\end{align}
+The results obtained with regard to the natural frequencies are as follows:
+\(\omega_{1} = 8.27843\) [\si{\radian\per\second}],
+\(\omega_{2} = 27.40935\) [\si{\radian\per\second}],
+\(\omega_{3} = 41.87035\) [\si{\radian\per\second}].
+Instead the values obtained for the mode shapes are:
+\begin{equation}
+  \label{eq:raymodefree}
+  [\mathbf{U}] = \begin{bmatrix*}[r]
 	1.00000 & 1.00000 & 1.00000 \\
 	0.86540 &-0.47555 &-2.44325 \\
 	0.61945 &-1.28034 & 2.15533 \\
- \end{bmatrix*}
+  \end{bmatrix*}
 \end{equation}
-
-Proportional damping:
- frequencies 8.27799 \si{\hertz}, 27.40863 \si{\hertz}, 41.91576 \si{\hertz}
- modes:
- \begin{equation}
-\label{eq:raymodeprop}
- \begin{bmatrix*}[r]
-	1.00000 & 1.00000 & 1.00000 \\
-	0.86499 &-0.48006 &-2.46147 \\
-	0.61907 &-1.28528 & 2.16954 \\
-	 \end{bmatrix*}
-\end{equation}
+%!
+%(7.15)
+% 7.3.1 Asstatedeahralisear,sRta(tXio)naryvaluewhenthearbitraryvectoisrintheneigh- X !!
+%(r)
+%Properties borhood of any eigenveTcotoprrXove.this, we express the arbitrary vectoinr terms
+%ofRayleigh s Quotient
+%X
+% !(i)
+% of the normal modes of the systaesm, X !     !(1)
+%,
+%+ c2X
+%!(2)
+%!T ! 2 !(1)T !(1) 2 !(2)T !(2)
+%!(3) Á + c3X +
+% Then
+%X = c1X
+%X [k]X = c1 X [k]X + c2X [k]X
+%     2 !(3)T !(3) Á + c3X [k]X +
+% (7.16) 2 !2!!T
+%   Equation (7.14) can also be obtained from the relation [k]X = v [m]X. Premultiplying this equation by X and solving the resulting equation gives Eq. (7.14).
 %
+%                                        660 CHAPTERD7ETERMINATION OF NATURAL FREQUENCIES AND MODE SHAPES
+%and
+%!T ! 2 !(1)T !(1) 2 !(2)T !(2) X[m]X = c1X [m]X + c2X [m]X
+%2!(3)T !(3)Á + c3X [m]X +
+%(7.17)
+%       !(i)T !(j) !(i)T !(j)
+%as the cross terms of the form cicjX [k]X and cicjX [m]X , i Z j, are zero by the
+%   orthogonality property. Using Eqs. (7.16) and (7.17) and the relation
+%!(i)T !(i) 2 !(i)T !(i) X [k]X = viX [m]X
+%the Rayleigh s quotient of Eq. (7.14) can be expressed as
+%(7.18)
+%(7.19)
+%(7.20)
+%    2 2 !(1)T !(1) 2 ! c1 v1X [m]X
+%v =R(X)= 2 !(1)T !(1) c1X [m]X
+%2 2 !(2)T + c2v2X
+%!(2) [m]X
+%+ Á
+%Á
+%    2 !(2)T !(2) + c2 X [m]X
+%+
+%    If the normal modes are normalized, this equation becomes
+%2 ! c21v21 + c2v2 + Á v = R ( X ) = c 21 + c 2 2 + Á
+%! !(r)
+%dIfifXfers little from the eigenvtehcetocroefficiXewntil,l be much largercthan the
+%remaining coaenfdfiEcqie.n(t7s.c20()icZanrb)e, written as i
+%   222 ci22 crvr+cr a +c*vi
+%i=1, 2, Á r ! iZr
+%(7.21)
+%(7.22)
+%r
+% R(X)=
+%ci 2 c2r+c2r a +c*
+%i=1, 2, Á r iZr
+%  Since ci/cr   = ei V 1, wheries aeismall number Efoqr.a(l7l.21) giivZesr, !22
+%R(X) = vr51 + 0(e )6 wrehperese0n(ets)an expression ionf the second oreder or higher. Equation (7.22)
+%2
+%indicates that if the arbitrary vectodrifXfers from the eigenvebctyora smaXll quantity
+%!
+%2
+%of the first odridffeerr,s fRro(Xm)the eigenvalbuyea small quantityvof the second
+%! !(r)
+%  order. This means that Rayleighs quotient has a stationary value in the neighborhood of an eigenvector.
+%r
+%
+%
+%The stationary value is actually a minimum value in the neighborhood of the funda-
+%!(1)
+%mental mToodes,eXe thiin.s,Elqet. (7.21) and rwr=ite1
+%2 ci 2 2 ! v1+ a ¢c vi
+%i = 2, 3, Á 1
+%7R.3AYLEIGH S METHOD 661
+%    R ( X) =
+%b1+ a ¢c r
+% ci 2 i = 2, 3, Á 1
+%M v 21 + a e 2i v 2i - v 21 a e 2i i = 2, 3, Á i = 2, 3, Á
+%M v21 + a (v2i - v21)e2i i=2, 3, Á
+%Since, infogreneral, v2i 7 v21 i = 2, 3, Á , Eq. (7.23) leads to !2
+%(7.23)
+%(7.24)
+%R(X) Ú v1
+%which shows that Rayleigh s quotient is never lower than the first eigenvalue. By proceed-
+%ing in a similar manner, we can show that
+%R(X)   vn (7.25)
+%!2
+%which means that Rayleigh s quotient is never higher than the highest eigenvalue. Thus
+% 22 Rayleigh s quotient provides an upper bound faonrdva lower bound for v .
+%7.3.2 Computation of the Fundamental Natural Frequency
+%EXAMPLE7.2
+%Equation (7.14) can be used to find an approximate value of the first natural frequenc(vy 1) ! !(1)
+%Because Rayleighs quotient is stationary, remarkably good estimatescovafn be obtained !!1
+%1n
+% ofthesystem.Forthis,weselectatrialvectotXorrepresentthefirstnaturalmaondde X substitute it on the right-hand side of Eq. (7.14). This yields the approximate value of v21.
+%2
+%  (1) evenifthetrialvectdoervXiatesgreatlyfromthetruenaturalmOobdveiously,tXhe . !
+%estimatedvalueofthefundamentalfrequenicsymorveaccurateifthetrialvector (X)
+%!(1) Dunkerley s and other methods in Refs. [7.7 7.9].
+
+
+%
+%Proportional damping:
+% frequencies
+\(\omega_{1} =  8.27799\) [\si{\radian\per\second}],
+\(\omega_{2} = 27.40863\) [\si{\radian\per\second}],
+\(\omega_{3} = 41.91576\) [\si{\radian\per\second}]
+% modes:
+\begin{equation}\label{eq:raymodeprop}
+  [\mathbf{U}] = \begin{bmatrix*}[r]
+    1.00000 & 1.00000 & 1.00000 \\
+	  0.86499 &-0.48006 &-2.46147 \\
+	  0.61907 &-1.28528 & 2.16954 \\
+	\end{bmatrix*}
+\end{equation}
+%%
