@@ -1,19 +1,35 @@
-\chapter{Modal analysis}
-\label{chap:modalanalysis}
-\section{Eigenvalue problem}
-\label{sec:eigen}
-Full method:
- frequencies 8.27843 \si{\hertz}, 27.40935 \si{\hertz}, 41.87035 \si{\hertz}
- modes:
+\chapter{Modal analysis}\label{chap:modalanalysis}
+When external forces act on a multidegree-of-freedom ssytem, the system
+undergoes forced vibration.
+For a system with three coordinates or degrees of freedom, the governing
+equation of motion are a set of three coupled ordinary differential equations of
+second second order.
+The equations of motion of a multidegree-of-freedom system under external force
+are given by
 \begin{equation}
-\label{eq:eiegnmodefree}
- \begin{bmatrix*}[r]
- 	1.00000 & 1.00000 & 1.00000 \\
-	0.86540 &-0.47555 &-2.44325 \\
-	0.61945 &-1.28034 & 2.15533 \\
- \end{bmatrix*}
+  \label{eq:modal}
+  [\mathbf{M}] \ddot{\vec{x}} + [\mathbf{K}] \vec{x} = \vec{\mathbf{F}}
 \end{equation}
-
+The equation \eqref{eq:modal} represents the system in the version without
+damping, where \(\vec{\mathbf{F}}\) is the vector of the external force
+\(g_{\text{v}} \cdot v\).
+\section{Forced vibration of undamped system}\label{sec:eigen}
+To solve the equation \eqref{eq:modal} by modal analysis, it is necessary first
+to solve the eigenvalue problem and find the natural frequencies \(\omega_1,
+\dots, \omega_n\) as reported below: 
+\(\omega_{1} = 8.27843\) [\si{\radian\per\second}],
+\(\omega_{2} = 27.40935\) [\si{\radian\per\second}],
+\(\omega_{3} = 41.87035\) [\si{\radian\per\second}];
+and the corresponding normal modes:
+\begin{equation}
+	\label{eq:eiegnmodefree}
+ 	\begin{bmatrix*}[r]
+ 		1.00000 & 1.00000 & 1.00000 \\
+		0.86540 &-0.47555 &-2.44325 \\
+		0.61945 &-1.28034 & 2.15533 \\
+ 	\end{bmatrix*}
+\end{equation}
+\section{Forced vibration of viscous damped system}\label{sec:viscoussystem}
 Proportional damping:
  frequencies 8.27799 \si{\hertz}, 27.40863 \si{\hertz}, 41.91576 \si{\hertz}
  modes:
