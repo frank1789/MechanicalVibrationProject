@@ -62,7 +62,7 @@ where \(\alpha\) and \(\beta\) are constant. By substituting in
 By expressing the solution vector \(\vec{x}\) as a linear combination of the
 natural modes oft he undamped system \(x(t) = [\mathbf{X}]q(t)\)
 Equation \eqref{eq:modaldampingcomplete} can be rewritten as
-\begin{equation}\label{eq:modaldampingcomplete}
+\begin{equation}\label{eq:modaldampingexpansed}
 	[\mathbf{X}]^{\top}[\mathbf{M}][\mathbf{X}] \ddot{\vec{x}} +
 	[\alpha \cdot [\mathbf{X}]^{\top}[\mathbf{M}][\mathbf{X}] +
    \beta \cdot [\mathbf{X}]^{\top}[\mathbf{K}]][\mathbf{X}] \dot{\vec{x}} +
@@ -87,9 +87,9 @@ The eigenvector are reported in \eqref{eq:eiegnmodeprop}.
 		0.61907 &-1.28528 & 2.16954 \\
  	\end{bmatrix*}
 \end{equation}
-From equation \(\alpha + \omega^{2}_{i}\beta = 2\zeta_{i}\omega_{i}\), where
-\(\zeta_{i}\) is called \emph{modal damping ratio} for the \(i_\text{th}\)
-normal mode, equation \eqref{eq:decupled} can be written:
+From equation \(\alpha + \omega^{2}_{i}\beta = 2\,\zeta_{i}\,\omega_{i}\), where
+\(\zeta_{i}\) is called \emph{modal damping ratio} for the \(i_\text{th}\) normal
+mode, equation \eqref{eq:decupled} can be written:
 \begin{equation}\label{eq:decupled2}
   \ddot{q}_{i}(t) + 2\zeta_{i}\omega_{i}\dot{q}_{i}(t) +
   \omega_{i}^{2}q(t) = Q_{i}(t)
@@ -114,7 +114,7 @@ and covers more possibilities.
 In the general case of damping, the damping matrix cannot be diagonalized
 simultaneously with the mass and stiffness matrices.
 A common procedure for finding the solution of the eigenvalue problem of a
-damped system involves the transformation of thne coupled second-order
+damped system involves the transformation of the coupled second-order
 equations of motion into \(2n\) uncoupled first-order equation.
 %
 \input{rayleigh}

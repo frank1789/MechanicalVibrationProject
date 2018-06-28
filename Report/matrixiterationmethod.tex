@@ -1,9 +1,22 @@
-\section{Matrix Iteration Method}
-\label{sec:mim}
-MODAL ANALYSIS - Matrix Iteration Method:
-Full method:
- frequencies 8.27843 \si{\hertz}, 27.41224 \si{\hertz}, 41.85486 \si{\hertz}
- modes:
+\section{Matrix Iteration Method}\label{sec:mim}
+the matrix iteration method assumes that the natural frequencies are distinct
+and well separated such that \(\omega_1 < \omega_2 < \dots < \omega_n\).
+The iteration starting by selecting a trial vector \(\vec{\mathbf{X}}_{1}\),
+which is then premultiplied by the dynamical matrix \([D]\).
+The resulting column vector is then normalized, usually by making one of its
+components equal to unity.
+The normalized column vector is premultiplied by \([D]\) to obtain a third
+column vector, which is normalized in the same way as before and become still
+another trial column vector.
+The process is repeated until the successive column vectors converge to a common
+vector: the fundamental eigenvector.
+%MODAL ANALYSIS - Matrix Iteration Method:
+%
+The whole procedure is performed for the case of free damping where the natural
+frequencies are: \(\omega_{1} = 8.27843\) \si{\radian\per\second}, \(\omega_{2}
+= 27.41224\) \si{\radian\per\second}, \(\omega_{3} = 41.85486\)
+\si{\radian\per\second}.
+The mode shapes results are shown in \eqref{eq:mimmodefree}.
  \begin{equation}
 \label{eq:mimmodefree}
  \begin{bmatrix*}[r]
@@ -12,12 +25,12 @@ Full method:
 	0.61945 &-0.30643 &-0.30390 \\
 	 \end{bmatrix*}
 \end{equation}
-
-Proportional damping:
- frequencies 8.27799 \si{\hertz}, 27.40863 \si{\hertz}, 41.91576 \si{\hertz}
- modes:
- \begin{equation}
-\label{eq:mimmodeprop}
+%
+In the case of proportional damping the natural frequencies are:
+\(\omega_{1} = 8.27799\) \si{\radian\per\second}, \(\omega_{2} = 27.40863\)
+\si{\radian\per\second}, \(\omega_{3} = 41.91576\) \si{\radian\per\second}.
+The mode shapes results are shown in \eqref{eq:mimmodeprop}.
+ \begin{equation}\label{eq:mimmodeprop}
  \begin{bmatrix*}[r]
 	1.00000 & 1.00000 & 1.00000 \\
 	0.86499 &-0.48006 &-2.46147 \\
