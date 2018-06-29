@@ -54,14 +54,30 @@ Then the fundamental natural frequency \(\omega_1\) can be found by taking the
 ratio of any two corresponding components in the vectors \(\vec{\mathbf{X}}_{r}\)
 and \(\vec{\mathbf{X}}_{r+1}\):
 \begin{equation}
-  \omega_1^{2} \frac{\vec{\mathbf{X}}_{n,r}}{\vec{\mathbf{X}}_{n,r+1}}
+  \omega_1^{2} \simeq \frac{\vec{\mathbf{X}}_{n,r}}{\vec{\mathbf{X}}_{n,r+1}}
 \end{equation}
 where \(\vec{\mathbf{X}}_{n,r}\) and \(\vec{\mathbf{X}}_{n,r+1}\) are the
 \(n_{th}\) elements of vector \(\vec{\mathbf{X}}_{r}\) and
 \(\vec{\mathbf{X}}_{r+1}\), respectively.
-
-%MODAL ANALYSIS - Matrix Iteration Method:
-%
+\subsection{Intermediate natural frequencies}
+Once the first natural frequency \(omega_1\) and the corresponding eigenvector
+\(\vec{\mathbf{X}}^{(1)}\) are determined, it is possible proceed to find the
+higher natural frequencies and the corresponding mode shapes.
+To find the eigenvector \(\vec{\mathbf{X}}^{(i)}\), the previous eigenvector
+\(\vec{\mathbf{X}}^{(i-1)}\) is normalized with respect to the mass matrix such
+that \(\vec{\mathbf{X}}^{(i-1)^\top}\,[m]\,\vec{\mathbf{X}}^{(i-1)} = 1\).
+The deflated matrix \([D_i]\) is the constructed as
+\begin{equation}
+  [D_i] =
+  [D_i] - \lambda_{i-1}\vec{\mathbf{X}}^{(i-1)}\,\vec{\mathbf{X}}^{(i-1)^\top}[m]
+\end{equation}
+where \([D_1] = [D]\).
+Once \([D_i]\) is constructed the iterative scheme
+\begin{equation}
+  \vec{\mathbf{X}}^{(r+1)} = [D_i]\,\vec{\mathbf{X}}^{(r)}
+\end{equation}
+is used.
+\subsection{Result}\label{ssec:resultmim}
 The whole procedure is performed for the case of free damping where the natural
 frequencies are: \(\omega_{1} = 8.27843\) \si{\radian\per\second}, \(\omega_{2}
 = 27.41224\) \si{\radian\per\second}, \(\omega_{3} = 41.85486\)
@@ -86,3 +102,19 @@ The mode shapes results are shown in \eqref{eq:mimmodeprop}.
 	0.61907 &-1.28528 & 2.16954 \\
 	 \end{bmatrix*}
 \end{equation}
+\subsection{Observation}\label{ssec:observationmim}
+Although it is theoretically necessary to have \(r\rightarrow\infty\) for the 
+convergence of the method, in practice only a finite number of iterations
+suffices to obtain a reasonably good estimate of \(\omega_{1}\).
+The actual number of iterations necessary to find the value of \(\omega_1\) to
+within a desired degree of accuracy depends on how closely the arbitrary trial
+vector \(\vec{\mathbf{X}}_{1}\) resembles the mode and how well \(\omega_1\)
+and \(\omega_2\) are separated.
+The required number of iterations is less if \(\omega_2\) is very large compared
+to \(\omega_{1}\).
+The method has a distinct advantage in that any computational errors made do not
+yield incorrect results. Any error made in premultiplying
+\(\vec{\mathbf{X}}_{i}\) by \([D]\) results in a vector other than the desired
+one, \(\vec{\mathbf{X}}_{i+1}\).
+But this wrong vector can be considered as a new trial vector.
+This may delay the convergence but does not produce wrong results.
