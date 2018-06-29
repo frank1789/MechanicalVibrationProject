@@ -1,0 +1,74 @@
+\section{Rayleigh quotient method}
+\label{sec:ray}
+Rayleigh's method can be extended to find the approximate value of the fundamental
+natural frequency of a discrete system.
+It is possible derive an expression for the approximate value of the first
+natural frequency of a multidegree-of-freedom system according to Rayleigh's
+method.
+The kinetic and potential energies of an \(n\)-degree-of-freedom discrete system
+can be expressed as
+\begin{align}\label{eq:energyequation}
+  T &= \frac{1}{2}\dot{\vec{x}}^{\top}[\mathbf{M}]\dot{\vec{x}}\\[1em]
+  V &= \frac{1}{2}\dot{\vec{x}}^{\top}[\mathbf{K}]\dot{\vec{x}}
+\end{align}
+To find the natural frequencies, we assume harmonic motion to be
+\(\vec{x} = \vec{\mathbf{X}} \cos(\omega t)\), where \(\vec{\mathbf{X}}\) 
+denotes the vector of amplitudes and \(\omega\) represents the natural frequency
+of vibration.
+If the system is conservative, the maximum kinetic energy is equal to the
+maximum potential energy. By equating \(T\) and \(V\) obtain:
+\begin{equation}\label{eq:quotient}
+  \omega^2 = \frac{\dot{\vec{x}}^{\top}[\mathbf{K}]\dot{\vec{x}}}
+  {\dot{\vec{x}}^{\top}[\mathbf{M}]\dot{\vec{x}}}
+\end{equation}
+%
+The right-hand side of \eqref{eq:quotient} is known as \emph{Rayleigh's quotient}
+and is denoted as \(R(\vec{X})\), then the Rayleigh's quotient can be expressed
+as:
+\begin{align}
+  \omega^{2} =& R(\vec{X}) =
+  \frac{
+          c_{1}^{2}\,\omega_{2}^{2}\,\dot{\vec{x}}^{\top}\,[\mathbf{M}]\,\dot{\vec{x}} +
+          c_{2}^{2}\,\omega_{2}^{2}\,\dot{\vec{x}}^{\top}\,[\mathbf{M}]\,\dot{\vec{x}} +
+          \dots}
+       {
+          c_{1}^{2}\,\dot{\vec{x}}^{\top}\,[\mathbf{M}]\,\dot{\vec{x}} +
+          c_{2}^{2}\,\dot{\vec{x}}^{\top}\,[\mathbf{M}]\,\dot{\vec{x}} + \dots
+        }\\[1.5em]
+      &  R(\vec{X}) =
+      \frac{c_{1}^{2}\,\omega_{2}^{2} + c_{2}^{2}\,\omega_{2}^{2} + \dots}
+           {c_{1}^{2} + c_{2}^{2} + \dots}
+\end{align}
+The results obtained with regard to the natural frequencies are as follows:
+\(\omega_{1} = 8.27843\) [\si{\radian\per\second}],
+\(\omega_{2} = 27.40935\) [\si{\radian\per\second}],
+\(\omega_{3} = 41.87035\) [\si{\radian\per\second}].
+Instead the values obtained for the mode shapes are:
+\begin{equation}
+  \label{eq:raymodefree}
+  [\mathbf{U}] = \begin{bmatrix*}[r]
+	1.00000 & 1.00000 & 1.00000 \\
+	0.86540 &-0.47555 &-2.44325 \\
+	0.61945 &-1.28034 & 2.15533 \\
+  \end{bmatrix*}
+\end{equation}
+The results obtained for the proportionally damped system are the natural 
+frequencies:
+\(\omega_{1} =  8.27799\) [\si{\radian\per\second}],
+\(\omega_{2} = 27.40863\) [\si{\radian\per\second}],
+\(\omega_{3} = 41.91576\) [\si{\radian\per\second}].
+So the values obtained for the mode shapes are
+\begin{equation}\label{eq:raymodeprop}
+  [\mathbf{U}] = 
+	\begin{bmatrix*}[r]
+  		1.00000 & 1.00000 & 1.00000 \\
+		0.86499 &-0.48006 &-2.46147 \\
+		0.61907 &-1.28528 & 2.16954 \\
+	\end{bmatrix*}
+\end{equation}
+Rayleigh's quotient has a stationary value in the neighbourhood of an eigenvector. 
+The stationary value is actually a minimum value in the neighbourhood of the 
+fundamental mode.
+Which means that Rayleigh s quotient is never higher than the highest eigenvalue. 
+Thus Rayleigh's quotient provides an upper bound for \(\omega_{1}^{2}\) lower bound 
+for \(\omega_{n}^{2}\).

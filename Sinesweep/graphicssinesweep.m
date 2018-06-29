@@ -5,7 +5,10 @@ function graphicssinesweep(pCount, pNamefile, pEstimatedtf, pEstimatedtf2)
 if ~exist('pEstimatedtf2','var')|| isempty(pEstimatedtf2)
     % print single tf
     figure();
-    bodeplot(pEstimatedtf, logspace(0,2,1000));
+    opts = bodeoptions;
+    opts.Grid = 'on';
+    opts.MagUnits = 'abs';
+    bodeplot(pEstimatedtf, logspace(0,2,1000),opts);
     grid on;
     str = sprintf('Bode Diagram %s', pNamefile);
     title(str);
@@ -14,7 +17,10 @@ if ~exist('pEstimatedtf2','var')|| isempty(pEstimatedtf2)
 else
     %print overlap tf
     figure();
-    bodeplot(pEstimatedtf,pEstimatedtf2, logspace(0,2,1000));
+    opts = bodeoptions;
+    opts.Grid = 'on';
+    opts.MagUnits = 'abs';
+    bodeplot(pEstimatedtf,pEstimatedtf2, logspace(0,2,1000), opts);
     grid on;
     namefile = strcat(pNamefile, ['bodediagram' int2str(pCount)]);
     legend('sine sweep slow', 'sine sweep fast');
