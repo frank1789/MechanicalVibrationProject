@@ -10,6 +10,56 @@ column vector, which is normalized in the same way as before and become still
 another trial column vector.
 The process is repeated until the successive column vectors converge to a common
 vector: the fundamental eigenvector.
+According to the expansion theorem, any arbitrary \(n\)-dimensional vector
+\(\vec{\mathbf{X}}_{1}\) can be expressed as linear combination of the \(n\)
+orthogonal eigenvectors of the system \(\vec{\mathbf{X}}^{(i)}\).
+\begin{equation}\label{eq:expasniontheorem}
+	\sum_{i = 1}^{n} = c_{i}\,\vec{\mathbf{X}}^{(n)}
+\end{equation}
+where \(c_{i}\) are unknown constant number to be determined.
+As view before, it is possible premultiply \(\vec{\mathbf{X}}_{1}\) by matrix
+\([D]\) obtaining:
+\begin{equation}\label{eq:equationmultiply}
+	[D] \vec{\mathbf{X}}_{1} = 	c_{1}\, [D] \,\vec{\mathbf{X}}_{(1)} +
+								c_{2}\, [D] \,\vec{\mathbf{X}}_{(2)} + \dots +
+  							c_{n}\, [D] \,\vec{\mathbf{X}}_{(n)}\\
+\end{equation}
+In according with the equation \(\lambda\,[I]\,\vec{X} = [D]\,\vec{X}\), then
+we obtain
+\(\vec{X}^{(n)} = \lambda\,[I]\,\vec{X}^{(n)} = \frac{1}{\omega^{2}_{n}}
+\vec{X}^{(n)}\), thus after having substituted it in the equation
+\eqref{eq:equationmultiply} one comes to the:
+\begin{align}\label{eq:equationsubs}
+  	[D]\,\vec{\mathbf{X}}_{1} &= \vec{\mathbf{X}}_{2}\\[0.75em]
+      						&= \frac{c_{1}}{\omega^{2}_{1}}\,\vec{\mathbf{X}}^{(1)} +
+		\frac{c_{2}}{\omega^{2}_{2}}\,\vec{\mathbf{X}}^{(2)} + \dots +
+		\frac{c_{n}}{\omega^{2}_{n}}\,\vec{\mathbf{X}}^{(n)}
+\end{align}
+By repeating the process we obtain, after \(r_{th}\) iteration,
+\begin{align}\label{eq:equationrth}
+  	[D]\,\vec{\mathbf{X}}_{r} &= \vec{\mathbf{X}}_{r+1}\\[0.75em]
+      						&= \frac{c_{1}}{\omega^{2r}_{1}}\,\vec{\mathbf{X}}^{(1)} +
+		\frac{c_{2}}{\omega^{2r}_{2}}\,\vec{\mathbf{X}}^{(2)} + \dots +
+		\frac{c_{n}}{\omega^{2r}_{n}}\,\vec{\mathbf{X}}^{(n)}
+\end{align}
+Since the natural frequencies are are assumed \(\omega_1 < \omega_2 < \dots <
+\omega_n\), a sufficiently large value of \(r\) yields \(\frac{1}{\omega_1^{2r}}
+>> \frac{1}{\omega_2^{2r}} >> \dots >> \frac{1}{\omega_n^{2r}}\). Thus the first
+term in right-hand side of equation \eqref{eq:equationrth} becomes the only
+significant one.
+Which means that the \((r+1)_{th}\) trial vector becomes identical to the
+fundamental modal vector to within a multiplicative constant
+\(\vec{\mathbf{X}}_{r} = \frac{c_1}{\omega^{2(r-1)}_{1}}\vec{\mathbf{X}}^{(1)}\).
+Then the fundamental natural frequency \(\omega_1\) can be found by taking the
+ratio of any two corresponding components in the vectors \(\vec{\mathbf{X}}_{r}\)
+and \(\vec{\mathbf{X}}_{r+1}\):
+\begin{equation}
+  \omega_1^{2} \frac{\vec{\mathbf{X}}_{n,r}}{\vec{\mathbf{X}}_{n,r+1}}
+\end{equation}
+where \(\vec{\mathbf{X}}_{n,r}\) and \(\vec{\mathbf{X}}_{n,r+1}\) are the
+\(n_{th}\) elements of vector \(\vec{\mathbf{X}}_{r}\) and
+\(\vec{\mathbf{X}}_{r+1}\), respectively.
+
 %MODAL ANALYSIS - Matrix Iteration Method:
 %
 The whole procedure is performed for the case of free damping where the natural
@@ -17,8 +67,7 @@ frequencies are: \(\omega_{1} = 8.27843\) \si{\radian\per\second}, \(\omega_{2}
 = 27.41224\) \si{\radian\per\second}, \(\omega_{3} = 41.85486\)
 \si{\radian\per\second}.
 The mode shapes results are shown in \eqref{eq:mimmodefree}.
- \begin{equation}
-\label{eq:mimmodefree}
+\begin{equation}\label{eq:mimmodefree}
  \begin{bmatrix*}[r]
 	1.00000 & 1.00000 & 1.00000 \\
 	0.86540 & 0.21230 &-0.85499 \\
