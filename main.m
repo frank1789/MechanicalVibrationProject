@@ -53,10 +53,13 @@ stiffnesses of the springs. Compute a new estimation for the
 voltage-to-force coefficient.
 %}
 
-[ gain_v, Ratio_k3_k2, Ratio_k3_k1 ] = computeSteadyStateRatioStiff(K, data_steps, Inputdata);
+[ gain_v, Ratio_k3_k2, Ratio_k3_k1 ] = computeSteadyStateRatioStiff(K, ...
+    data_steps, Inputdata);
 
-[ g_v_per, R31_per, R32_per ] = geterrorspring(gain_v, Ratio_k3_k2, Ratio_k3_k1, Inputdata);
-fprintf('Stiffnesses ratios and voltage-to-force coefficients results from analysis:\n\tgain ratio:\t%.5f %%\n\tratio k3/k1:\t %.5f %%\n\tratio k3/k2:\t %.5f %%\n\n', g_v_per, R31_per, R32_per);
+[ g_v_per, R31_per, R32_per ] = geterrorspring(gain_v, Ratio_k3_k2, ...
+    Ratio_k3_k1, Inputdata);
+fprintf('Stiffnesses ratios and voltage-to-force coefficients results ') 
+fprintf('from analysis:\n\tgain ratio:\t%.5f %%\n\tratio k3/k1:\t %.5f %%\n\tratio k3/k2:\t %.5f %%\n\n', g_v_per, R31_per, R32_per);
 
 %% Optimization estimated parameters
 %{
