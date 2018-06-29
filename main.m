@@ -2,11 +2,6 @@ close all;
 clear;
 clc;
 
-if exist('log.txt', 'file')
-    delete log.txt
-end
-diary log.txt
-
 % Load folder data
 addpath('data_3DOFsystem', 'Full', 'ProportionalDamping', ... 
     'ModalAnalisys', 'Rayleigh', 'MatrixIterationMethod', ...
@@ -250,7 +245,10 @@ display(prodamping.G);
 
 for i = 1:3
     figure();
-    bodeplot(full.G(:,i), prodamping.G(:,i), logspace(0,2,1000));
+    opts = bodeoptions;
+opts.Grid = 'on';
+opts.MagUnits = 'abs';
+    bodeplot(full.G(:,i), prodamping.G(:,i), logspace(0,2,1000), opts);
     grid on;
     namefile = ['bodediagram' int2str(i)];
     legend('free damping', 'proportinal damping','Location','west');
@@ -309,7 +307,4 @@ close all; clear i k;
 
 getFouriertrasform(sinesweep.slow.v, sinesweep.slow.t, 'slow')
 getFouriertrasform(sinesweep.fast.v, sinesweep.fast.t, 'fast')
-
-
 close all
-diary off

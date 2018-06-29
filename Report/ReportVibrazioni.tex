@@ -1,14 +1,14 @@
-%========================================
+%===============================================================================
 % PREAMBOLO
-%========================================
+%===============================================================================
 
-% === Impostazione del documento ==========================
-\documentclass[12pt,a4paper,twoside,english,italian,hidelinks]{book}
+% === Impostazione del documento ===============================================
+\documentclass[12pt,a4paper,oneside,english,hidelinks]{book}
 \pagenumbering{arabic}
 \usepackage{setspace}
 \onehalfspace
 
-% === Regolazione dei margini =============================
+% === Regolazione dei margini ==================================================
 \addtolength{\oddsidemargin}{30pt}
 \addtolength{\evensidemargin}{-30pt}
 \usepackage{fancyhdr}
@@ -16,13 +16,13 @@
 \usepackage{multicol}
 \usepackage[section]{placeins}
 
-% === Impostazione dei font ===============================
+% === Impostazione dei font ====================================================
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
-\usepackage[italian]{babel}
+\usepackage[english]{babel}
 \usepackage{ae}
 \usepackage{relsize}
-\usepackage{csquotes} 
+\usepackage{csquotes}
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{mathdots}
@@ -40,64 +40,66 @@
 \DeclareMathOperator{\sgn}{sgn}
 \DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
 \DeclarePairedDelimiter{\norma}{\lVert}{\rVert}
+\setlength{\parindent}{0pt}
 
-% === Integrazione delle figure ===========================
+% === Integrazione delle figure ================================================
 \usepackage{graphicx}
 \graphicspath{{./imgs/}}
 \renewcommand{\figurename}{Fig.}
-\usepackage{subfigure}
+\usepackage{subfig}
 
 
-% === Per gli algoritmi ===================================
+% === Per gli algoritmi ========================================================
 \usepackage{algorithmicx}
 \usepackage[ruled]{algorithm}
 \usepackage{algpseudocode}
 
-% === Per le tabelle ====================================
+% === Per le tabelle ===========================================================
 \usepackage{tabularx}
+\usepackage{siunitx}
+\usepackage{booktabs, array}
 
-% === Per la bibliografia multicolonna =======================
+% === Per la bibliografia multicolonna =========================================
 \usepackage{etoolbox}
 \patchcmd{\thebibliography}{\list}{\begin{multicols}{2}\smaller\list}{}{}
 \appto{\endthebibliography}{\end{multicols}}
-%==Per le figure latex===================================
-%Package e librerie per TikZ e PGF, le librerie non sono tutte necessarie a questo documento LATEX.
-     \usepackage{tikz,fp,ifthen,fullpage}
-     \usepackage{pgfmath}
-     \usetikzlibrary{backgrounds}
-     \usetikzlibrary{decorations.pathmorphing,backgrounds,fit,calc,through}
-     \usetikzlibrary{arrows}
-     \usetikzlibrary{shapes,decorations,shadows}
-     %\usetikzlibrary{shapes.scopes}
-     \usetikzlibrary{fadings}
-     \usetikzlibrary{patterns}
-     \usetikzlibrary{mindmap}
-     \usetikzlibrary{decorations.text}
-     \usetikzlibrary{decorations.shapes}
-      \usepackage{pgfplots}
+%== Per le figure TikZ e PGF ===================================================
+\usepackage{tikz,fp,ifthen,fullpage}
+\usepackage{pgfmath}
+\usepackage{pgfplots}
+\usetikzlibrary{backgrounds}
+\usetikzlibrary{decorations.pathmorphing,decorations.markings} 
+\usetikzlibrary{backgrounds,fit,calc,through}
+\usetikzlibrary{arrows,patterns}
+\usetikzlibrary{shapes,decorations,shadows}
+\usetikzlibrary{fadings}
+\usetikzlibrary{mindmap}
+\usetikzlibrary{decorations.text}
+\usetikzlibrary{decorations.shapes}
 \pgfplotsset{compat=1.13}
-      
-%========================================
+
+%===============================================================================
 % TESTO DELLA TESI
-%========================================
+%===============================================================================
 
 \begin{document}
-	% === Frontespizio ====================================
+	% === Frontespizio ===========================================================
 	\pagestyle{empty}
 	\input{frontespizio}
-	% === Indice =========================================
+	% === Indice =================================================================
 	\tableofcontents
 
-	% === Capitoli Tesi ===================================
+	% === Capitoli Tesi ==========================================================
 	\pagestyle{plain}
 	\input{introduzione}
 	\input{start}
-	% Inserite qui gli altri capitoli:
+	\input{modal}
+	\input{transferfunction}
+	\input{sinesweep}
 
-	\input{conclusione}
-
-	% === Bibliografia ====================================
+	% === Bibliografia ===========================================================
 	\newpage
+	\nocite{*}
 	\bibliographystyle{IEEEtran}
 	\bibliography{bibliografia-tesi.bib}
 

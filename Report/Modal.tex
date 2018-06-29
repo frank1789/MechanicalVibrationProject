@@ -1,0 +1,121 @@
+\chapter{Modal analysis}\label{chap:modalanalysis}
+When external forces act on a multi degree-of-freedom system, the system
+undergoes forced vibration.
+For a system with three coordinates or degrees of freedom, the governing
+equation of motion are a set of three coupled ordinary differential equations of
+second second order.
+The equations of motion of a multi degree-of-freedom system under external force
+are given by
+\begin{equation}
+  \label{eq:modal}
+  [\mathbf{M}] \ddot{\vec{x}} + [\mathbf{K}] \vec{x} = \vec{\mathbf{F}}
+\end{equation}
+The equation \eqref{eq:modal} represents the system in the version without
+damping, where \(\vec{\mathbf{F}}\) is the vector of the external force
+\(g_{\text{v}} \cdot v\).
+\section{Forced vibration of undamped system}\label{sec:eigen}
+To solve the equation \eqref{eq:modal} by modal analysis, it is necessary first
+to solve the eigenvalue problem and find the natural frequencies \(\omega_1,
+\dots, \omega_n\) as reported below:
+\(\omega_{1} = 8.27843\) [\si{\radian\per\second}],
+\(\omega_{2} = 27.40935\) [\si{\radian\per\second}],
+\(\omega_{3} = 41.87035\) [\si{\radian\per\second}];
+and the corresponding normal modes:
+\begin{equation}
+	\label{eq:eiegnmodefree}
+ 	[\mathbf{U}] = \begin{bmatrix*}[r]
+ 		1.00000 & 1.00000 & 1.00000 \\
+		0.86540 &-0.47555 &-2.44325 \\
+		0.61945 &-1.28034 & 2.15533 \\
+ 	\end{bmatrix*}
+\end{equation}
+\section{Forced vibration of viscous damped system}\label{sec:viscoussystem}
+Modal analysis, as presented in previous section \ref{sec:eigen}, applies only
+to undamped systems.
+In many cases, the influence of damping upon the response of a vibratory system
+is minor and can be disregarded. However, it must be considered if the response
+of the system is required for a relatively long period of time compared to the
+natural periods of the system. Further, if the frequency of excitation is at or
+near one of the natural frequencies of the system, damping is of primary
+importance and must be taken into account. In general, since the effects are not
+known in advance, damping must be considered in the vibration analysis of any
+system.
+Using the equation of motion:
+\begin{equation}\label{eq:modaldamping}
+  [\mathbf{M}] \ddot{\vec{x}} + [\mathbf{c}] \dot{\vec{x}} +[\mathbf{K}] \vec{x}
+   = \vec{\mathbf{F}}
+\end{equation}
+%
+Then we can consider for which the damping matrix can be expressed as a linear
+combination of the mass and stiffness matrices:
+\begin{equation}
+\label{eq:moadlpropdamping}
+	[C] = \alpha \cdot [\mathbf{M}] + \beta \cdot [\mathbf{K}]
+\end{equation}
+where \(\alpha\) and \(\beta\) are constant. By substituting in
+\eqref{eq:modaldamping}, we obtain:
+\begin{equation}\label{eq:modaldampingcomplete}
+	[\mathbf{M}] \ddot{\vec{x}} +
+	[\alpha \cdot [\mathbf{M}] + \beta \cdot [\mathbf{K}]] \dot{\vec{x}} +
+	[\mathbf{K}] \vec{x}= \vec{\mathbf{F}}
+\end{equation}
+By expressing the solution vector \(\vec{x}\) as a linear combination of the
+natural modes oft he undamped system \(x(t) = [\mathbf{X}]q(t)\)
+Equation \eqref{eq:modaldampingcomplete} can be rewritten as
+\begin{equation}\label{eq:modaldampingexpansed}
+	[\mathbf{X}]^{\top}[\mathbf{M}][\mathbf{X}] \ddot{\vec{x}} +
+	[\alpha \cdot [\mathbf{X}]^{\top}[\mathbf{M}][\mathbf{X}] +
+   \beta \cdot [\mathbf{X}]^{\top}[\mathbf{K}]][\mathbf{X}] \dot{\vec{x}} +
+	[\mathbf{X}]^{\top}[\mathbf{K}][\mathbf{X}]^{\top} \vec{x} =
+  [\mathbf{X}]^{\top}\vec{\mathbf{F}}
+\end{equation}
+%
+If the eigenvectors \(\vec{\mathbf{X}}^{(j)}\) are normalized we can obtain:
+\begin{equation}\label{eq:decupled}
+  \ddot{q}_{i}(t) + (\alpha + \omega_{i}^2\beta)\dot{q}_{i}(t) +
+  \omega_{i}^{2}q(t) = Q_{i}(t)
+\end{equation}
+where: \(\omega_{1} = 8.27799\) [\si{\radian\per\second}],
+\(\omega_{2} = 27.40863\) [\si{\radian\per\second}],
+\(\omega_{3} = 41.91576\) [\si{\radian\per\second}] are
+the natural frequencies of the undamped system.
+The eigenvector are reported in \eqref{eq:eiegnmodeprop}.
+\begin{equation}\label{eq:eiegnmodeprop}
+	[\mathbf{U}] = \begin{bmatrix*}[r]
+		1.00000 & 1.00000 & 1.00000 \\
+		0.86499 &-0.48006 &-2.46147 \\
+		0.61907 &-1.28528 & 2.16954 \\
+ 	\end{bmatrix*}
+\end{equation}
+From equation \(\alpha + \omega^{2}_{i}\beta = 2\,\zeta_{i}\,\omega_{i}\), where
+\(\zeta_{i}\) is called \emph{modal damping ratio} for the \(i_\text{th}\) normal
+mode, equation \eqref{eq:decupled} can be written:
+\begin{equation}\label{eq:decupled2}
+  \ddot{q}_{i}(t) + 2\zeta_{i}\omega_{i}\dot{q}_{i}(t) +
+  \omega_{i}^{2}q(t) = Q_{i}(t)
+\end{equation}
+It can be seen that each of then equations represented by this expression is
+uncoupled from all of the others.
+Hence we can find the response of the \(i_\text{th}\) mode in the same manner
+as that of a viscously damped single-degree-of-freedom system.
+%
+%
+%
+%
+%
+The identification of the sources and magnitude of damping is difficult in most
+practical problems.
+The condition given by equation \eqref{eq:moadlpropdamping} is sufficient but not
+necessary for the existence of normal modes in damped systems.
+The necessary condition is that the transformation that diagonalizes the damping
+matrix also uncouples the coupled equations of motion.
+This condition is less restrictive than equation \eqref{eq:moadlpropdamping}
+and covers more possibilities.
+In the general case of damping, the damping matrix cannot be diagonalized
+simultaneously with the mass and stiffness matrices.
+A common procedure for finding the solution of the eigenvalue problem of a
+damped system involves the transformation of the coupled second-order
+equations of motion into \(2n\) uncoupled first-order equation.
+%
+\input{rayleigh}
+\input{matrixiterationmethod}
