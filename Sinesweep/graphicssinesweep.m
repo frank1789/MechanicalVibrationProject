@@ -20,6 +20,8 @@ else
     opts = bodeoptions;
     opts.Grid = 'on';
     opts.MagUnits = 'abs';
+    opts.MagVisible = 'on';
+    opts.MagScale='log';
     bodeplot(pEstimatedtf,pEstimatedtf2, logspace(0,2,1000), opts);
     grid on;
     namefile = strcat(pNamefile, ['bodediagram' int2str(pCount)]);
