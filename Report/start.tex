@@ -112,14 +112,14 @@ square problem.
 \label{eq:residualdiscrete} 
 \theta_{optim} = \text{argmin} \Biggl( \sum_{n=1}^{N} \varepsilon(t,\theta)^2 \Biggr)
 \end{equation}
-
+%
 A linear model is adopted as described above, refer \ref{subsec:assumption}, 
 assuming the stiffness matrix $[K]$ given.
 Then quantifying the $[M]$ and $[C]$ parameters are used to minimize the problem.
 Using the \emph{fmincon} algorithm, the problem is resolved. In addition, the 
 selected algorithm is required to specify the lower and upper search limits; 
-as well as the first guess conditons from which the result is strictly dependent.
-
+as well as the first guess conditions from which the result is strictly dependent.
+%
 \subsection{Free damping case}
 \label{subsec:freedamping}
 Using the data of the file \emph{data\_impulse.mat} identify the seven parameters
