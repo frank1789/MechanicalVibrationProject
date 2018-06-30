@@ -52,27 +52,32 @@ figure();
 plot(pDataset.time.t, YS(:,1), ...
     pDataset.time.t, pDataset.Displacement.x1, ...
     pDataset.time.t, residual(:,1), 'k');
-legend('Dispalcent x1','Optimvalue x1','residual');
+leg = legend('{System $x_{1}(t)$}','{Optimvalue $x_{1}(t)$}','residual');
+set(leg,'Interpreter','latex');
 xlabel({'Time','(s)'})
 ylabel({'Displacement','(m)'})
 grid on
 saveas(gcf,'residualfull1','epsc')
+clear leg;
 
 figure();
 plot(pDataset.time.t, YS(:,2), ...
     pDataset.time.t, pDataset.Displacement.x2, ...
     pDataset.time.t, residual(:,2), 'k');
-legend('Dispalcent x2','Optimvalue x2','residual');
+leg = legend('{System $x_{2}(t)$}','{Optimvalue $x_{2}(t)$}','residual');
+set(leg,'Interpreter','latex');
 grid on
 xlabel({'Time','(s)'})
 ylabel({'Displacement','(m)'})
 saveas(gcf,'residualfull2','epsc')
+clear leg;
 
 figure();
 plot(pDataset.time.t, YS(:,3), ...
     pDataset.time.t, pDataset.Displacement.x3, ...
     pDataset.time.t, residual(:,3), 'k');
-legend('Dispalcent x3','Optimvalue x3','residual');
+leg = legend('{System $x_{3}(t)$}','{Optimvalue $x_{3}(t)$}','residual');
+set(leg,'Interpreter','latex');
 grid on
 xlabel({'Time','(s)'})
 ylabel({'Displacement','(m)'})

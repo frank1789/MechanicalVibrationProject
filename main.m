@@ -3,7 +3,7 @@ clear;
 clc;
 
 % Load folder data
-addpath('data_3DOFsystem', 'Full', 'ProportionalDamping', ... 
+addpath('data_3DOFsystem', 'Full', 'ProportionalDamping', ...
     'ModalAnalisys', 'Rayleigh', 'MatrixIterationMethod', ...
     'Sinesweep');
 file = dir(fullfile('data_3DOFsystem', '*.mat'));
@@ -42,9 +42,11 @@ plot(data_steps.time.t, data_steps.Displacement.x3)
 grid()
 xlabel({'Time','(s)'})
 ylabel({'Position','(m)'})
-legend('x1(t)', 'x2(t)','x3(t)')
+leg = legend('$x_{1}(t)$', '$x_{2}(t)$','$x_{3}(t)$');
+set(leg,'Interpreter','latex');
 hold off
 saveas(gcf,'steadystate','epsc');
+clear leg;
 
 % compute symbolic equation [G(s)]
 [ A, K ] = symbolicequation();
@@ -61,7 +63,7 @@ voltage-to-force coefficient.
 
 [ g_v_per, R31_per, R32_per ] = geterrorspring(gain_v, Ratio_k3_k2, ...
     Ratio_k3_k1, Inputdata);
-fprintf('Stiffnesses ratios and voltage-to-force coefficients results ') 
+fprintf('Stiffnesses ratios and voltage-to-force coefficients results ')
 fprintf('from analysis:\n\tgain ratio:\t%.5f %%\n\tratio k3/k1:\t %.5f %%\n\tratio k3/k2:\t %.5f %%\n\n', g_v_per, R31_per, R32_per);
 
 %% Optimization estimated parameters
@@ -130,7 +132,8 @@ full.x = fmincon(problem);
 display(full.x);
 
 % plot comparison and residual
-[ full.YS, full.residuals ] = comparisionFull(Inputdata, F, full.x, data_impulses);
+[ full.YS, full.residuals ] = comparisionFull(Inputdata, F, full.x,...
+ data_impulses);
 
 % compare the result with "goodnessOfFit" function
 % reference data
@@ -139,7 +142,7 @@ ref_displacement = [data_impulses.Displacement.x1 ...
     data_impulses.Displacement.x3];
 
 % cost function Normalized root mean square error, where, ? indicates the
-% 2-norm of a vector. fit is a row vector of length N and i = 1,...,N, 
+% 2-norm of a vector. fit is a row vector of length N and i = 1,...,N,
 % where N is the number of channels.
 cost_func = 'NRMSE';
 full.fit = goodnessOfFit(full.YS, ref_displacement, cost_func);
@@ -192,7 +195,7 @@ ref_displacement = [data_impulses.Displacement.x1 ...
     data_impulses.Displacement.x3];
 
 % cost function Normalized root mean square error, where, ? indicates the
-% 2-norm of a vector. fit is a row vector of length N and i = 1,...,N, 
+% 2-norm of a vector. fit is a row vector of length N and i = 1,...,N,
 % where N is the number of channels.
 cost_func = 'NRMSE';
 prodamping.fit = goodnessOfFit(prodamping.YS, ref_displacement, cost_func);
