@@ -52,7 +52,7 @@ figure();
 hold on
 plot(pDataset.time.t, YS(:,1), ...
     pDataset.time.t, pDataset.Displacement.x1, ...
-    pDataset.time.t, residual(:,1), 'k-.');
+    pDataset.time.t, residual(:,1), 'k');
 hold off
 legend('Dispalcent x1','Optimvalue x1','residual');
 grid on
@@ -64,7 +64,7 @@ figure();
 hold on
 plot(pDataset.time.t, YS(:,2), ...
     pDataset.time.t, pDataset.Displacement.x2, ...
-    pDataset.time.t, residual(:,2), 'k-.');
+    pDataset.time.t, residual(:,2), 'k');
 hold off
 legend('Dispalcent x2','Optimvalue x2','residual');
 grid on
@@ -76,7 +76,7 @@ figure();
 hold on
 plot(pDataset.time.t, YS(:,3), ...
     pDataset.time.t, pDataset.Displacement.x3, ...
-    pDataset.time.t, residual(:,3), 'k-.');
+    pDataset.time.t, residual(:,3), 'k');
 hold off
 legend('Dispalcent x3','Optimvalue x3','residual');
 grid on
