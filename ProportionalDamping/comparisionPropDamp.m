@@ -56,6 +56,8 @@ plot(pDataset.time.t, YS(:,1), ...
 hold off
 legend('Dispalcent x1','Optimvalue x1','residual');
 grid on
+xlabel({'Time','(s)'})
+ylabel({'Displacement','(m)'})
 saveas(gcf,'residualpropdamp1','epsc')
 
 figure();
@@ -66,6 +68,8 @@ plot(pDataset.time.t, YS(:,2), ...
 hold off
 legend('Dispalcent x2','Optimvalue x2','residual');
 grid on
+xlabel({'Time','(s)'})
+ylabel({'Displacement','(m)'})
 saveas(gcf,'residualpropdamp2','epsc')
 
 figure();
@@ -76,5 +80,7 @@ plot(pDataset.time.t, YS(:,3), ...
 hold off
 legend('Dispalcent x3','Optimvalue x3','residual');
 grid on
+xlabel({'Time','(s)'})
+ylabel({'Displacement','(m)'})
 saveas(gcf,'residualpropdamp3','epsc')
 end
