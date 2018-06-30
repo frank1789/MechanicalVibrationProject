@@ -37,9 +37,19 @@ with $k_3$, so it is possible to rewrite:
     		g_{\text{v}}
     \end{bmatrix}
 \end{equation}
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\textwidth]{steadystate}
+	\caption{Steady state value pick}
+	\label{fig:steadystate}
+\end{figure}
 From the above equation \eqref{eq:gvestimate} we obtain the results: nominal 
 and estimated ratios between the stiffness of the springs as well as the 
-coefficient voltage-to-force. 
+coefficient voltage-to-force.
+The value of steady state response \(x_{i}\) are picked from the data directly 
+in a point far from the transient, as shown in Figure \ref{fig:steadystate}. 
+To reduce the zero-mean noise an average with the previous \(400\) samples, i.e.
+\(2\) [\si{\second}].
 The table \ref{tab:error} shows values and it is possible to appreciate in the 
 last column the error made on the estimate of these values, according to the 
 formulation:
@@ -134,20 +144,23 @@ The results of this optimization are shown in table \ref{tab:freedamping}.
 	\caption{Optimizations results in free damping case}
 	\label{tab:freedamping}
 \end{table}
-\begin{figure}[htb]
+\begin{figure}[!htb]
 	\centering
-	\subfloat[][\emph{residual.}]
-		{\includegraphics[width=0.45\textwidth]{residualfull1}}	\,
-	\subfloat[][\emph{residual.}]
-		{\includegraphics[width=0.45\textwidth]{residualfull2}}	\\
-	\subfloat[][\emph{residual.}]
-		{\includegraphics[width=0.45\textwidth]{residualfull3}}
+	\subfloat[][\emph{mass vs displacement 1.}]
+		{\includegraphics[width=0.75\textwidth]{residualfull1}}	\\
+\end{figure}
+\begin{figure}[!ht]
+	\ContinuedFloat
+	\centering
+	\subfloat[][\emph{mass vs displacement 2.}]
+		{\includegraphics[width=0.75\textwidth]{residualfull2}}	\\
+	\subfloat[][\emph{mass vs displacement 3.}]
+		{\includegraphics[width=0.75\textwidth]{residualfull3}}
 	\caption{Comparison between the response of the model and the response of the 
 	system free damping case}
 	\label{fig:freedampingcase}
 \end{figure}
-\pagebreak
-%
+
 \subsection{Proportional damping case}
 \label{subsec:proportionaldamping}
 In this case, the procedure used to solve the problem raised in the case of 
@@ -182,17 +195,18 @@ The optimization results are available in the table \ref{tab:proportionaldamping
 	\caption{Optimizations results in proportional damping case}
 	\label{tab:proportionaldamping}
 \end{table}
-%
-%
-%
-\begin{figure}[ht]
+\begin{figure}[htb]
 \centering
-	\subfloat[][\emph{residual.}]
-		{\includegraphics[width=0.45\textwidth]{residualpropdamp1}}	\,
-	\subfloat[][\emph{residual.}]
-		{\includegraphics[width=0.45\textwidth]{residualpropdamp2}}	\\
-	\subfloat[][\emph{residual.}]
-		{\includegraphics[width=0.45\textwidth]{residualpropdamp3}}	
+	\subfloat[][\emph{mass vs displacement 1.}]
+		{\includegraphics[width=0.75\textwidth]{residualpropdamp1}}	\\
+\end{figure}
+\begin{figure}[htb]
+	\ContinuedFloat
+	\centering	
+	\subfloat[][\emph{mass vs displacement 2.}]
+		{\includegraphics[width=0.75\textwidth]{residualpropdamp2}}	\\
+	\subfloat[][\emph{mass vs displacement 3.}]
+		{\includegraphics[width=0.75\textwidth]{residualpropdamp3}}	
 	\caption{Comparison between the response of the model and the response of the system proportional damping case}
 	\label{fig:proportionaldamping}
 \end{figure}
@@ -215,7 +229,7 @@ The optimization results are available in the table \ref{tab:proportionaldamping
 After fitting data with a model, you should evaluate the goodness of fit. 
 The goodness of fit is calculated using the normalized root mean square error 
 as the cost function.
-In table \ref{tab:goodoffit} are aviable the percentages the measured output.
+In table \ref{tab:goodoffit} are available the percentages the measured output.
 This method to assess goodness of fit for both linear and non linear parametric 
 fits.
 As is common in statistical literature, the term goodness of fit is used here 

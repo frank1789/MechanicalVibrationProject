@@ -42,7 +42,7 @@ plot(data_steps.time.t, data_steps.Displacement.x3)
 grid()
 xlabel({'Time','(s)'})
 ylabel({'Position','(m)'})
-legend('Displacement x1', 'Displacement x2','Displacement x3')
+legend('x1(t)', 'x2(t)','x3(t)')
 hold off
 saveas(gcf,'steadystate','epsc');
 
