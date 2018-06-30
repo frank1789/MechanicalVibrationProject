@@ -40,8 +40,11 @@ plot(data_steps.time.t, data_steps.Displacement.x1)
 plot(data_steps.time.t, data_steps.Displacement.x2)
 plot(data_steps.time.t, data_steps.Displacement.x3)
 grid()
+xlabel({'Time','(s)'})
+ylabel({'Position','(m)'})
 legend('Displacement x1', 'Displacement x2','Displacement x3')
 hold off
+saveas(gcf,'steadystate','epsc');
 
 % compute symbolic equation [G(s)]
 [ A, K ] = symbolicequation();
