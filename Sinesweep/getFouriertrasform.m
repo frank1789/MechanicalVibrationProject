@@ -22,6 +22,8 @@ figure();
 plot(f,P1);
 xlim([0 20])
 grid on;
+ylabel({'Amplitude','(V)'})
+xlabel({'Frequency','(Hz)'})
 namefile = strcat('Fouriertrasform',pNamefile);
 saveas(gcf, namefile, 'epsc')
 end

@@ -17,7 +17,7 @@
 	\coordinate	(endspring) at ($(startspring) + (2,0)$);
 	\coordinate	(attachrightside) at ($(endspring) + (0.25,0)$);
 	\draw (attachleftside) -- (startspring);
-	\draw [springshape] (startspring) -- (endspring) node[draw=none,pos=0.5, above] (){$k_{#3}$};
+	\draw [springshape] (startspring) -- (endspring) node[draw=none,pos=0.5, above=0.5em] (){$k_{#3}$};
 	\draw (endspring) -- (attachrightside);
 }
 

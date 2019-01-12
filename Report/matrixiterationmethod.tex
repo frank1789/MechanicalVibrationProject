@@ -66,7 +66,7 @@ higher natural frequencies and the corresponding mode shapes.
 To find the eigenvector \(\vec{\mathbf{X}}^{(i)}\), the previous eigenvector
 \(\vec{\mathbf{X}}^{(i-1)}\) is normalized with respect to the mass matrix such
 that \(\vec{\mathbf{X}}^{(i-1)^\top}\,[m]\,\vec{\mathbf{X}}^{(i-1)} = 1\).
-The deflated matrix \([D_i]\) is the constructed as
+The deflated matrix \([D_i]\) is the constructed as is used.
 \begin{equation}
   [D_i] =
   [D_i] - \lambda_{i-1}\vec{\mathbf{X}}^{(i-1)}\,\vec{\mathbf{X}}^{(i-1)^\top}[m]
@@ -76,8 +76,9 @@ Once \([D_i]\) is constructed the iterative scheme
 \begin{equation}
   \vec{\mathbf{X}}^{(r+1)} = [D_i]\,\vec{\mathbf{X}}^{(r)}
 \end{equation}
-is used.
-\subsection{Result}\label{ssec:resultmim}
+%
+\subsection{Result}
+\label{ssec:resultmim}
 The whole procedure is performed for the case of free damping where the natural
 frequencies are: \(\omega_{1} = 8.27843\) \si{\radian\per\second}, \(\omega_{2}
 = 27.41224\) \si{\radian\per\second}, \(\omega_{3} = 41.85486\)

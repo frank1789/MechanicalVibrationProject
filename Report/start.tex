@@ -8,7 +8,8 @@ springs.
 And estimating a new coefficient for the voltage-to-force.
 The estimate of a new voltage-to-force coefficient is carried out using the 
 equation \eqref{eq:matrixform}:
-\begin{equation} \label{eq:voltage-force}
+\begin{equation} 
+\label{eq:voltage-force}
 	[K] x = \begin{bmatrix}
  			g_{\text{v}}	\\
  			0 	\\
@@ -37,17 +38,26 @@ with $k_3$, so it is possible to rewrite:
     		g_{\text{v}}
     \end{bmatrix}
 \end{equation}
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.75\textwidth]{steadystate}
+	\caption{Steady state value pick}
+	\label{fig:steadystate}
+\end{figure}
 From the above equation \eqref{eq:gvestimate} we obtain the results: nominal 
 and estimated ratios between the stiffness of the springs as well as the 
-coefficient voltage-to-force. 
-The table \ref{tab:error} shows values and it is possible to appreciate in the 
+coefficient voltage-to-force.
+The value of steady state response \(x_{i}\) are picked from the data directly 
+in a point far from the transient, as shown in Figure \ref{fig:steadystate}.\\ 
+To reduce the zero-mean noise an average with the previous \(400\) samples, i.e.
+\(2\) [\si{\second}].
+\\The table \ref{tab:error} shows values and it is possible to appreciate in the 
 last column the error made on the estimate of these values, according to the 
 formulation:
 \begin{equation}
 	\label{eq:ratioerror}
 	\text{\textbf{err}} = 100\cdot\frac{\text{computed}}{\text{nominal}}
 \end{equation}
-%
 %
 \begin{table}[ht]
 \centering
@@ -70,9 +80,9 @@ It is necessary to estimate the parameters of three \textsc{dof} system at simpl
 identification, so that the impulse response is used to suppose that a model is 
 based on a set of parameters, identifying the inputs as the initial force and 
 conditions and the output of the system.
-thus comparing the system response measured with that predicted by the model.
+Thus comparing the system response measured with that predicted by the model.\\
 Defined a model for the system: depends on a set of parameters $\theta$. 
-Identify the input (strength and i.c.) and output $(x(t))$ of the system. 
+Identify the input (strength and initial conditions) and output $(x(t))$ of the system. 
 By giving the same input to the model and comparing the measured response $x(t)$ 
 to that expected by the model $(x(t,\theta))$.
 %
@@ -102,21 +112,21 @@ square problem.
 \label{eq:residualdiscrete} 
 \theta_{optim} = \text{argmin} \Biggl( \sum_{n=1}^{N} \varepsilon(t,\theta)^2 \Biggr)
 \end{equation}
-
+%
 A linear model is adopted as described above, refer \ref{subsec:assumption}, 
 assuming the stiffness matrix $[K]$ given.
 Then quantifying the $[M]$ and $[C]$ parameters are used to minimize the problem.
 Using the \emph{fmincon} algorithm, the problem is resolved. In addition, the 
 selected algorithm is required to specify the lower and upper search limits; 
-as well as the first guess conditons from which the result is strictly dependent.
-
+as well as the first guess conditions from which the result is strictly dependent.
+%
 \subsection{Free damping case}
 \label{subsec:freedamping}
 Using the data of the file \emph{data\_impulse.mat} identify the seven parameters
 previously identified in the model and described by the equation \eqref{eq:matrixform}. 
 In this case, since the response to impulse force, two to approximation of the 
 force estimation, will be analysed, the voltage-to-force coefficient will be 
-studied again.
+studied again.\\
 The results of this optimization are shown in table \ref{tab:freedamping}.
 \begin{table}[ht]
 	\centering
@@ -134,20 +144,26 @@ The results of this optimization are shown in table \ref{tab:freedamping}.
 	\caption{Optimizations results in free damping case}
 	\label{tab:freedamping}
 \end{table}
+%
 \begin{figure}[htb]
 	\centering
-	\subfloat[][\emph{residual.}]
-		{\includegraphics[width=0.45\textwidth]{residualfull1}}	\,
-	\subfloat[][\emph{residual.}]
-		{\includegraphics[width=0.45\textwidth]{residualfull2}}	\\
-	\subfloat[][\emph{residual.}]
-		{\includegraphics[width=0.45\textwidth]{residualfull3}}
+	\subfloat[][\emph{mass vs displacement 1.}]
+		{\includegraphics[width=0.75\textwidth]{residualfull1}}	\\
+\end{figure}
+%
+\begin{figure}
+	\ContinuedFloat
+	\centering
+	\subfloat[][\emph{mass vs displacement 2.}]
+		{\includegraphics[width=0.75\textwidth]{residualfull2}}	\\
+	\subfloat[][\emph{mass vs displacement 3.}]
+		{\includegraphics[width=0.75\textwidth]{residualfull3}}
 	\caption{Comparison between the response of the model and the response of the 
 	system free damping case}
 	\label{fig:freedampingcase}
 \end{figure}
-\pagebreak
 %
+\newpage
 \subsection{Proportional damping case}
 \label{subsec:proportionaldamping}
 In this case, the procedure used to solve the problem raised in the case of 
@@ -183,16 +199,19 @@ The optimization results are available in the table \ref{tab:proportionaldamping
 	\label{tab:proportionaldamping}
 \end{table}
 %
-%
-%
-\begin{figure}[ht]
+\begin{figure}[htb]
 \centering
-	\subfloat[][\emph{residual.}]
-		{\includegraphics[width=0.45\textwidth]{residualpropdamp1}}	\,
-	\subfloat[][\emph{residual.}]
-		{\includegraphics[width=0.45\textwidth]{residualpropdamp2}}	\\
-	\subfloat[][\emph{residual.}]
-		{\includegraphics[width=0.45\textwidth]{residualpropdamp3}}	
+	\subfloat[][\emph{mass vs displacement 1.}]
+		{\includegraphics[width=0.75\textwidth]{residualpropdamp1}}	\\
+\end{figure}
+%
+\begin{figure}
+	\ContinuedFloat
+	\centering	
+	\subfloat[][\emph{mass vs displacement 2.}]
+		{\includegraphics[width=0.75\textwidth]{residualpropdamp2}}	\\
+	\subfloat[][\emph{mass vs displacement 3.}]
+		{\includegraphics[width=0.75\textwidth]{residualpropdamp3}}	
 	\caption{Comparison between the response of the model and the response of the system proportional damping case}
 	\label{fig:proportionaldamping}
 \end{figure}
@@ -200,7 +219,7 @@ The optimization results are available in the table \ref{tab:proportionaldamping
 %TODO describe the matrix C 
 %The matrix [C] is:
 \begin{equation}
-\label{}
+\label{eq:c-matrix}
 	[C] =
 	\begin{bmatrix*}[r]
 		 2.64026		&	-0.08550		 & 	 0.00000 	\\
@@ -208,14 +227,14 @@ The optimization results are available in the table \ref{tab:proportionaldamping
 		 0.00000 	&	-0.08550		 &	 2.07270		\\
 	\end{bmatrix*}
 \end{equation}
-%\pagebreak
 %
+\newpage
 \subsection{Comparison}
 \label{subsec:comparison}
 After fitting data with a model, you should evaluate the goodness of fit. 
 The goodness of fit is calculated using the normalized root mean square error 
 as the cost function.
-In table \ref{tab:goodoffit} are aviable the percentages the measured output.
+In table \ref{tab:goodoffit} are available the percentages the measured output.
 This method to assess goodness of fit for both linear and non linear parametric 
 fits.
 As is common in statistical literature, the term goodness of fit is used here 
@@ -230,11 +249,12 @@ come from, given the assumptions of least-squares fitting.
 	% free damping result
 	free damping case & 81.36 & 81.17 & 81.71 \\
 	% proportianl damping result
-	proportinal damping case & 81.36 & 81.17 & 81.56 \\
+	proportional damping case & 81.36 & 81.17 & 81.56 \\
 	\bottomrule
 \end{tabular}
 \caption{Result \emph{goodness of fit} measured output}
 \label{tab:goodoffit}
 \end{table}
 %
+\newpage
 \subsection{Multiple single DOF system case}
