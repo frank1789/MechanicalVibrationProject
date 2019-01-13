@@ -38,42 +38,8 @@
 	\coordinate	(enddamp) at ($(startdamp) + (2,0)$);
 	\coordinate	(attachrightside) at ($(enddamp) + (0.25,0)$);
 	\draw (attachleftside) -- (startdamp);
-	\draw [{dampshape}] (startdamp) -- (enddamp) node[draw=none,pos=0.75, above] (){$c_{#3}$};
+	\draw [{dampshape}] (startdamp) -- (enddamp) node[draw=none,pos=1, above] (){$c_{#3}^{\text{\tiny 1-\textsc{dof}}}$};
 	\draw (enddamp) -- (attachrightside);
-}
-
-% draw gear
-\newcommand{\gear}[3]{%
-  \def\modu{#1mm}
-  \def\Zb{#2}
-  \def\AngleA{#3}
-
-  \pgfmathsetmacro{\Rpr}{\Zb*\modu/2}
-  \pgfmathsetmacro{\Rb}{\Rpr*cos(\AngleA)}
-  \pgfmathsetmacro{\Rt}{\Rpr+\modu}
-  \pgfmathsetmacro{\Rp}{\Rpr-1.25*\modu}
-  \pgfmathsetmacro{\AngleT}{pi/180*acos(\Rb/\Rt)}
-  \pgfmathsetmacro{\AnglePr}{pi/180*acos(\Rb/\Rpr)}
-  \pgfmathsetmacro{\demiAngle}{180/\Zb}
-  \pgfmathsetmacro{\Angledecal}{(\demiAngle-2*\AnglePr)/2}
-
-  \foreach \zz in{1,2,...,\Zb}{
-    \draw
-    ({(\zz))/\Zb*360-\Angledecal}:\Rb)
-    -- (\zz/\Zb*360-\Angledecal:\Rp)
-    to[bend right=\demiAngle]
-    (\zz/\Zb*360+\Angledecal:\Rp)
-    --
-    plot[domain=-0:\AngleT,smooth,variable=\t]
-    ({{180/pi*(-\t+tan(180/pi*\t)) +\zz/\Zb*360+\Angledecal}:\Rb/cos(180/pi*\t)})
-    %
-    to[bend right=\demiAngle]
-    ({{180/pi*(\AngleT+tan(180/pi*-\AngleT)) +(\zz+1)/\Zb*360-\Angledecal}:
-      \Rb/cos(180/pi*-\AngleT)})
-    %
-    plot[domain=-\AngleT:-0,smooth,variable=\t]
-    ({{180/pi*(-\t+tan(180/pi*\t)) +(\zz+1)/\Zb*360-\Angledecal}:\Rb/cos(180/pi*\t)});
-  }
 }
 
 % Define ground
@@ -91,37 +57,20 @@
 % generate plot
 \begin{scope}[xshift=0cm]
 	\draw (0,0) rectangle (2,1) node[draw=none,pos=0.5] () {$m_{1}$};
-	\spring{2}{0.5}{1};
-	\dampers{1}{2}{1};
-	\draw [thick] (3.5,1.5) -- (3.5,2.5);
-	\node [groundc,anchor=north]  at (3.5,2){};
-	\draw [thick] (1,1) -- (1,2);
-	\draw [thick, gray](1,-0.35)--(1,-0.65);
-	\draw [-stealth, thick, gray] (1,-0.5) -- (2,-0.5);
-	\node [draw=none, anchor = north west] at (2,-0.5) {$x_1$};
+	\draw (2,0.5)--(4.5,0.5);
 \end{scope}
 \begin{scope}[xshift=4.5cm]
 	\draw (0,0) rectangle (2,1) node[draw=none,pos=0.5] () {$m_{2}$};
 	\spring{2}{0.5}{2};
 	\dampers{1}{2}{2};
-	\draw [thick] (3.5,1.5) -- (3.5,2.5);
-	\node [groundc,anchor=north]  at (3.5,2){};
+	\draw [thin] (4.5,1.5) -- (4.5,2.5);
+	\draw [thin] (3.5,2) -- (4.5,2);
+	\node [groundc,anchor=north]  at (4.5,2){};
 	\draw [thick] (1,1) -- (1,2);
 	\draw [thick, gray](1,-0.35)--(1,-0.65);
 	\draw [-stealth, thick, gray] (1,-0.5) -- (2,-0.5);
 	\node [draw=none, anchor = north west] at (2,-0.5) {$x_2$};
-\end{scope}
-\begin{scope}[xshift=9cm]
-	\draw (0,0) rectangle (2,1) node[draw=none,pos=0.5] () {$m_{3}$};
-	\spring{2}{0.5}{3};
-	\dampers{1}{2}{3};
-	\draw [thick] (3.5,1.5) -- (3.5,2.5);
-	\node [groundc,anchor=north]  at (3.5,2){};
-	\draw [thick] (1,1) -- (1,2);
-	\draw [thick] (4.5,-0.5) -- (4.5,1.5);
 	\node [ground,anchor=north]  at (4.5,0.5){};
-	\draw [-stealth, thick, gray] (1,-0.5) -- (2,-0.5);
-	\draw [thick, gray](1,-0.35)--(1,-0.65);
-	\node [draw=none, anchor = north west] at (2,-0.5) {$x_3$};
+	\draw [thin](4.5,1.5)--(4.5, -0.5);
 \end{scope}
 \end{tikzpicture}

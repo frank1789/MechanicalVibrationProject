@@ -34,7 +34,7 @@ M = [m1 0 0; 0 m2 0; 0 0 m3];   % mass matrix [M]
 K = [k1 -k1 0; -k1 k2+k1 -k2; 0 -k2 k2+k3];
 
 % proportional damping [C] = alpha * [M] + beta * [K[
-C = alpha * M + beta * K; 
+C = alpha * M + beta * K;
 
 A = M * s^2 + C * s + K;
 G = tf(inv(A));                 % Transfer fuction
@@ -52,29 +52,40 @@ figure();
 hold on
 plot(pDataset.time.t, YS(:,1), ...
     pDataset.time.t, pDataset.Displacement.x1, ...
-    pDataset.time.t, residual(:,1), 'k-.');
+    pDataset.time.t, residual(:,1), 'k');
 hold off
-legend('Dispalcent x1','Optimvalue x1','residual');
+leg = legend('{System $x_{1}(t)$}','{Optimvalue $x_{1}(t)$}','residual');
+set(leg,'Interpreter','latex');
 grid on
+xlabel({'Time','(s)'})
+ylabel({'Displacement','(m)'})
 saveas(gcf,'residualpropdamp1','epsc')
+clear leg;
 
 figure();
 hold on
 plot(pDataset.time.t, YS(:,2), ...
     pDataset.time.t, pDataset.Displacement.x2, ...
-    pDataset.time.t, residual(:,2), 'k-.');
+    pDataset.time.t, residual(:,2), 'k');
 hold off
-legend('Dispalcent x2','Optimvalue x2','residual');
+leg = legend('{System $x_{2}(t)$}','{Optimvalue $x_{2}(t)$}','residual');
+set(leg,'Interpreter','latex');
 grid on
+xlabel({'Time','(s)'})
+ylabel({'Displacement','(m)'})
 saveas(gcf,'residualpropdamp2','epsc')
+clear leg;
 
 figure();
 hold on
 plot(pDataset.time.t, YS(:,3), ...
     pDataset.time.t, pDataset.Displacement.x3, ...
-    pDataset.time.t, residual(:,3), 'k-.');
+    pDataset.time.t, residual(:,3), 'k');
 hold off
-legend('Dispalcent x3','Optimvalue x3','residual');
+leg = legend('{System $x_{3}(t)$}','{Optimvalue $x_{3}(t)$}','residual');
+set(leg,'Interpreter','latex');
 grid on
+xlabel({'Time','(s)'})
+ylabel({'Displacement','(m)'})
 saveas(gcf,'residualpropdamp3','epsc')
 end

@@ -1,0 +1,24 @@
+\babel@toc {english}{}
+\contentsline {chapter}{\numberline {1}Introduction}{2}{chapter.1}% 
+\contentsline {section}{\numberline {1.1}System and the experimental setup}{2}{section.1.1}% 
+\contentsline {subsection}{\numberline {1.1.1}Parameters}{2}{subsection.1.1.1}% 
+\contentsline {section}{\numberline {1.2}The dynamical model}{3}{section.1.2}% 
+\contentsline {subsection}{\numberline {1.2.1}Assumption}{3}{subsection.1.2.1}% 
+\contentsline {subsection}{\numberline {1.2.2}Equation of motion}{4}{subsection.1.2.2}% 
+\contentsline {chapter}{\numberline {2}Parameters identification}{5}{chapter.2}% 
+\contentsline {section}{\numberline {2.1}Steady state analysis}{5}{section.2.1}% 
+\contentsline {section}{\numberline {2.2}System identification}{6}{section.2.2}% 
+\contentsline {subsection}{\numberline {2.2.1}Free damping case}{8}{subsection.2.2.1}% 
+\contentsline {subsection}{\numberline {2.2.2}Proportional damping case}{10}{subsection.2.2.2}% 
+\contentsline {subsection}{\numberline {2.2.3}Comparison}{12}{subsection.2.2.3}% 
+\contentsline {subsection}{\numberline {2.2.4}Multiple single DOF system case}{13}{subsection.2.2.4}% 
+\contentsline {chapter}{\numberline {3}Modal analysis}{15}{chapter.3}% 
+\contentsline {section}{\numberline {3.1}Forced vibration of undamped system}{15}{section.3.1}% 
+\contentsline {section}{\numberline {3.2}Forced vibration of viscous damped system}{15}{section.3.2}% 
+\contentsline {section}{\numberline {3.3}Rayleigh quotient method}{17}{section.3.3}% 
+\contentsline {section}{\numberline {3.4}Matrix Iteration Method}{18}{section.3.4}% 
+\contentsline {subsection}{\numberline {3.4.1}Intermediate natural frequencies}{19}{subsection.3.4.1}% 
+\contentsline {subsection}{\numberline {3.4.2}Result}{20}{subsection.3.4.2}% 
+\contentsline {subsection}{\numberline {3.4.3}Observation}{20}{subsection.3.4.3}% 
+\contentsline {chapter}{\numberline {4}Transfer Function}{21}{chapter.4}% 
+\contentsline {chapter}{\numberline {5}Sine-sweep analysis}{22}{chapter.5}% 

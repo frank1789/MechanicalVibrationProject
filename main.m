@@ -3,7 +3,7 @@ clear;
 clc;
 
 % Load folder data
-addpath('data_3DOFsystem', 'Full', 'ProportionalDamping', ... 
+addpath('data_3DOFsystem', 'Full', 'ProportionalDamping', ...
     'ModalAnalisys', 'Rayleigh', 'MatrixIterationMethod', ...
     'Sinesweep');
 file = dir(fullfile('data_3DOFsystem', '*.mat'));
@@ -40,8 +40,13 @@ plot(data_steps.time.t, data_steps.Displacement.x1)
 plot(data_steps.time.t, data_steps.Displacement.x2)
 plot(data_steps.time.t, data_steps.Displacement.x3)
 grid()
-legend('Displacement x1', 'Displacement x2','Displacement x3')
+xlabel({'Time','(s)'})
+ylabel({'Position','(m)'})
+leg = legend('$x_{1}(t)$', '$x_{2}(t)$','$x_{3}(t)$');
+set(leg,'Interpreter','latex');
 hold off
+saveas(gcf,'steadystate','epsc');
+clear leg;
 
 % compute symbolic equation [G(s)]
 [ A, K ] = symbolicequation();
@@ -53,10 +58,13 @@ stiffnesses of the springs. Compute a new estimation for the
 voltage-to-force coefficient.
 %}
 
-[ gain_v, Ratio_k3_k2, Ratio_k3_k1 ] = computeSteadyStateRatioStiff(K, data_steps, Inputdata);
+[ gain_v, Ratio_k3_k2, Ratio_k3_k1 ] = computeSteadyStateRatioStiff(K, ...
+    data_steps, Inputdata);
 
-[ g_v_per, R31_per, R32_per ] = geterrorspring(gain_v, Ratio_k3_k2, Ratio_k3_k1, Inputdata);
-fprintf('Stiffnesses ratios and voltage-to-force coefficients results from analysis:\n\tgain ratio:\t%.5f %%\n\tratio k3/k1:\t %.5f %%\n\tratio k3/k2:\t %.5f %%\n\n', g_v_per, R31_per, R32_per);
+[ g_v_per, R31_per, R32_per ] = geterrorspring(gain_v, Ratio_k3_k2, ...
+    Ratio_k3_k1, Inputdata);
+fprintf('Stiffnesses ratios and voltage-to-force coefficients results ')
+fprintf('from analysis:\n\tgain ratio:\t%.5f %%\n\tratio k3/k1:\t %.5f %%\n\tratio k3/k2:\t %.5f %%\n\n', g_v_per, R31_per, R32_per);
 
 %% Optimization estimated parameters
 %{
@@ -124,7 +132,8 @@ full.x = fmincon(problem);
 display(full.x);
 
 % plot comparison and residual
-[ full.YS, full.residuals ] = comparisionFull(Inputdata, F, full.x, data_impulses);
+[ full.YS, full.residuals ] = comparisionFull(Inputdata, F, full.x,...
+ data_impulses);
 
 % compare the result with "goodnessOfFit" function
 % reference data
@@ -133,11 +142,12 @@ ref_displacement = [data_impulses.Displacement.x1 ...
     data_impulses.Displacement.x3];
 
 % cost function Normalized root mean square error, where, ? indicates the
-% 2-norm of a vector. fit is a row vector of length N and i = 1,...,N, where
-% N is the number of channels.
+% 2-norm of a vector. fit is a row vector of length N and i = 1,...,N,
+% where N is the number of channels.
 cost_func = 'NRMSE';
 full.fit = goodnessOfFit(full.YS, ref_displacement, cost_func);
-fprintf('Response full method comparision: %.2f %%\t%.2f %%\t%.2f %%\n', full.fit(1:3) * 100);
+fprintf('Response full method comparision: %.2f %%\t%.2f %%\t%.2f %%\n',...
+    full.fit(1:3) * 100);
 close all
 
 % Proportinal damping
@@ -171,10 +181,12 @@ problem.objective = @(x0)estimatePropDamp(x0, F, Inputdata, data_impulses);
 prodamping.x = fmincon(problem);
 display(prodamping.x);
 fprintf('The matrix [C] is:\n');
-fprintf('\t|% .5f % .5f % .5f |\n', getdampingmatrix(prodamping.x, Inputdata).');
+fprintf('\t|% .5f % .5f % .5f |\n', getdampingmatrix(prodamping.x, ...
+    Inputdata).');
 
 % plot comparison and residual
-[ prodamping.YS, prodamping.residual ] = comparisionPropDamp(Inputdata, F, prodamping.x, data_impulses);
+[ prodamping.YS, prodamping.residual ] = comparisionPropDamp(Inputdata, ...
+    F, prodamping.x, data_impulses);
 
 % compare the result with "goodnessOfFit" function
 % reference data
@@ -183,8 +195,8 @@ ref_displacement = [data_impulses.Displacement.x1 ...
     data_impulses.Displacement.x3];
 
 % cost function Normalized root mean square error, where, ? indicates the
-% 2-norm of a vector. fit is a row vector of length N and i = 1,...,N, where
-% N is the number of channels.
+% 2-norm of a vector. fit is a row vector of length N and i = 1,...,N,
+% where N is the number of channels.
 cost_func = 'NRMSE';
 prodamping.fit = goodnessOfFit(prodamping.YS, ref_displacement, cost_func);
 fprintf('Response proportional damping comparision: %.2f %%\t%.2f %%\t%.2f %%\n', prodamping.fit(1:3) * 100);
@@ -262,8 +274,6 @@ end
  for the configurations thanks to modal decomposition.
 %}
 
-
-
 close all
 %% SINE SWEEP
 % SINE SWEEP - slow
@@ -276,7 +286,8 @@ sinesweep.slow.t = t;
 clear x1 x2 x3 t v;
 sinesweep.slow.estimtf = cell(1,3);
 for i = 1:length(sinesweep.slow.displacement.x)
-    [sinesweep.slow.estimtf{i}] = getEstimatedtf(i, sinesweep.slow.t, sinesweep.slow.displacement.x{i}, sinesweep.slow.v, 'slow');
+    [sinesweep.slow.estimtf{i}] = getEstimatedtf(i, sinesweep.slow.t, ...
+        sinesweep.slow.displacement.x{i}, sinesweep.slow.v, 'slow');
     graphicssinesweep(i, 'sinesweepslow', sinesweep.slow.estimtf{i});
 end
 
@@ -292,15 +303,16 @@ sinesweep.fast.t = t;
 clear x1 x2 x3 t v;
 sinesweep.fast.estimtf= cell(1,3);
 for j = 1:length(sinesweep.fast.displacement.x)
-    [sinesweep.fast.estimtf{j}] = getEstimatedtf(j, sinesweep.fast.t, sinesweep.fast.displacement.x{j}, sinesweep.fast.v, 'fast');
+    [sinesweep.fast.estimtf{j}] = getEstimatedtf(j, sinesweep.fast.t, ...
+        sinesweep.fast.displacement.x{j}, sinesweep.fast.v, 'fast');
     graphicssinesweep(j, 'sinesweepfast', sinesweep.fast.estimtf{j});
 end
 
 % generate plot comparision
 for k = 1:length(sinesweep.fast.estimtf)
-    graphicssinesweep(k, 'sinecompare', sinesweep.slow.estimtf{k}, sinesweep.fast.estimtf{k});
+    graphicssinesweep(k, 'sinecompare', sinesweep.slow.estimtf{k}, ...
+        sinesweep.fast.estimtf{k});
 end
-
 close all; clear i k;
 
 %% compute fourier trasform
