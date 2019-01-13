@@ -216,8 +216,42 @@ The optimization results are available in the table \ref{tab:proportionaldamping
 	\label{fig:proportionaldamping}
 \end{figure}
 
-%TODO describe the matrix C 
-%The matrix [C] is:
+Using modal superimposed method to compute the damping matrix \([C]\) requires 
+that is orthogonal compared to natural mode, thus to satisfy this condition 
+\([C]\) must expressed as seen in eq. \eqref{eq:proportionaldamping}.
+The construction of the dynamic matrix of a system depends on the 
+determination experimental of its dynamic response.
+It is possible to use two different approaches:
+\begin{itemize}
+\item Considering a system one \textsc{dof} in case of damped oscillating 
+motion and knowing his response given by equation
+\(x(t) = x_{0} e^{-\xi\omega_{n}t}sin(\omega_dt+\phi_0)\) it is possible excite 
+selective of a single natural frequency and study of the free response. 
+Consequently, the system will be excited according to the modal shape 
+of interest and determining the value of \(\xi_{k}\) by using logarithmic 
+decrement as reported 
+in \eqref{eq:log_decrement}.
+\begin{equation}
+\label{eq:log_decrement}
+\delta = ln\frac{x(t+\tau)}{x(t)} = \frac{2\pi\xi_{k}}{\sqrt{1-\xi_{k}^2}}
+\end{equation}
+Knowing the others parameters it is possible compute the damping for the system. 
+Then repeating the sequence above described is possible to determine the remainder
+ parameters. 
+\item Using Forced oscillation with spectrum analysis, by this way we obtain 
+the spectrum that can be analysed by the equation:
+\begin{equation}
+\label{eq:analysis_spectrum}
+\frac{X_{0}}{\frac{F_{0}}{k}} = \frac{1}{2\xi\sqrt{1-\xi^2_{k}}} \cong \frac{1}{2\xi_{k}}
+\end{equation}
+Where the peak corresponds to resonance conditions and their amplitude is 
+expressed by the term \(\frac{1}{2\xi_{k}}\).
+\end{itemize}
+This is an approximation because in reality the amplitude of the oscillations 
+at a given frequency is given by the superposition of all the modes of the 
+system. This approach provides a reasonable approximation of \(\xi_{k}\) only 
+if the modes are sufficiently spaced.
+The matrix of the proportional damping obtained is shown:
 \begin{equation}
 \label{eq:c-matrix}
 	[C] =
@@ -228,7 +262,6 @@ The optimization results are available in the table \ref{tab:proportionaldamping
 	\end{bmatrix*}
 \end{equation}
 %
-\newpage
 \subsection{Comparison}
 \label{subsec:comparison}
 After fitting data with a model, you should evaluate the goodness of fit. 
