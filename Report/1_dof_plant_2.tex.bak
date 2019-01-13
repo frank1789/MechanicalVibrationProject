@@ -1,0 +1,76 @@
+\begin{tikzpicture}
+%\draw[help lines] (0,0) grid [step = 5 mm](15,3.5);
+%\foreach \x in {0,1,...,15}
+%   \draw [help lines] (\x,0) node [below,%
+%          font=\footnotesize] {$\x$} -- (\x,0);
+%\foreach \y in {0,1,...,3.5}
+%   \draw [help lines] (0,\y) node [left,%
+%          font=\footnotesize] {$\y$} -- (0,\y);
+
+% Define style for spring
+\tikzstyle{springshape}=[decoration={aspect=0.6, segment length=1.5mm, amplitude=1mm, coil}, decorate];
+\newcommand{\spring}[3]{%
+	% pass 3 arguments:
+	% arg1: #1 coordinate x; arg2:  #2 coordiante y; arg3: #3 number of componets
+	\coordinate (attachleftside) at ({#1},{#2});
+	\coordinate (startspring) at ($(attachleftside) + (0.25,0)$);
+	\coordinate	(endspring) at ($(startspring) + (2,0)$);
+	\coordinate	(attachrightside) at ($(endspring) + (0.25,0)$);
+	\draw (attachleftside) -- (startspring);
+	\draw [springshape] (startspring) -- (endspring) node[draw=none,pos=0.5, above=0.5em] (){$k_{#3}$};
+	\draw (endspring) -- (attachrightside);
+}
+
+% Define style for dampers
+\tikzstyle{dampshape}=[decoration={markings, mark connection node=dmp,
+  mark=at position 0.5 with
+  {
+    \node (dmp) [inner sep=0pt,transform shape,rotate=-90,minimum width=15pt,minimum height=3pt,draw=none] {};
+    \draw  ($(dmp.north east)+(2pt,0)$) -- (dmp.south east) -- (dmp.south west) -- ($(dmp.north west)+(2pt,0)$);
+    \draw ($(dmp.north)+(0,-5pt)$) -- ($(dmp.north)+(0,5pt)$);
+  }
+}, decorate]
+\newcommand{\dampers}[3]{%
+	% pass 3 arguments:
+	% arg1: #1 coordinate x; arg2: #2 coordiante y; arg3: #3 number of componets
+	\coordinate (attachleftside) at ({#1},{#2});
+	\coordinate (startdamp) at ($(attachleftside) + (0.25,0)$);
+	\coordinate	(enddamp) at ($(startdamp) + (2,0)$);
+	\coordinate	(attachrightside) at ($(enddamp) + (0.25,0)$);
+	\draw (attachleftside) -- (startdamp);
+	\draw [{dampshape}] (startdamp) -- (enddamp) node[draw=none,pos=1, above] (){$c_{#3}^{\text{\tiny 1-\textsc{dof}}}$};
+	\draw (enddamp) -- (attachrightside);
+}
+
+% Define ground
+\tikzstyle{ground}=[fill,pattern=north east lines,draw=none,minimum width=2cm,minimum height=0.3cm, rotate=90];
+\tikzstyle{groundc}=[fill,pattern=north east lines,draw=none,minimum width=10mm,minimum height=0.2cm, rotate=90];
+\begin{scope}[xshift=-3cm]
+	\draw  (0,2.5) circle (2);
+	\node [draw=none, anchor = north west] at (2,2.5) {$J_{0}$};
+	\draw  (-2,0) rectangle (2,0.5);
+	\draw[ultra thick] (2,0.25) -- (3,0.25);
+	\draw [thick, red](1,-0.35)--(1,-0.65);
+	\draw [-stealth, thick, red] (1,-0.5) -- (2,-0.5);
+	\node [draw=none, anchor = north west] at (2,-0.5) {$F$};
+\end{scope}
+% generate plot
+\begin{scope}[xshift=0cm]
+	\draw (0,0) rectangle (2,1) node[draw=none,pos=0.5] () {$m_{1}$};
+	\draw (2,0.5)--(4.5,0.5);
+\end{scope}
+\begin{scope}[xshift=4.5cm]
+	\draw (0,0) rectangle (2,1) node[draw=none,pos=0.5] () {$m_{2}$};
+	\spring{2}{0.5}{2};
+	\dampers{1}{2}{2};
+	\draw [thin] (4.5,1.5) -- (4.5,2.5);
+	\draw [thin] (3.5,2) -- (4.5,2);
+	\node [groundc,anchor=north]  at (4.5,2){};
+	\draw [thick] (1,1) -- (1,2);
+	\draw [thick, gray](1,-0.35)--(1,-0.65);
+	\draw [-stealth, thick, gray] (1,-0.5) -- (2,-0.5);
+	\node [draw=none, anchor = north west] at (2,-0.5) {$x_2$};
+	\node [ground,anchor=north]  at (4.5,0.5){};
+	\draw [thin](4.5,1.5)--(4.5, -0.5);
+\end{scope}
+\end{tikzpicture}
