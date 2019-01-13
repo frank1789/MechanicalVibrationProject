@@ -1,0 +1,23 @@
+\BOOKMARK [0][-]{chapter.1}{1 Introduction}{}% 1
+\BOOKMARK [1][-]{section.1.1}{1.1 System and the experimental setup}{chapter.1}% 2
+\BOOKMARK [2][-]{subsection.1.1.1}{1.1.1 Parameters}{section.1.1}% 3
+\BOOKMARK [1][-]{section.1.2}{1.2 The dynamical model}{chapter.1}% 4
+\BOOKMARK [2][-]{subsection.1.2.1}{1.2.1 Assumption}{section.1.2}% 5
+\BOOKMARK [2][-]{subsection.1.2.2}{1.2.2 Equation of motion}{section.1.2}% 6
+\BOOKMARK [0][-]{chapter.2}{2 Parameters identification}{}% 7
+\BOOKMARK [1][-]{section.2.1}{2.1 Steady state analysis}{chapter.2}% 8
+\BOOKMARK [1][-]{section.2.2}{2.2 System identification}{chapter.2}% 9
+\BOOKMARK [2][-]{subsection.2.2.1}{2.2.1 Free damping case}{section.2.2}% 10
+\BOOKMARK [2][-]{subsection.2.2.2}{2.2.2 Proportional damping case}{section.2.2}% 11
+\BOOKMARK [2][-]{subsection.2.2.3}{2.2.3 Comparison}{section.2.2}% 12
+\BOOKMARK [2][-]{subsection.2.2.4}{2.2.4 Multiple single DOF system case}{section.2.2}% 13
+\BOOKMARK [0][-]{chapter.3}{3 Modal analysis}{}% 14
+\BOOKMARK [1][-]{section.3.1}{3.1 Forced vibration of undamped system}{chapter.3}% 15
+\BOOKMARK [1][-]{section.3.2}{3.2 Forced vibration of viscous damped system}{chapter.3}% 16
+\BOOKMARK [1][-]{section.3.3}{3.3 Rayleigh quotient method}{chapter.3}% 17
+\BOOKMARK [1][-]{section.3.4}{3.4 Matrix Iteration Method}{chapter.3}% 18
+\BOOKMARK [2][-]{subsection.3.4.1}{3.4.1 Intermediate natural frequencies}{section.3.4}% 19
+\BOOKMARK [2][-]{subsection.3.4.2}{3.4.2 Result}{section.3.4}% 20
+\BOOKMARK [2][-]{subsection.3.4.3}{3.4.3 Observation}{section.3.4}% 21
+\BOOKMARK [0][-]{chapter.4}{4 Transfer Function}{}% 22
+\BOOKMARK [0][-]{chapter.5}{5 Sine-sweep analysis}{}% 23

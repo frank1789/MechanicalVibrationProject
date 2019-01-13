@@ -318,7 +318,8 @@ c_3^{\text{\tiny 1-\textsc{dof}}} &= c_1 + c_2 + c_3\\
 \end{cases}
 \end{equation}
 \end{itemize}
-In figures a possible configuration is shown.
+In the figures \ref{fig:modelscheme_1dof} underneath the possible configuration 
+is shown.
 \begin{figure}[htb]
 	\centering
 	\subfloat[][\emph{first system}]

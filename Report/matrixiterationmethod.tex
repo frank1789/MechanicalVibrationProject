@@ -1,11 +1,11 @@
 \section{Matrix Iteration Method}\label{sec:mim}
-the matrix iteration method assumes that the natural frequencies are distinct
+The matrix iteration method assumes that the natural frequencies are distinct
 and well separated such that \(\omega_1 < \omega_2 < \dots < \omega_n\).
 The iteration starting by selecting a trial vector \(\vec{\mathbf{X}}_{1}\),
-which is then premultiplied by the dynamical matrix \([D]\).
+which is then pre-multiplied by the dynamical matrix \([D]\).
 The resulting column vector is then normalized, usually by making one of its
 components equal to unity.
-The normalized column vector is premultiplied by \([D]\) to obtain a third
+The normalized column vector is pre-multiplied by \([D]\) to obtain a third
 column vector, which is normalized in the same way as before and become still
 another trial column vector.
 The process is repeated until the successive column vectors converge to a common
@@ -17,7 +17,7 @@ orthogonal eigenvectors of the system \(\vec{\mathbf{X}}^{(i)}\).
 	\sum_{i = 1}^{n} = c_{i}\,\vec{\mathbf{X}}^{(n)}
 \end{equation}
 where \(c_{i}\) are unknown constant number to be determined.
-As view before, it is possible premultiply \(\vec{\mathbf{X}}_{1}\) by matrix
+As view before, it is possible pre-multiply \(\vec{\mathbf{X}}_{1}\) by matrix
 \([D]\) obtaining:
 \begin{equation}\label{eq:equationmultiply}
 	[D] \vec{\mathbf{X}}_{1} = 	c_{1}\, [D] \,\vec{\mathbf{X}}_{(1)} +
@@ -60,7 +60,7 @@ where \(\vec{\mathbf{X}}_{n,r}\) and \(\vec{\mathbf{X}}_{n,r+1}\) are the
 \(n_{th}\) elements of vector \(\vec{\mathbf{X}}_{r}\) and
 \(\vec{\mathbf{X}}_{r+1}\), respectively.
 \subsection{Intermediate natural frequencies}
-Once the first natural frequency \(omega_1\) and the corresponding eigenvector
+Once the first natural frequency \(\omega_1\) and the corresponding eigenvector
 \(\vec{\mathbf{X}}^{(1)}\) are determined, it is possible proceed to find the
 higher natural frequencies and the corresponding mode shapes.
 To find the eigenvector \(\vec{\mathbf{X}}^{(i)}\), the previous eigenvector
@@ -114,7 +114,7 @@ and \(\omega_2\) are separated.
 The required number of iterations is less if \(\omega_2\) is very large compared
 to \(\omega_{1}\).
 The method has a distinct advantage in that any computational errors made do not
-yield incorrect results. Any error made in premultiplying
+yield incorrect results. Any error made in pre-multiplying
 \(\vec{\mathbf{X}}_{i}\) by \([D]\) results in a vector other than the desired
 one, \(\vec{\mathbf{X}}_{i+1}\).
 But this wrong vector can be considered as a new trial vector.
