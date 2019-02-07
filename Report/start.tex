@@ -247,9 +247,9 @@ the spectrum that can be analysed by the equation:
 Where the peak corresponds to resonance conditions and their amplitude is 
 expressed by the term \(\frac{1}{2\zeta_{k}}\).
 \end{itemize}
-This is an approzetamation because in reality the amplitude of the oscillations 
+This is an approximation because in reality the amplitude of the oscillations 
 at a given frequency is given by the superposition of all the modes of the 
-system. This approach provides a reasonable approzetamation of \(\zeta_{k}\) only 
+system. This approach provides a reasonable approximation of \(\zeta_{k}\) only 
 if the modes are sufficiently spaced.\\
 The matrix of the proportional damping obtained is shown:
 \begin{equation}
@@ -260,6 +260,18 @@ The matrix of the proportional damping obtained is shown:
 		-0.08550 	&	 2.59748		 &	-0.08550		\\
 		 0.00000 	&	-0.08550		 &	 2.07270		\\
 	\end{bmatrix*}
+\end{equation}
+\\In conclusion highlighting the \(\alpha\) term with respect to a given frequency, 
+a damping behaviour is observed that is excellent to filter low frequency 
+oscillations (high amplitude).
+Instead, observing of  \(\beta\) term, damping stiffness, has a much lower 
+value, seen in table \ref{tab:proportionaldamping}. 
+Generally, \(\beta\) behaviour shows the ability to filter high frequency 
+oscillations (small amplitude).
+Last but not least it is possible to express the damping ratio as:
+\begin{equation}
+\label{eq:dampingratio}
+\zeta = \frac{\alpha + \beta \omega^2}{2\omega}
 \end{equation}
 %
 \subsection{Comparison}
@@ -288,18 +300,6 @@ come from, given the assumptions of least-squares fitting.
 \caption{Result \emph{goodness of fit} measured output}
 \label{tab:goodoffit}
 \end{table}
-\\In conclusion highlighting the \(\alpha\) term with respect to a given frequency, 
-a damping behaviour is observed that is excellent to filter low frequency 
-oscillations (high amplitude).
-Instead, observing of  \(\beta\) term, damping stiffness, has a much lower 
-value, seen in table \ref{tab:proportionaldamping}. 
-Generally, \(\beta\) behaviour shows the ability to filter high frequency 
-oscillations (small amplitude).
-Last but not least it is possible to express the damping ratio as:
-\begin{equation}
-\label{eq:dampingratio}
-\zeta = \frac{\alpha + \beta \omega^2}{2\omega}
-\end{equation}
 %
 \subsection{Multiple single DOF system case}
 Alternatively, the system can be studied by breaking it down into simpler 
