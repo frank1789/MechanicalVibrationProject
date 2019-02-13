@@ -18,7 +18,11 @@ equation \eqref{eq:matrixform}:
 \end{equation}
 and therefore from \eqref{eq:voltage-force} it is possible to derive:
 \begin{equation} \label{eq:voltageforce}
-	g_{\text{v}} = [K]^{-1} \cdot b
+	g_{\text{v}} = [K] \begin{bmatrix}
+	x_{1}\\
+	x_{2}\\
+	x_{3}
+	\end{bmatrix}\frac{1}{v}
 \end{equation}
 Using the steady state value of the three output and the equation 
 \eqref{eq:voltageforce} it is possible to evaluate the ratio of the stiffness 
@@ -116,7 +120,7 @@ square problem.
 A linear model is adopted as described above, refer \ref{subsec:assumption}, 
 assuming the stiffness matrix $[K]$ given.
 Then quantifying the $[M]$ and $[C]$ parameters are used to minimize the problem.
-Using the \emph{fmincon} algorithm, the problem is resolved. In addition, the 
+Using the \emph{fmincon} algorithm, the problem is solved. In addition, the 
 selected algorithm is required to specify the lower and upper search limits; 
 as well as the first guess conditions from which the result is strictly dependent.
 %
@@ -126,7 +130,7 @@ Using the data of the file \emph{data\_impulse.mat} identify the seven parameter
 previously identified in the model and described by the equation \eqref{eq:matrixform}. 
 In this case, since the response to impulse force, two to approximation of the 
 force estimation, will be analysed, the voltage-to-force coefficient will be 
-studied again.
+estimated again.
 The results of this optimization are shown in table \ref{tab:freedamping}.
 \begin{table}[ht]
 	\centering
@@ -166,8 +170,8 @@ The results of this optimization are shown in table \ref{tab:freedamping}.
 \newpage
 \subsection{Proportional damping case}
 \label{subsec:proportionaldamping}
-In this case, the procedure used to solve the problem raised in the case of 
-free damping to obtain the parameters is used; changing some conditions.
+In this case, the procedure used to solve the problem of free damping to get 
+used parameters, thus changing some conditions.
 We define damping through the equation (\ref{eq:proportionaldamping}) where it 
 is possible to observe that this depends on the linear combination of the mass 
 matrix multiply by constant and the stiffness matrix multiply by the another 
@@ -225,15 +229,15 @@ It is possible to use two different approaches:
 \begin{itemize}
 \item Considering a system one \textsc{dof} in case of damped oscillating 
 motion and knowing his response given by equation
-\(x(t) = x_{0} e^{-\xi\omega_{n}t}sin(\omega_dt+\phi_0)\) it is possible excite 
+\(x(t) = x_{0} e^{-\zeta\omega_{n}t}sin(\omega_dt+\phi_0)\) it is possible excite 
 selective of a single natural frequency and study of the free response. 
 Consequently, the system will be excited according to the modal shape 
-of interest and determining the value of \(\xi_{k}\) by using logarithmic 
+of interest and determining the value of \(\zeta_{k}\) by using logarithmic 
 decrement as reported 
 in \eqref{eq:log_decrement}.
 \begin{equation}
 \label{eq:log_decrement}
-\delta = ln\frac{x(t+\tau)}{x(t)} = \frac{2\pi\xi_{k}}{\sqrt{1-\xi_{k}^2}}
+\delta = ln\frac{x(t+\tau)}{x(t)} = \frac{2\pi\zeta_{k}}{\sqrt{1-\zeta_{k}^2}}
 \end{equation}
 Knowing the others parameters it is possible compute the damping for the system. 
 Then repeating the sequence above described is possible to determine the remainder
@@ -242,15 +246,15 @@ Then repeating the sequence above described is possible to determine the remaind
 the spectrum that can be analysed by the equation:
 \begin{equation}
 \label{eq:analysis_spectrum}
-\frac{X_{0}}{\frac{F_{0}}{k}} = \frac{1}{2\xi\sqrt{1-\xi^2_{k}}} \cong \frac{1}{2\xi_{k}}
+\frac{X_{0}}{\frac{F_{0}}{k}} = \frac{1}{2\zeta\sqrt{1-\zeta^2_{k}}} \cong \frac{1}{2\zeta_{k}}
 \end{equation}
 Where the peak corresponds to resonance conditions and their amplitude is 
-expressed by the term \(\frac{1}{2\xi_{k}}\).
+expressed by the term \(\frac{1}{2\zeta_{k}}\).
 \end{itemize}
 This is an approximation because in reality the amplitude of the oscillations 
 at a given frequency is given by the superposition of all the modes of the 
-system. This approach provides a reasonable approximation of \(\xi_{k}\) only 
-if the modes are sufficiently spaced.
+system. This approach provides a reasonable approximation of \(\zeta_{k}\) only 
+if the modes are sufficiently spaced.\\
 The matrix of the proportional damping obtained is shown:
 \begin{equation}
 \label{eq:c-matrix}
@@ -260,6 +264,18 @@ The matrix of the proportional damping obtained is shown:
 		-0.08550 	&	 2.59748		 &	-0.08550		\\
 		 0.00000 	&	-0.08550		 &	 2.07270		\\
 	\end{bmatrix*}
+\end{equation}
+\\In conclusion highlighting the \(\alpha\) term with respect to a given frequency, 
+a damping behaviour is observed that is excellent to filter low frequency 
+oscillations (high amplitude).
+Instead, observing of  \(\beta\) term, damping stiffness, has a much lower 
+value, seen in table \ref{tab:proportionaldamping}. 
+Generally, \(\beta\) behaviour shows the ability to filter high frequency 
+oscillations (small amplitude).
+Last but not least it is possible to express the damping ratio as:
+\begin{equation}
+\label{eq:dampingratio}
+\zeta = \frac{\alpha + \beta \omega^2}{2\omega}
 \end{equation}
 %
 \subsection{Comparison}
@@ -288,18 +304,6 @@ come from, given the assumptions of least-squares fitting.
 \caption{Result \emph{goodness of fit} measured output}
 \label{tab:goodoffit}
 \end{table}
-\\In conclusion highlighting the \(\alpha\) term with respect to a given frequency, 
-a damping behaviour is observed that is excellent to filter low frequency 
-oscillations (high amplitude).
-Instead, observing of  \(\beta\) term, damping stiffness , has a much lower value, 
-see in table \ref{tab:proportionaldamping}. 
-Generally, \(\beta\) behaviour shows the ability to filter high frequency 
-oscillations (small amplitude).
-Last but not least it is possible to express the damping ratio as:
-\begin{equation}
-\label{eq:dampingratio}
-\xi = \frac{\alpha + \beta \omega^2}{2\omega}
-\end{equation}
 %
 \subsection{Multiple single DOF system case}
 Alternatively, the system can be studied by breaking it down into simpler 

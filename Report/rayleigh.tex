@@ -3,13 +3,13 @@
 Rayleigh's method can be extended to find the approximate value of the fundamental
 natural frequency of a discrete system.
 It is possible derive an expression for the approximate value of the first
-natural frequency of a multidegree-of-freedom system according to Rayleigh's
+natural frequency of a multi degree-of-freedom system according to Rayleigh's
 method.
 The kinetic and potential energies of an \(n\)-degree-of-freedom discrete system
-can be expressed as
+can be expressed as:
 \begin{align}\label{eq:energyequation}
-  T &= \frac{1}{2}\dot{\vec{x}}^{\top}[\mathbf{M}]\dot{\vec{x}}\\[1em]
-  V &= \frac{1}{2}\dot{\vec{x}}^{\top}[\mathbf{K}]\dot{\vec{x}}
+  T &= \frac{1}{2}\dot{\vec{v}}^{\top}[\mathbf{M}]\dot{\vec{v}}\\[1em]
+  V &= \frac{1}{2}\vec{v}^{\top}[\mathbf{K}]\vec{v}
 \end{align}
 To find the natural frequencies, we assume harmonic motion to be
 \(\vec{x} = \vec{\mathbf{X}} \cos(\omega t)\), where \(\vec{\mathbf{X}}\) 
@@ -18,32 +18,33 @@ of vibration.
 If the system is conservative, the maximum kinetic energy is equal to the
 maximum potential energy. By equating \(T\) and \(V\) obtain:
 \begin{equation}\label{eq:quotient}
-  \omega^2 = \frac{\dot{\vec{x}}^{\top}[\mathbf{K}]\dot{\vec{x}}}
-  {\dot{\vec{x}}^{\top}[\mathbf{M}]\dot{\vec{x}}}
+  \omega^2 = \frac{\vec{v}^{\top}[\mathbf{K}]\vec{v}}
+  {\vec{v}^{\top}[\mathbf{M}]\vec{v}}
 \end{equation}
 %
 The right-hand side of \eqref{eq:quotient} is known as \emph{Rayleigh's quotient}
-and is denoted as \(R(\vec{X})\), then the Rayleigh's quotient can be expressed
-as:
-\begin{align}
-  \omega^{2} =& R(\vec{X}) =
-  \frac{
-          c_{1}^{2}\,\omega_{2}^{2}\,\dot{\vec{x}}^{\top}\,[\mathbf{M}]\,\dot{\vec{x}} +
-          c_{2}^{2}\,\omega_{2}^{2}\,\dot{\vec{x}}^{\top}\,[\mathbf{M}]\,\dot{\vec{x}} +
-          \dots}
-       {
-          c_{1}^{2}\,\dot{\vec{x}}^{\top}\,[\mathbf{M}]\,\dot{\vec{x}} +
-          c_{2}^{2}\,\dot{\vec{x}}^{\top}\,[\mathbf{M}]\,\dot{\vec{x}} + \dots
-        }\\[1.5em]
-      &  R(\vec{X}) =
-      \frac{c_{1}^{2}\,\omega_{2}^{2} + c_{2}^{2}\,\omega_{2}^{2} + \dots}
-           {c_{1}^{2} + c_{2}^{2} + \dots}
-\end{align}
+and is denoted as \(R(\vec{U})\).
+% then the Rayleigh's quotient can be expressed
+%as:
+%\begin{align}
+%  \omega^{2} =& R(\vec{X}) =
+%  \frac{
+%          c_{1}^{2}\,\omega_{2}^{2}\,\dot{\vec{x}}^{\top}\,[\mathbf{M}]\,\dot{\vec{x}} +
+%          c_{2}^{2}\,\omega_{2}^{2}\,\dot{\vec{x}}^{\top}\,[\mathbf{M}]\,\dot{\vec{x}} +
+%          \dots}
+%       {
+%          c_{1}^{2}\,\dot{\vec{x}}^{\top}\,[\mathbf{M}]\,\dot{\vec{x}} +
+%          c_{2}^{2}\,\dot{\vec{x}}^{\top}\,[\mathbf{M}]\,\dot{\vec{x}} + \dots
+%        }\\[1.5em]
+%      &  R(\vec{X}) =
+%      \frac{c_{1}^{2}\,\omega_{2}^{2} + c_{2}^{2}\,\omega_{2}^{2} + \dots}
+%           {c_{1}^{2} + c_{2}^{2} + \dots}
+%\end{align}
 The results obtained with regard to the natural frequencies are as follows:
 \(\omega_{1} = 8.27843\) [\si{\radian\per\second}],
 \(\omega_{2} = 27.40935\) [\si{\radian\per\second}],
 \(\omega_{3} = 41.87035\) [\si{\radian\per\second}].
-Instead the values obtained for the mode shapes are:
+Thus values obtained for the mode shapes are:
 \begin{equation}
   \label{eq:raymodefree}
   [\mathbf{U}] = \begin{bmatrix*}[r]
@@ -57,7 +58,7 @@ frequencies:
 \(\omega_{1} =  8.27799\) [\si{\radian\per\second}],
 \(\omega_{2} = 27.40863\) [\si{\radian\per\second}],
 \(\omega_{3} = 41.91576\) [\si{\radian\per\second}].
-So the values obtained for the mode shapes are
+So the values obtained for the mode shapes are:
 \begin{equation}\label{eq:raymodeprop}
   [\mathbf{U}] = 
 	\begin{bmatrix*}[r]

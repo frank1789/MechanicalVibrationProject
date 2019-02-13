@@ -5,14 +5,13 @@ For a system with three coordinates or degrees of freedom, the governing
 equation of motion are a set of three coupled ordinary differential equations of
 second second order.
 The equations of motion of a multi degree-of-freedom system under external force
-are given by
+are given by:
 \begin{equation}
   \label{eq:modal}
   [\mathbf{M}] \ddot{\vec{x}} + [\mathbf{K}] \vec{x} = \vec{\mathbf{F}}
 \end{equation}
 The equation \eqref{eq:modal} represents the system in the version without
-damping, where \(\vec{\mathbf{F}}\) is the vector of the external force
-\(g_{\text{v}} \cdot v\).
+damping, where \(\vec{\mathbf{F}}\) is the vector of the external force.
 \section{Forced vibration of undamped system}\label{sec:eigen}
 To solve the equation \eqref{eq:modal} by modal analysis, it is necessary first
 to solve the eigenvalue problem and find the natural frequencies \(\omega_1,
@@ -39,8 +38,7 @@ natural periods of the system. Further, if the frequency of excitation is at or
 near one of the natural frequencies of the system, damping is of primary
 importance and must be taken into account. In general, since the effects are not
 known in advance, damping must be considered in the vibration analysis of any
-system.
-Using the equation of motion:
+system, thus using the equation of motion:
 \begin{equation}\label{eq:modaldamping}
   [\mathbf{M}] \ddot{\vec{x}} + [\mathbf{C}] \dot{\vec{x}} +[\mathbf{K}] \vec{x}
    = \vec{\mathbf{F}}
@@ -56,21 +54,23 @@ where \(\alpha\) and \(\beta\) are constant. By substituting in
 \eqref{eq:modaldamping}, we obtain:
 \begin{equation}\label{eq:modaldampingcomplete}
 	[\mathbf{M}] \ddot{\vec{x}} +
-	[\alpha \cdot [\mathbf{M}] + \beta \cdot [\mathbf{K}]] \dot{\vec{x}} +
+	[\alpha [\mathbf{M}] + \beta[\mathbf{K}]] \dot{\vec{x}} +
 	[\mathbf{K}] \vec{x}= \vec{\mathbf{F}}
 \end{equation}
-By expressing the solution vector \(\vec{x}\) as a linear combination of the
-natural modes oft he undamped system \(x(t) = [\mathbf{X}]q(t)\)
-Equation \eqref{eq:modaldampingcomplete} can be rewritten as
+By expressing the solution vector \(\vec{x}\) as linear combination of the
+natural mode of the undamped system. Substituting \(x(t) = [\mathbf{U}]q(t)\)
+in the equation \eqref{eq:modaldampingcomplete} and pre-multiplying by 
+\([\mathbf{U}]^{\top}\) we obtain:
 \begin{equation}\label{eq:modaldampingexpansed}
-	[\mathbf{X}]^{\top}[\mathbf{M}][\mathbf{X}] \ddot{\vec{x}} +
-	[\alpha \cdot [\mathbf{X}]^{\top}[\mathbf{M}][\mathbf{X}] +
-   \beta \cdot [\mathbf{X}]^{\top}[\mathbf{K}]][\mathbf{X}] \dot{\vec{x}} +
-	[\mathbf{X}]^{\top}[\mathbf{K}][\mathbf{X}]^{\top} \vec{x} =
-  [\mathbf{X}]^{\top}\vec{\mathbf{F}}
+	[\mathbf{U}]^{\top}[\mathbf{M}][\mathbf{U}] \ddot{\vec{q}} +
+	[\alpha[\mathbf{U}]^{\top}[\mathbf{M}][\mathbf{U}] +
+   \beta[\mathbf{U}]^{\top}[\mathbf{K}]][\mathbf{U}] \dot{\vec{q}} +
+	[\mathbf{U}]^{\top}[\mathbf{K}][\mathbf{U}]^{\top} \vec{q} =
+  [\mathbf{U}]^{\top}\vec{\mathbf{F}}
 \end{equation}
 %
-If the eigenvectors \(\vec{\mathbf{X}}^{(j)}\) are normalized we can obtain:
+If the eigenvectors \(\vec{\mathbf{U}}^{(j)}\) are normalized we can rewrite in 
+decoupled form:
 \begin{equation}\label{eq:decupled}
   \ddot{q}_{i}(t) + (\alpha + \omega_{i}^2\beta)\dot{q}_{i}(t) +
   \omega_{i}^{2}q(t) = Q_{i}(t)
@@ -87,9 +87,10 @@ The eigenvector are reported in \eqref{eq:eiegnmodeprop}.
 		0.61907 &-1.28528 & 2.16954 \\
  	\end{bmatrix*}
 \end{equation}
-From equation \(\alpha + \omega^{2}_{i}\beta = 2\,\zeta_{i}\,\omega_{i}\), where
+In the equation \eqref{eq:decupled} substituting the relationship with 
+\(\alpha + \omega^{2}_{i}\beta = 2\,\zeta_{i}\,\omega_{i}\), where
 \(\zeta_{i}\) is called \emph{modal damping ratio} for the \(i_\text{th}\) normal
-mode, equation \eqref{eq:decupled} can be written:
+mode, equation \eqref{eq:decupled} we obtain:
 \begin{equation}\label{eq:decupled2}
   \ddot{q}_{i}(t) + 2\zeta_{i}\omega_{i}\dot{q}_{i}(t) +
   \omega_{i}^{2}q(t) = Q_{i}(t)
@@ -98,10 +99,6 @@ It can be seen that each of then equations represented by this expression is
 uncoupled from all of the others.
 Hence we can find the response of the \(i_\text{th}\) mode in the same manner
 as that of a viscously damped single-degree-of-freedom system.
-%
-%
-%
-%
 %
 The identification of the sources and magnitude of damping is difficult in most
 practical problems.
