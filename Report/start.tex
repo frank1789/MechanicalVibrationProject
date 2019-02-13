@@ -18,7 +18,11 @@ equation \eqref{eq:matrixform}:
 \end{equation}
 and therefore from \eqref{eq:voltage-force} it is possible to derive:
 \begin{equation} \label{eq:voltageforce}
-	g_{\text{v}} = [K]^{-1} \cdot b
+	g_{\text{v}} = [K] \begin{bmatrix}
+	x_{1}\\
+	x_{2}\\
+	x_{3}
+	\end{bmatrix}\frac{1}{v}
 \end{equation}
 Using the steady state value of the three output and the equation 
 \eqref{eq:voltageforce} it is possible to evaluate the ratio of the stiffness 
